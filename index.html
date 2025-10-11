@@ -68,6 +68,126 @@
             border-bottom: 1px solid var(--border-color);
             color: var(--accent-secondary);
         }
+        /* 1.5 多图层自定义背景 盒子区域 */
+        .bg-layers-box{
+          border: 1px solid var(--border-color);
+          border-radius: 10px;
+          padding: 16px;
+          margin: 12px 0 18px;
+          background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.08));
+          box-shadow:
+            0 2px 8px rgba(0,0,0,.15),
+            inset 0 0 0 1px rgba(255,255,255,.04);
+          transition: box-shadow var(--transition-speed);
+        }
+        .bg-layers-box:hover{
+          box-shadow:
+            0 4px 12px rgba(0,0,0,.20),
+            inset 0 0 0 1px rgba(255,255,255,.06);
+        }
+        .bg-layers-box .box-title{
+          display:flex;
+          align-items:center;
+          gap:10px;
+          margin-bottom:14px;
+          font-weight:600;
+          font-size:14px;
+          color: var(--accent-secondary);
+          border-bottom: 1px solid var(--border-color);
+          padding-bottom: 8px;
+        }
+        .bg-layers-box .box-title .dot{
+          width:10px;
+          height:10px;
+          border-radius:50%;
+          background: var(--accent-primary);
+          box-shadow: 0 0 10px var(--accent-primary);
+          animation: dotPulse 2s ease-in-out infinite;
+        }
+        @keyframes dotPulse{
+          0%,100%{transform:scale(1);opacity:.9}
+          50%{transform:scale(1.1);opacity:1}
+        }
+        .bg-layers-box .hint{
+          font-size:12px;
+          color: var(--text-secondary);
+          margin-bottom:10px;
+          line-height:1.5;
+        }
+        /* 美化：图层/组件按钮组 */
+        .bg-layers-box .btn-group{
+          display:flex;
+          gap:8px;
+          flex-wrap:wrap;
+          margin-bottom:12px;
+        }
+        .bg-layers-box .btn-group .btn{
+          flex:1;
+          min-width:140px;
+          padding:8px 14px;
+          font-size:13px;
+          background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.10));
+          border:1px solid var(--border-color);
+          box-shadow: 0 2px 6px rgba(0,0,0,.12);
+        }
+        .bg-layers-box .btn-group .btn:hover{
+          background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.08));
+          transform: translateY(-1px);
+          box-shadow: 0 4px 10px rgba(0,0,0,.18);
+        }
+        /* 美化：图层/组件列表卡片 */
+        .bg-layers-box .item-controls{
+          background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.08));
+          border:1px solid var(--border-color);
+          border-radius:8px;
+          padding:12px;
+          margin-bottom:10px;
+          box-shadow: 0 2px 6px rgba(0,0,0,.10);
+          transition: all var(--transition-speed);
+        }
+        .bg-layers-box .item-controls:hover{
+          border-color: color-mix(in srgb, var(--accent-primary) 28%, var(--border-color));
+          box-shadow: 0 4px 12px rgba(0,0,0,.18);
+          transform: translateY(-1px);
+        }
+        .bg-layers-box .item-header{
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          margin-bottom:10px;
+          padding-bottom:8px;
+          border-bottom:1px solid var(--border-color);
+        }
+        .bg-layers-box .item-header span{
+          font-weight:600;
+          color:var(--text-primary);
+        }
+        .bg-layers-box .item-actions{
+          display:flex;
+          gap:6px;
+        }
+        .bg-layers-box .item-actions .btn{
+          padding:4px 10px;
+          font-size:12px;
+          min-width:auto;
+        }
+        /* 美化：拖动模式复选框 */
+        .bg-layers-box label[style*="display:flex"]{
+          padding:6px 10px;
+          border-radius:6px;
+          background: rgba(255,255,255,.02);
+          transition: background var(--transition-speed);
+          cursor:pointer;
+        }
+        .bg-layers-box label[style*="display:flex"]:hover{
+          background: rgba(255,255,255,.04);
+        }
+        .bg-layers-box input[type="checkbox"]{
+          cursor:pointer;
+          width:16px;
+          height:16px;
+          accent-color: var(--accent-primary);
+        }
         /* 折叠面板样式 */
         .control-section.collapsible h3 { cursor: pointer; position: relative; }
         .control-section.collapsible h3 .toggle-icon {
@@ -178,6 +298,60 @@
             overflow: hidden;
             position: relative; /* 建立层叠上下文，确保内部叠加层正常 */
         }
+        /* 多图层自定义背景与可拖动组件（layers 模式） */
+        .status-preview-wrapper .bg-layers{
+          position: absolute;
+          inset: 0;
+          z-index: 0;              /* 位于内容与组件之下 */
+          pointer-events: none;    /* 不拦截事件 */
+        }
+        .status-preview-wrapper .bg-layer{
+          position: absolute;
+          inset: 0;
+          background-position: center;
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+        .status-preview-wrapper .bg-components-layer{
+          position: absolute;
+          inset: 0;
+          z-index: 2;              /* 高于 header/body(1) 以便拖拽，仍低于提示 Dock(3) */
+          pointer-events: none;    /* 容器不拦截，仅图片能交互 */
+        }
+        .status-preview-wrapper .bg-comp{
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: auto;    /* 允许拖拽 */
+          user-select: none;
+          -webkit-user-drag: none;
+          cursor: grab;
+          will-change: left, top;
+          transition: filter 0.15s ease;
+        }
+        .status-preview-wrapper .bg-comp.dragging{
+          cursor: grabbing;
+          filter: drop-shadow(0 0 8px rgba(0,0,0,.45));
+        }
+        /* 预览区提示 Dock（拖动模式开关提示） */
+        .preview-panel .bg-dock{
+          position: absolute;
+          left: 12px;
+          bottom: 12px;
+          padding: 6px 10px;
+          border-radius: 8px;
+          border: 1px solid rgba(255,255,255,.2);
+          background: rgba(0,0,0,.5);
+          backdrop-filter: blur(4px);
+          color: #fff;
+          font-size: 12px;
+          box-shadow: 0 6px 16px rgba(0,0,0,.35);
+          display: none;
+          z-index: 3;              /* 始终盖在最上层用于提示 */
+          pointer-events: none;
+        }
+        .preview-panel .bg-dock.show{ display: inline-block; }
 
         /* 响应式：窄屏改为上下布局，确保右侧预览可见 */
         @media (max-width: 900px) {
@@ -825,12 +999,12 @@
             content: '';
             display: block;
             width: 1px;
-            height: 60px;
             background-color: var(--rs-sep-color, #61d2f8);
             position: absolute;
             left: 0;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 10%;
+            bottom: 10%;
+            transform: none;
         }
         .theme-role-status-bar .st-label {
             color: #61d2f8;
@@ -844,6 +1018,18 @@
             font-size: 18px;
             font-weight: bold;
             color: #ffffff;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            text-overflow: clip;
+            overflow: visible;
+        }
+        .theme-role-status-bar .st-label {
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            text-overflow: clip;
+            overflow: visible;
         }
         /* 进度条样式（蓝辉状态栏） */
         .theme-role-status-bar .st-progress-bar {
@@ -1129,6 +1315,101 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        /* 百分比显示美化样式（点击后显示/隐藏） */
+        /* 确保百分比徽标层级高于填充条 */
+        .st-progress-bar .st-progress-percent { will-change: opacity, transform; z-index: 2; }
+        /* 填充层参与层叠，位于百分比之下 */
+        .st-progress-bar .st-progress-bar-fill { position: relative; z-index: 1; }
+        /* 强制显示百分比的辅助类（用于无内联 onclick 的全局委托切换） */
+        .st-progress-bar.show-percent .st-progress-percent { opacity: 1 !important; }
+
+        /* 1) 中心覆盖（默认） */
+        .percent-style-center .st-progress-bar .st-progress-percent {
+          left: 50%; top: 50%;
+          transform: translate(-50%, -50%);
+          padding: 2px 8px;
+          border-radius: 999px;
+          background: rgba(0,0,0,.35);
+          backdrop-filter: blur(2px);
+          box-shadow: 0 2px 8px rgba(0,0,0,.35);
+        }
+
+        /* 2) 右侧徽章（带小三角） */
+        .percent-style-badge .st-progress-bar .st-progress-percent {
+          right: -6px; top: -12px;
+          transform: translate(0,0);
+          padding: 2px 8px;
+          border-radius: 999px;
+          background: color-mix(in srgb, var(--bar-color) 40%, #000 60%);
+          box-shadow: 0 4px 12px rgba(0,0,0,.35);
+        }
+        .percent-style-badge .st-progress-bar .st-progress-percent::after {
+          content: '';
+          position: absolute;
+          bottom: -4px; right: 10px;
+          width: 8px; height: 8px;
+          background: currentColor;
+          opacity: .35;
+          transform: rotate(45deg);
+        }
+
+        /* 3) 上方气泡（tooltip） */
+        .percent-style-tooltip .st-progress-bar .st-progress-percent {
+          left: var(--pct, 0%); bottom: calc(100% + 6px);
+          transform: translateX(-50%);
+          padding: 4px 10px;
+          border-radius: 8px;
+          background: color-mix(in srgb, var(--bar-color) 26%, #000 74%);
+          box-shadow: 0 6px 14px rgba(0,0,0,.35);
+        }
+        .percent-style-tooltip .st-progress-bar .st-progress-percent::after {
+          content: '';
+          position: absolute;
+          top: 100%; left: 50%;
+          transform: translateX(-50%);
+          width: 0; height: 0;
+          border-left: 6px solid transparent;
+          border-right: 6px solid transparent;
+          border-top: 6px solid color-mix(in srgb, var(--bar-color) 26%, #000 74%);
+        }
+
+        /* 4) 末端跟随（依据 --pct 动态锚点） */
+        .percent-style-follow .st-progress-bar .st-progress-percent {
+          left: var(--pct, 0%); top: 50%;
+          transform: translate(-50%, -50%);
+          padding: 2px 8px;
+          border-radius: 999px;
+          background: color-mix(in srgb, var(--bar-color) 30%, #000 70%);
+          box-shadow: 0 2px 8px rgba(0,0,0,.35);
+        }
+/* 5) 下方吐司（toast） */
+.percent-style-toast .st-progress-bar .st-progress-percent {
+  left: 50%; top: calc(100% + 8px);
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: rgba(0,0,0,.55);
+  box-shadow: 0 10px 18px rgba(0,0,0,.35);
+}
+
+/* 溢出显示支持：气泡/徽章/吐司/中心/末端跟随需要突破条容器 */
+.percent-style-badge .st-progress-bar,
+.percent-style-tooltip .st-progress-bar,
+.percent-style-toast .st-progress-bar,
+.percent-style-center .st-progress-bar,
+.percent-style-follow .st-progress-bar {
+  overflow: visible;
+}
+
+/* 进一步：在徽章/气泡/吐司/中心/末端跟随模式下，允许值容器也溢出，避免被父级裁切 */
+.percent-style-badge .st-value,
+.percent-style-tooltip .st-value,
+.percent-style-toast .st-value,
+.percent-style-center .st-value,
+.percent-style-follow .st-value {
+  overflow: visible;
+}
 
         /* 粒子叠加层效果：星星闪烁 / 闪光碎屑 / 花瓣飘落 */
         .status-preview-wrapper .st-header, .status-preview-wrapper .st-body { position: relative; z-index: 1; }
@@ -1824,6 +2105,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         <option value="color">纯色</option>
                         <option value="gradient">渐变</option>
                         <option value="image">图片</option>
+                        <option value="layers">多图层自定义</option>
                         <option value="none">无背景（透明）</option>
                     </select>
                 </div>
@@ -1851,6 +2133,44 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                 <div class="control-group" id="bg-image-group">
                     <label for="bg-image-url">背景图片 URL</label>
                     <input type="url" id="bg-image-url" placeholder="https://example.com/background.jpg">
+                </div>
+
+                <!-- 多图层自定义背景（仅当 背景类型=多图层自定义 时显示） -->
+                <div id="bg-layers-box" class="bg-layers-box" style="display:none;">
+                  <div class="box-title"><span class="dot"></span><span>多图层自定义背景区域</span></div>
+                <div class="control-group" id="bg-layers-group" style="display:none;">
+                    <label>多图层自定义背景</label>
+                    <div class="btn-group">
+                        <button class="btn" id="btn-add-color-layer" title="添加一个纯色图层">
+                            <i class="fa fa-palette"></i> 添加颜色图层
+                        </button>
+                        <button class="btn" id="btn-add-image-layer-url" title="通过图片 URL 添加一个图层">
+                            <i class="fa fa-image"></i> 添加图片图层
+                        </button>
+                    </div>
+                    <div id="bg-layers-list" style="margin-top:12px; display:grid; gap:10px;"></div>
+                    <p class="hint">
+                        <i class="fa fa-info-circle"></i> 列表自上而下为从底到顶的渲染顺序；每层可设置透明度与顺序。
+                    </p>
+                </div>
+
+                <!-- 图片组件（可拖动，叠加在状态栏之上） -->
+                <div class="control-group" id="bg-components-group" style="display:none;">
+                    <label>图片组件（可拖动）</label>
+                    <div class="btn-group">
+                        <button class="btn" id="btn-add-comp-url" title="通过 URL 添加一个可拖动组件">
+                            <i class="fa fa-plus-circle"></i> 添加组件
+                        </button>
+                        <label style="display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:6px;background:rgba(255,255,255,.02);border:1px solid var(--border-color);cursor:pointer;transition:all var(--transition-speed);flex:1;min-width:140px;" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='rgba(255,255,255,.02)'">
+                            <input type="checkbox" id="bg-comp-drag-toggle" style="cursor:pointer;width:16px;height:16px;accent-color:var(--accent-primary);">
+                            <i class="fa fa-arrows-alt"></i> 拖动模式
+                        </label>
+                    </div>
+                    <div id="bg-components-list" style="margin-top:12px; display:grid; gap:10px;"></div>
+                    <p class="hint">
+                        <i class="fa fa-lightbulb"></i> 开启"拖动模式"后，可在右侧预览中直接拖动组件；可在下方列表调整组件透明度/大小/显示与锁定。
+                    </p>
+                </div>
                 </div>
 
                 <div class="control-group" id="icon-mode-group">
@@ -2104,6 +2424,18 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         </div>
                     </div>
                     <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">选择全局进度条风格与动画，可与上方颜色联动。</p>
+                </div>
+
+                <div class="control-group">
+                    <label for="percent-display-select">百分比显示</label>
+                    <select id="percent-display-select">
+                        <option value="center">中心覆盖</option>
+                        <option value="badge">右侧徽章</option>
+                        <option value="tooltip">上方气泡</option>
+                        <option value="follow">末端跟随</option>
+                        <option value="toast">下方吐司</option>
+                    </select>
+                    <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">点击进度条显示/隐藏百分比，可切换显示风格。</p>
                 </div>
 
                 <div class="control-group">
@@ -2476,8 +2808,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
             <div class="st-item">
               <div class="st-label">${esc(it.label || '')}</div>
               <div class="st-value" style="width: clamp(120px, 40vw, 160px);">
-                <div class="st-progress-bar">
-                  <div class="st-progress-bar-fill" style="width: ${p}%;"></div>
+                <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+                  <div class="st-progress-bar-fill" style="width: ${p}%;"></div><span class="st-progress-percent" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;text-shadow:0 0 2px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity .3s;">${p}%</span>
                 </div>
               </div>
             </div>
@@ -2746,6 +3078,7 @@ const opacityValue = document.getElementById('opacity-value');
 const dividerStyleSelect = document.getElementById('divider-style-select');
 const barStyleSelect = document.getElementById('bar-style-select');
 const barAnimationSelect = document.getElementById('bar-animation-select');
+const percentDisplaySelect = document.getElementById('percent-display-select');
 
 // 新增：第二部分项目颜色控制（仅影响“状态项目”渲染）
 const section2LabelColorInput = document.getElementById('section2-label-color-input');
@@ -2787,12 +3120,24 @@ const globalValueFontSizeValue = document.getElementById('global-value-font-size
 const bgColorGroup = document.getElementById('bg-color-group');
 const bgGradientGroup = document.getElementById('bg-gradient-group');
 const bgImageGroup = document.getElementById('bg-image-group');
+const bgLayersGroup = document.getElementById('bg-layers-group');
+const bgComponentsGroup = document.getElementById('bg-components-group');
+const bgLayersBox = document.getElementById('bg-layers-box');
 
 const iconModeGroup = document.getElementById('icon-mode-group');
 const iconBuiltinGroup = document.getElementById('icon-built-in-group');
 const iconUrlGroup = document.getElementById('icon-url-group');
 const iconSizeGroup = document.getElementById('icon-size-group');
 const iconPositionGroup = document.getElementById('icon-position-group');
+
+/* 多图层/组件控制引用 */
+const btnAddColorLayer = document.getElementById('btn-add-color-layer');
+const btnAddImageLayerUrl = document.getElementById('btn-add-image-layer-url');
+const bgLayersList = document.getElementById('bg-layers-list');
+
+const btnAddCompUrl = document.getElementById('btn-add-comp-url');
+const bgCompDragToggle = document.getElementById('bg-comp-drag-toggle');
+const bgComponentsList = document.getElementById('bg-components-list');
 
 /* 背景类型显隐：仅显示所选类型的设置 */
 function updateBgFieldsVisibility() {
@@ -2802,10 +3147,16 @@ function updateBgFieldsVisibility() {
     show(bgColorGroup, mode === 'color');
     show(bgGradientGroup, mode === 'gradient');
     show(bgImageGroup, mode === 'image');
+    show(bgLayersBox, mode === 'layers');
+    show(bgLayersGroup, mode === 'layers');
+    show(bgComponentsGroup, mode === 'layers');
     if (mode === 'theme' || mode === 'none') {
       show(bgColorGroup, false);
       show(bgGradientGroup, false);
       show(bgImageGroup, false);
+      show(bgLayersBox, false);
+      show(bgLayersGroup, false);
+      show(bgComponentsGroup, false);
     }
   } catch (err) { console.warn('[ui] updateBgFieldsVisibility error', err); }
 }
@@ -2900,6 +3251,10 @@ let customization = {
   bgGradientStart: bgGradientStartColorInput?.value || (primaryColorInput?.value || '#6a717c'),
   bgGradientEnd: bgGradientEndColorInput?.value || (secondaryColorInput?.value || '#97aec8'),
   bgImageUrl: bgImageUrlInput?.value || '',
+  // 新增：多图层背景与拖动组件
+  bgLayers: [],
+  bgComponents: [],
+  bgCompDrag: false,
   // 图标默认：全局禁用，具体模板在 applyThemeDefaults 中按需开启
   iconMode: 'none',
   iconBuiltin: 'cog', // 蒸汽朋克默认齿轮
@@ -2916,6 +3271,8 @@ let customization = {
   // 新增：进度条风格/动画
   barStyle: barStyleSelect?.value || 'normal',
   barAnimation: barAnimationSelect?.value || 'none',
+  // 新增：百分比显示风格
+  percentDisplay: percentDisplaySelect?.value || 'center',
 
   // 预览/导出最大宽度（统一，默认600）
   statusbarMaxWidth: parseInt(statusbarWidthRange?.value || '600', 10),
@@ -3293,9 +3650,11 @@ function buildItemsHTML(list, theme) {
       if (it.type === 'row') {
         if (row.length) { rows.push(row); row = []; }
       } else if (it.type === 'divider') {
+        if (row.length) { rows.push(row); row = []; }
         rows.push(['__HR__']);
       } else {
         row.push(it);
+        if (row.length === 3) { rows.push(row); row = []; }
       }
     });
     if (row.length) rows.push(row);
@@ -3377,8 +3736,8 @@ function buildItemsHTML(list, theme) {
             <div class="st-item">
               <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
               <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valStyle}">
-                <div class="st-progress-bar">
-                  <div class="${classList.join(' ')}" ${fillStyle}></div>
+                <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+                  <div class="${classList.join(' ')}" ${fillStyle}></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                 </div>
               </div>
             </div>
@@ -3484,8 +3843,8 @@ function buildItemsHTML(list, theme) {
           <div class="st-item" style="display:flex;flex-direction:column;align-items:${align};gap:4px;">
             <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
             <div class="st-value" style="width:${valueWidth}; ${valStyle}">
-              <div class="st-progress-bar">
-                <div class="${classList.join(' ')}" ${fillStyle}></div>
+              <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+                <div class="${classList.join(' ')}" ${fillStyle}></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
               </div>
             </div>
           </div>
@@ -3496,8 +3855,8 @@ function buildItemsHTML(list, theme) {
         <div class="st-item" style="display:flex;align-items:center;justify-content:space-between;">
           <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
           <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valStyle}">
-            <div class="st-progress-bar">
-              <div class="${classList.join(' ')}" ${fillStyle}></div>
+            <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+              <div class="${classList.join(' ')}" ${fillStyle}></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
             </div>
           </div>
         </div>
@@ -3611,6 +3970,268 @@ function renderFxLayers(wrapperEl){
   }
 }
  
+// 多图层背景与组件：构建/拖拽/编辑
+function buildBgLayersHTML(layers){
+  try{
+    const L = Array.isArray(layers) ? layers : [];
+    if (!L.length) return '';
+    const html = L.map(l => {
+      const op = isFinite(l?.opacity) ? Math.max(0, Math.min(1, Number(l.opacity))) : 1;
+      if (l?.type === 'color') {
+        const color = esc(l.color || '#000000');
+        return `<div class="bg-layer" style="background:${color};opacity:${op};"></div>`;
+      }
+      const src = esc(l?.src || '');
+      const size = esc(l?.size || 'cover');
+      const pos = esc(l?.position || 'center');
+      const rep = esc(l?.repeat || 'no-repeat');
+      return `<div class="bg-layer" style="background-image:url('${src}');background-size:${size};background-position:${pos};background-repeat:${rep};opacity:${op};"></div>`;
+    }).join('');
+    return `<div class="bg-layers">${html}</div>`;
+  }catch(_e){ return ''; }
+}
+function buildBgComponentsHTML(components){
+  try{
+    const C = Array.isArray(components) ? components : [];
+    if (!C.length) return '';
+    const html = C.filter(c => c && c.visible !== false).map(c => {
+      const id = esc(c.id || genId());
+      const src = esc(c.src || '');
+      const x = isFinite(c.x) ? Math.max(0, Math.min(100, Number(c.x))) : 50;
+      const y = isFinite(c.y) ? Math.max(0, Math.min(100, Number(c.y))) : 50;
+      const w = isFinite(c.w) ? Math.max(2, Math.min(100, Number(c.w))) : 20;
+      const op = isFinite(c.opacity) ? Math.max(0, Math.min(1, Number(c.opacity))) : 1;
+      return `<img class="bg-comp" data-id="${id}" src="${src}" alt="" style="left:${x}%;top:${y}%;width:${w}%;opacity:${op};">`;
+    }).join('');
+    return `<div class="bg-components-layer">${html}</div>`;
+  }catch(_e){ return ''; }
+}
+function setupBgComponentDrag(wrapper){
+  try{
+    const layer = wrapper?.querySelector('.bg-components-layer');
+    if (!layer) return;
+    let dragging = null;
+    const getRect = () => wrapper.getBoundingClientRect();
+    function onDown(e){
+      if (!customization.bgCompDrag) return;
+      const el = e.target.closest('.bg-comp');
+      if (!el) return;
+      const id = el.getAttribute('data-id');
+      const obj = (customization.bgComponents || []).find(c => c.id === id);
+      if (!obj || obj.locked) return;
+      e.preventDefault();
+      el.classList.add('dragging');
+      const rect = getRect();
+      const startX = e.clientX, startY = e.clientY;
+      const startLeft = (isFinite(obj.x) ? obj.x : 50);
+      const startTop = (isFinite(obj.y) ? obj.y : 50);
+      dragging = { el, id, obj, rect, startX, startY, startLeft, startTop };
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp, { once: true });
+    }
+    function onMove(e){
+      if (!dragging) return;
+      const { rect, startX, startY, startLeft, startTop, obj, el } = dragging;
+      const dx = ((e.clientX - startX) / rect.width) * 100;
+      const dy = ((e.clientY - startY) / rect.height) * 100;
+      obj.x = Math.max(0, Math.min(100, startLeft + dx));
+      obj.y = Math.max(0, Math.min(100, startTop + dy));
+      el.style.left = obj.x + '%';
+      el.style.top = obj.y + '%';
+    }
+    function onUp(){
+      if (dragging?.el) dragging.el.classList.remove('dragging');
+      dragging = null;
+      document.removeEventListener('mousemove', onMove);
+    }
+    layer.addEventListener('mousedown', onDown);
+  }catch(_e){}
+}
+function ensureBgDock(){
+  try{
+    const pv = document.querySelector('.preview-panel');
+    if (!pv) return;
+    let dock = pv.querySelector('.bg-dock');
+    if (!dock){
+      dock = document.createElement('div');
+      dock.className = 'bg-dock';
+      pv.appendChild(dock);
+    }
+    if (customization.bgMode === 'layers' && customization.bgCompDrag){
+      dock.textContent = '拖动模式：开启（在预览中拖动组件）';
+      dock.classList.add('show');
+    }else{
+      dock.classList.remove('show');
+    }
+  }catch(_e){}
+}
+function renderBgLayersEditor(){
+  try{
+    if (!bgLayersList) return;
+    const layers = customization.bgLayers || [];
+    bgLayersList.innerHTML = layers.map((l, i) => {
+      const idx = i + 1;
+      const base = `
+        <div class="item-controls" data-layer-id="${esc(l.id||'')}">
+          <div class="item-header">
+            <span>${idx}. 图层 - ${l.type === 'color' ? '颜色' : '图片'}</span>
+            <div class="item-actions" style="display:flex; gap:6px;">
+              <button class="btn" data-action="layer-up" title="上移">⬆</button>
+              <button class="btn" data-action="layer-down" title="下移">⬇</button>
+              <button class="btn btn-delete" data-action="layer-del" title="删除">✕</button>
+            </div>
+          </div>
+          ${l.type === 'color' ? `
+            <div class="control-group">
+              <label>颜色</label>
+              <input type="color" value="${esc(l.color||'#000000')}" data-field="layer-color">
+            </div>
+          ` : `
+            <div class="control-group">
+              <label>图片 URL</label>
+              <input type="text" value="${esc(l.src||'')}" placeholder="https://..." data-field="layer-src">
+            </div>
+          `}
+          <div class="control-group">
+            <label>透明度</label>
+            <div class="range-row">
+              <input type="range" min="0" max="1" step="0.05" value="${isFinite(l.opacity)?Number(l.opacity):1}" data-field="layer-opacity">
+              <span class="value-pill"><span>${isFinite(l.opacity)?Number(l.opacity).toFixed(2):'1.00'}</span></span>
+            </div>
+          </div>
+        </div>
+      `;
+      return base;
+    }).join('');
+  }catch(_e){}
+}
+function renderBgComponentsEditor(){
+  try{
+    if (!bgComponentsList) return;
+    const comps = customization.bgComponents || [];
+    bgComponentsList.innerHTML = comps.map((c, i) => {
+      const idx = i + 1;
+      const w = isFinite(c.w)? Number(c.w) : 20;
+      const op = isFinite(c.opacity)? Number(c.opacity) : 1;
+      const vis = (c.visible !== false);
+      const locked = !!c.locked;
+      return `
+        <div class="item-controls" data-comp-id="${esc(c.id||'')}">
+          <div class="item-header">
+            <span>${idx}. 组件</span>
+            <div class="item-actions" style="display:flex; gap:6px;">
+              <label style="display:flex;align-items:center;gap:4px;font-size:12px;"><input type="checkbox" data-field="comp-visible" ${vis?'checked':''}>显示</label>
+              <label style="display:flex;align-items:center;gap:4px;font-size:12px;"><input type="checkbox" data-field="comp-locked" ${locked?'checked':''}>锁定</label>
+              <button class="btn btn-delete" data-action="comp-del" title="删除">✕</button>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>图片 URL</label>
+            <input type="text" value="${esc(c.src||'')}" placeholder="https://..." data-field="comp-src">
+          </div>
+          <div class="control-group">
+            <label>宽度(%)</label>
+            <div class="range-row">
+              <input type="range" min="2" max="100" step="1" value="${w}" data-field="comp-w">
+              <span class="value-pill"><span>${w}</span>%</span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>透明度</label>
+            <div class="range-row">
+              <input type="range" min="0" max="1" step="0.05" value="${op}" data-field="comp-opacity">
+              <span class="value-pill"><span>${op.toFixed(2)}</span></span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }catch(_e){}
+}
+function setupBgEditorsEvents(){
+  try{
+    if (btnAddColorLayer) btnAddColorLayer.addEventListener('click', () => {
+      customization.bgLayers = customization.bgLayers || [];
+      customization.bgLayers.push({ id: genId(), type:'color', color:'#000000', opacity:0.5 });
+      renderBgLayersEditor(); renderPreview();
+    });
+    if (btnAddImageLayerUrl) btnAddImageLayerUrl.addEventListener('click', () => {
+      const u = window.prompt('输入图片 URL:');
+      if (!u) return;
+      customization.bgLayers = customization.bgLayers || [];
+      customization.bgLayers.push({ id: genId(), type:'image', src: u, opacity:1, size:'cover', position:'center', repeat:'no-repeat' });
+      renderBgLayersEditor(); renderPreview();
+    });
+    if (bgLayersList) {
+      bgLayersList.addEventListener('click', (e) => {
+        const root = e.target.closest('.item-controls'); if (!root) return;
+        const id = root.getAttribute('data-layer-id');
+        const i = (customization.bgLayers||[]).findIndex(x => x.id === id);
+        if (i < 0) return;
+        const actBtn = e.target.closest('button[data-action]');
+        if (!actBtn) return;
+        const act = actBtn.dataset.action;
+        if (act === 'layer-del') customization.bgLayers.splice(i,1);
+        if (act === 'layer-up' && i > 0) [customization.bgLayers[i-1], customization.bgLayers[i]] = [customization.bgLayers[i], customization.bgLayers[i-1]];
+        if (act === 'layer-down' && i < customization.bgLayers.length-1) [customization.bgLayers[i+1], customization.bgLayers[i]] = [customization.bgLayers[i], customization.bgLayers[i+1]];
+        renderBgLayersEditor(); renderPreview();
+      });
+      bgLayersList.addEventListener('input', (e) => {
+        const root = e.target.closest('.item-controls'); if (!root) return;
+        const id = root.getAttribute('data-layer-id');
+        const l = (customization.bgLayers||[]).find(x => x.id === id);
+        if (!l) return;
+        const field = e.target.dataset.field;
+        if (field === 'layer-color') l.color = e.target.value;
+        if (field === 'layer-src') l.src = e.target.value;
+        if (field === 'layer-opacity') {
+          const v = parseFloat(e.target.value||'1') || 0;
+          l.opacity = Math.max(0, Math.min(1, v));
+          const pill = e.target.closest('.range-row')?.querySelector('.value-pill span'); if (pill) pill.textContent = l.opacity.toFixed(2);
+        }
+        renderPreview();
+      });
+    }
+    if (btnAddCompUrl) btnAddCompUrl.addEventListener('click', () => {
+      const u = window.prompt('输入组件图片 URL:');
+      if (!u) return;
+      customization.bgComponents = customization.bgComponents || [];
+      customization.bgComponents.push({ id: genId(), src: u, x:50, y:50, w:20, opacity:1, visible:true, locked:false });
+      renderBgComponentsEditor(); renderPreview();
+    });
+    if (bgCompDragToggle) bgCompDragToggle.addEventListener('change', (e) => {
+      customization.bgCompDrag = !!e.target.checked;
+      ensureBgDock();
+    });
+    if (bgComponentsList){
+      bgComponentsList.addEventListener('click', (e) => {
+        const root = e.target.closest('.item-controls'); if (!root) return;
+        const id = root.getAttribute('data-comp-id');
+        const i = (customization.bgComponents||[]).findIndex(x => x.id === id);
+        if (i < 0) return;
+        const btn = e.target.closest('button[data-action]');
+        if (btn && btn.dataset.action === 'comp-del') {
+          customization.bgComponents.splice(i,1);
+          renderBgComponentsEditor(); renderPreview();
+        }
+      });
+      bgComponentsList.addEventListener('input', (e) => {
+        const root = e.target.closest('.item-controls'); if (!root) return;
+        const id = root.getAttribute('data-comp-id');
+        const c = (customization.bgComponents||[]).find(x => x.id === id);
+        if (!c) return;
+        const field = e.target.dataset.field;
+        if (field === 'comp-src') c.src = e.target.value;
+        if (field === 'comp-w') { c.w = Math.max(2, Math.min(100, parseInt(e.target.value||'20',10)||20)); const pill = e.target.closest('.range-row')?.querySelector('.value-pill span'); if (pill) pill.textContent = c.w; }
+        if (field === 'comp-opacity') { const v = parseFloat(e.target.value||'1')||1; c.opacity = Math.max(0, Math.min(1, v)); const pill = e.target.closest('.range-row')?.querySelector('.value-pill span'); if (pill) pill.textContent = c.opacity.toFixed(2); }
+        if (field === 'comp-visible') c.visible = !!e.target.checked;
+        if (field === 'comp-locked') c.locked = !!e.target.checked;
+        renderPreview();
+      });
+    }
+  }catch(_e){}
+}
+
 // 覆写：主预览渲染，注入背景/字体/圆角/字距/行距以及双列布局
 function renderPreview() {
   const headerHTML = getHeaderHTML2(currentTheme, currentTitle);
@@ -3647,6 +4268,9 @@ function renderPreview() {
   } else if (bgMode === 'image') {
     const url = esc(customization.bgImageUrl || '');
     wrapperStyle += `background-image:url('${url}');background-size:cover;background-position:center;`;
+  } else if (bgMode === 'layers') {
+    // 由自定义多图层接管背景
+    wrapperStyle += `background:transparent !important;`;
   } else if (bgMode === 'none') {
     wrapperStyle += `background:transparent !important;`;
   }
@@ -3659,8 +4283,12 @@ function renderPreview() {
 
  
   // 组合 HTML
+  const bgLayersHTML = (customization.bgMode === 'layers') ? buildBgLayersHTML(customization.bgLayers) : '';
+  const bgCompsHTML = (customization.bgMode === 'layers') ? buildBgComponentsHTML(customization.bgComponents) : '';
   const html = `
-    <div class="status-preview-wrapper ${currentTheme}" style="${wrapperStyle}">
+    <div class="status-preview-wrapper ${currentTheme} percent-style-${customization.percentDisplay || 'center'}" style="${wrapperStyle}">
+      ${bgLayersHTML}
+      ${bgCompsHTML}
       ${headerHTML}
       <div class="st-body" style="${bodyStyle}">
         ${itemsHTML}
@@ -3669,6 +4297,7 @@ function renderPreview() {
   `;
   previewContainer.innerHTML = html;
   const wrapper = previewContainer.querySelector('.status-preview-wrapper');
+  if (customization.bgMode === 'layers') { setupBgComponentDrag(wrapper); ensureBgDock(); }
   // 优先使用 1.5 高度设置，其次使用宽度调节时产生的锁定高度，最后恢复自动高度
   if (wrapper) {
     // 始终使用内容自适应高度，不做锁定
@@ -3819,6 +4448,29 @@ bind(statusbarWidthRange, 'input', e => {
 bind(dividerStyleSelect, 'change', e => { customization.dividerStyle = e.target.value; renderPreview(); });
 bind(barStyleSelect, 'change', e => { customization.barStyle = e.target.value; renderItemsEditor(); renderPreview(); });
 bind(barAnimationSelect, 'change', e => { customization.barAnimation = e.target.value; renderPreview(); });
+bind(percentDisplaySelect, 'change', e => { customization.percentDisplay = e.target.value; renderPreview(); });
+
+// 委托点击：统一切换预览中的百分比显示，避免与内联 onclick 双重触发造成“来回切换为原状态”
+document.addEventListener('click', (e) => {
+  const bar = e.target.closest('.st-progress-bar');
+  if (!bar) return;
+  // 若该条带有内联 onclick，则交给内联处理，防止双重切换
+  if (bar.getAttribute && bar.getAttribute('onclick')) {
+    return;
+  }
+  const pctEl = bar.querySelector('.st-progress-percent');
+  if (pctEl) {
+    const show = !bar.classList.contains('show-percent');
+    bar.classList.toggle('show-percent', show);
+    // 同步内联 opacity，兼容多处生成片段的行为
+    pctEl.style.opacity = show ? '1' : '0';
+    console.log('[diag] pct-toggle-preview', {
+      show,
+      percentStyle: customization.percentDisplay,
+      theme: currentTheme
+    });
+  }
+});
 
 // 新增：第二部分项目颜色联动（仅影响“状态项目”）
 bind(section2LabelColorInput, 'input', e => { customization.section2LabelColor = e.target.value; if (section2LabelColorCodeInput) section2LabelColorCodeInput.value = e.target.value; renderItemsEditor(); renderPreview(); });
@@ -4053,8 +4705,8 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
               <div class="st-item" data-type="bar" data-label="${esc(it.label || '')}">
                 <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
                 <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valueStyle('')}">
-                  <div class="st-progress-bar">
-                    <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div>
+                  <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+                    <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                   </div>
                 </div>
               </div>
@@ -4078,6 +4730,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
             bodyHTML += dividerHTMLForOutput(cfg.dividerStyle, cfg.primaryColor, (cfg.section2DividerColor || ''));
           } else {
             row.push(it);
+            if (row.length === 3) { rows.push(row); row = []; }
           }
         });
         if (row.length) rows.push(row);
@@ -4125,8 +4778,8 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
                 <div class="st-item" style="display:flex;flex-direction:column;align-items:${align};gap:4px;">
                   <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
                   <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valueStyle('')}">
-                    <div class="st-progress-bar">
-                      <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div>
+                    <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+                      <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                     </div>
                   </div>
                 </div>
@@ -4136,8 +4789,8 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
               <div class="st-item" style="display:flex;align-items:center;justify-content:space-between;">
                 <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
                 <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valueStyle('')}">
-                  <div class="st-progress-bar">
-                    <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div>
+                  <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+                    <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                   </div>
                 </div>
               </div>
@@ -4190,7 +4843,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
               '.theme-role-status-bar .st-body{display:flex;flex-direction:column;gap:14px;padding-top:15px;}',
               '.theme-role-status-bar .st-row{display:flex;justify-content:space-between;align-items:center;}',
               '.theme-role-status-bar .st-row .st-item{flex:1;text-align:left;padding:0 25px;position:relative;}',
-              '.theme-role-status-bar .st-row .st-item:not(:first-child)::before{content:"";display:block;width:1px;height:60px;background-color:var(--rs-sep-color,#61d2f8);position:absolute;left:0;top:50%;transform:translateY(-50%);}',
+              '.theme-role-status-bar .st-row .st-item:not(:first-child)::before{content:"";display:block;width:1px;background-color:var(--rs-sep-color,#61d2f8);position:absolute;left:0;top:10%;bottom:10%;transform:none;}',
               '.theme-role-status-bar .st-progress-bar{height:8px;background:rgba(0,0,0,.4);border:1px solid #61d2f8;border-radius:4px;overflow:hidden;}',
               '.theme-role-status-bar .st-progress-bar-fill{height:100%;background:#61d2f8;}'
             ].join('\n');
@@ -4443,11 +5096,11 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '<meta charset="UTF-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
         '<title>' + esc(title || '角色状态') + '</title>',
-        '<style>', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '/</style>',
+        '<style>', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '</style>',
         '</head>',
         '<body>',
         '<textarea id="ny-raw-data" style="display:none; white-space: pre;">$1</textarea>',
-        '<section id="ny-status" class="status-preview-wrapper ' + theme + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
+        '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
         '<div class="st-header" style="gap:.6em;">' + headerInner + '</div>',
         '<div class="st-body" style="' + bodyStyle + '">',
         bodyHTML,
@@ -4559,6 +5212,8 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '    if(fill){',
         '      if(fill.classList.contains("pf-anim-grow")){ fill.style.setProperty("--target", n + "%"); }',
         '      fill.style.width = (fill.classList.contains("pf-anim-grow") ? "var(--target)" : (n + "%"));',
+        '      var pctEl = item2 ? item2.querySelector(".st-progress-bar .st-progress-percent") : null;',
+        '      if (pctEl) { pctEl.textContent = n + "%"; }',
         '      _fillStats.bar++;',
         '    } else { _fillStats.miss++; }',
         '  }',
@@ -4702,8 +5357,8 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
           + '<div class="st-item" data-type="bar" data-label="' + esc(it.label || '') + '">'
           + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
           + '  <div class="st-value" style="width: clamp(120px, 40vw, 160px); ' + valueStyle('') + '">'
-          + '    <div class="st-progress-bar">'
-          + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div>'
+          + '    <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector(\'.st-progress-percent\');if(s){s.style.opacity=(s.style.opacity===\'1\'?\'0\':\'1\');}})(this)">'
+          + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:' + ph + '%;">' + ph + '%</span>'
           + '    </div>'
           + '  </div>'
           + '</div>';
@@ -4725,6 +5380,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
         bodyHTML += dividerHTMLForOutput(cfg.dividerStyle, cfg.primaryColor, (cfg.section2DividerColor || ''));
       } else {
         row.push(it);
+        if (row.length === 3) { rows.push(row); row = []; }
       }
     });
     if (row.length) rows.push(row);
@@ -4771,8 +5427,8 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
             + '<div class="st-item" style="display:flex;flex-direction:column;align-items:' + align + ';gap:4px;">'
             + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
             + '  <div class="st-value" style="width: clamp(120px, 40vw, 160px); ' + valueStyle('') + '">'
-            + '    <div class="st-progress-bar">'
-            + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div>'
+            + '    <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector(\'.st-progress-percent\');if(s){s.style.opacity=(s.style.opacity===\'1\'?\'0\':\'1\');}})(this)">'
+            + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:' + ph + '%;">' + ph + '%</span>'
             + '    </div>'
             + '  </div>'
             + '</div>';
@@ -4781,8 +5437,8 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
           + '<div class="st-item" style="display:flex;align-items:center;justify-content:space-between;">'
           + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
           + '  <div class="st-value" style="width: clamp(120px, 40vw, 160px); ' + valueStyle('') + '">'
-          + '    <div class="st-progress-bar">'
-          + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div>'
+          + '    <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector(\'.st-progress-percent\');if(s){s.style.opacity=(s.style.opacity===\'1\'?\'0\':\'1\');}})(this)">'
+          + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:' + ph + '%;">' + ph + '%</span>'
           + '    </div>'
           + '  </div>'
           + '</div>';
@@ -4834,7 +5490,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
           '.theme-role-status-bar .st-body{display:flex;flex-direction:column;gap:14px;padding-top:15px;}',
           '.theme-role-status-bar .st-row{display:flex;justify-content:space-between;align-items:center;}',
           '.theme-role-status-bar .st-row .st-item{flex:1;text-align:left;padding:0 25px;position:relative;}',
-          '.theme-role-status-bar .st-row .st-item:not(:first-child)::before{content:"";display:block;width:1px;height:60px;background-color:var(--rs-sep-color,#61d2f8);position:absolute;left:0;top:50%;transform:translateY(-50%);}',
+          '.theme-role-status-bar .st-row .st-item:not(:first-child)::before{content:"";display:block;width:1px;background-color:var(--rs-sep-color,#61d2f8);position:absolute;left:0;top:10%;bottom:10%;transform:none;}',
           '.theme-role-status-bar .st-progress-bar{height:8px;background:rgba(0,0,0,.4);border:1px solid #61d2f8;border-radius:4px;overflow:hidden;}',
           '.theme-role-status-bar .st-progress-bar-fill{height:100%;background:#61d2f8;}'
         ].join('\n');
@@ -5054,15 +5710,18 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '<meta charset="UTF-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
     '<title>' + esc(title || '角色状态') + '</title>',
-    '<style>', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '/</style>',
+    '<style>', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '</style>',
     '</head>',
     '<body>',
-    '<section id="ny-status" class="status-preview-wrapper ' + theme + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
+    '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
     '<div class="st-header" style="gap:.6em;">' + headerInner + '</div>',
     '<div class="st-body" style="' + bodyStyle + '">',
     bodyHTML,
     '</div>',
     '</section>',
+    '<script>',
+    '(function(){document.addEventListener("click",function(e){var bar=e.target.closest(".st-progress-bar");if(bar&&bar.closest("#ny-status")){var pct=bar.querySelector(".st-progress-percent");if(pct){pct.style.opacity=(pct.style.opacity==="1"?"0":"1");}}});})();',
+    '<' + '/script>',
     '</body>',
     '</html>'
   ].join('\n');
@@ -5337,6 +5996,7 @@ function buildRegexReference(list, wrapperName){
         dividerStyle: customization.dividerStyle,
         barStyle: customization.barStyle,
         barAnimation: customization.barAnimation,
+        percentDisplay: customization.percentDisplay,
         section2LabelColor: customization.section2LabelColor,
         section2ValueColor: customization.section2ValueColor,
         section2BarColor: customization.section2BarColor,
@@ -5528,7 +6188,7 @@ function buildRegexReference(list, wrapperName){
       let snippetAug = String(snippet);
       if (usingFx) {
         snippetAug = String(snippet)
-          .replace('/</style>', fxCssBlock + '/</style>')
+          .replace('</style>', fxCssBlock + '</style>')
           .replace('<' + '/script>', fxJsBlock + '<' + '/script>');
       }
 
@@ -5538,7 +6198,7 @@ function buildRegexReference(list, wrapperName){
       // 注意：为避免脚本内出现字面关闭标签导致浏览器提前结束，这里在字符串中使用 '<' + '/script>' 拼接避免闭合标记
       const groupDocAug = usingFx
         ? String(groupDoc)
-            .replace('/</style>', fxCssBlock + '/</style>')
+            .replace('</style>', fxCssBlock + '</style>')
             .replace('</body>', '<script>' + fxJsBlock + '<' + '/script>\n</body>')
         : groupDoc;
 
@@ -5901,6 +6561,12 @@ function buildRegexReference(list, wrapperName){
       setupCollapsibleSections();
       updateBgFieldsVisibility();
       updateIconFieldsVisibility();
+
+      // 初始化多图层/组件编辑 UI 与事件
+      renderBgLayersEditor();
+      renderBgComponentsEditor();
+      setupBgEditorsEvents();
+
       renderPreview();
       // 启动时先将“3. 输出代码”移入弹窗，左侧原始模块已隐藏
       moveSection3ToOutput();
@@ -5920,7 +6586,461 @@ function buildRegexReference(list, wrapperName){
     }
     speedValue.textContent = animSpeed.toFixed(1);
     intensityValue.textContent = animIntensity.toFixed(2);
-  })();
+  // === 图片组件：裁剪与边缘特效 扩展 ===
+try {
+  // 计算附加样式（支持多特效叠加）
+  function __nyCompExtraStyle(c){
+    try{
+      const crop = c && c.crop ? c.crop : {top:0,right:0,bottom:0,left:0};
+      const t = Math.max(0, Math.min(50, Number(crop.top || 0)));
+      const r = Math.max(0, Math.min(50, Number(crop.right || 0)));
+      const b = Math.max(0, Math.min(50, Number(crop.bottom || 0)));
+      const l = Math.max(0, Math.min(50, Number(crop.left || 0)));
+      let css = '';
+      
+      // 裁剪
+      if (t||r||b||l){
+        css += `clip-path: inset(${t}% ${r}% ${b}% ${l}%);`;
+      }
+      
+      // 多特效叠加支持
+      const effs = (c && c.effects) || {};
+      const col = customization.primaryColor || '#ffffff';
+      const filters = [];
+      
+      // 圆角
+      if (effs.rounded && isFinite(effs.roundedRadius)){
+        css += `border-radius:${Math.max(0, Number(effs.roundedRadius))}px;`;
+      }
+      
+      // 发光（filter）
+      if (effs.glow && isFinite(effs.glowStrength)){
+        const blur = (Math.max(0, Number(effs.glowStrength)) * 0.4 + 6).toFixed(1);
+        filters.push(`drop-shadow(0 0 ${blur}px ${col})`);
+      }
+      
+      // 阴影（filter）
+      if (effs.shadow){
+        filters.push(`drop-shadow(0 6px 16px rgba(0,0,0,.35))`);
+      }
+      
+      // 组合 filter
+      if (filters.length > 0){
+        css += `filter: ${filters.join(' ')};`;
+      }
+      
+      // 柔化边缘（mask，独立于 filter）
+      if (effs.feather && isFinite(effs.featherStrength)){
+        const s = Math.max(0, Math.min(50, Number(effs.featherStrength)));
+        const inner = Math.max(60, 98 - s);
+        const mask = `radial-gradient(circle at 50% 50%, #000 ${inner}%, transparent 100%)`;
+        css += `-webkit-mask-image:${mask};mask-image:${mask};`;
+      }
+      
+      return css;
+    }catch(_e){ return ''; }
+  }
+
+  // 覆盖：组件 HTML 生成，注入裁剪/特效样式
+  const __ny_old_buildBgComponentsHTML = buildBgComponentsHTML;
+  buildBgComponentsHTML = function(components){
+    try{
+      const C = Array.isArray(components) ? components : [];
+      if (!C.length) return '';
+      const html = C.filter(c => c && c.visible !== false).map(c => {
+        const id = esc(c.id || genId());
+        const src = esc(c.src || '');
+        const x = isFinite(c.x) ? Math.max(0, Math.min(100, Number(c.x))) : 50;
+        const y = isFinite(c.y) ? Math.max(0, Math.min(100, Number(c.y))) : 50;
+        const w = isFinite(c.w) ? Math.max(2, Math.min(100, Number(c.w))) : 20;
+        const op = isFinite(c.opacity) ? Math.max(0, Math.min(1, Number(c.opacity))) : 1;
+        const extra = __nyCompExtraStyle(c);
+        return `<img class="bg-comp" data-id="${id}" src="${src}" alt="" style="left:${x}%;top:${y}%;width:${w}%;opacity:${op};${extra}">`;
+      }).join('');
+      return `<div class="bg-components-layer">${html}</div>`;
+    }catch(e){
+      try { return __ny_old_buildBgComponentsHTML(components); } catch(_e){ return ''; }
+    }
+  };
+
+  // 增强：为每个组件条目附加"裁剪/边缘特效"控制面板
+  function __ny_enhanceComponentsEditorUI(){
+    try{
+      const list = document.getElementById('bg-components-list');
+      if (!list) return;
+      const comps = customization.bgComponents || [];
+      list.querySelectorAll('.item-controls').forEach(card => {
+        if (!card.getAttribute('data-comp-id')) return;
+        if (card.querySelector('.comp-adv-controls')) return;
+        const id = card.getAttribute('data-comp-id');
+        const c = comps.find(x => x.id === id);
+        if (!c) return;
+        c.crop = c.crop || {top:0,right:0,bottom:0,left:0};
+        ['top','right','bottom','left'].forEach(k => { if(!isFinite(c.crop[k])) c.crop[k]=0; });
+        
+        // 多特效支持：改为对象存储
+        c.effects = c.effects || {};
+        if (!isFinite(c.effects.roundedRadius)) c.effects.roundedRadius = 0;
+        if (!isFinite(c.effects.glowStrength)) c.effects.glowStrength = 0;
+        if (!isFinite(c.effects.featherStrength)) c.effects.featherStrength = 0;
+        c.effects.rounded = !!(c.effects.rounded);
+        c.effects.glow = !!(c.effects.glow);
+        c.effects.shadow = !!(c.effects.shadow);
+        c.effects.feather = !!(c.effects.feather);
+
+        const html = `
+<div class="comp-adv-controls" style="margin-top:10px; border-top:1px dashed var(--border-color); padding-top:10px;">
+  <div class="control-group">
+    <label>裁剪(%)</label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;">
+      <div style="display:flex;align-items:center;gap:4px;">
+        <label style="color:var(--text-secondary);font-size:11px;min-width:16px;">上</label>
+        <input type="number" min="0" max="50" step="1" value="${c.crop.top}" data-field="comp-crop-top" style="width:46px;padding:4px 6px;border:1px solid var(--border-color);border-radius:4px;background:var(--bg-control);color:var(--text-primary);font-size:12px;text-align:center;">
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <label style="color:var(--text-secondary);font-size:11px;min-width:16px;">右</label>
+        <input type="number" min="0" max="50" step="1" value="${c.crop.right}" data-field="comp-crop-right" style="width:46px;padding:4px 6px;border:1px solid var(--border-color);border-radius:4px;background:var(--bg-control);color:var(--text-primary);font-size:12px;text-align:center;">
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <label style="color:var(--text-secondary);font-size:11px;min-width:16px;">下</label>
+        <input type="number" min="0" max="50" step="1" value="${c.crop.bottom}" data-field="comp-crop-bottom" style="width:46px;padding:4px 6px;border:1px solid var(--border-color);border-radius:4px;background:var(--bg-control);color:var(--text-primary);font-size:12px;text-align:center;">
+      </div>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <label style="color:var(--text-secondary);font-size:11px;min-width:16px;">左</label>
+        <input type="number" min="0" max="50" step="1" value="${c.crop.left}" data-field="comp-crop-left" style="width:46px;padding:4px 6px;border:1px solid var(--border-color);border-radius:4px;background:var(--bg-control);color:var(--text-primary);font-size:12px;text-align:center;">
+      </div>
+    </div>
+  </div>
+  <div class="control-group">
+    <label>边缘特效（可多选）</label>
+    <div style="display:grid;gap:8px;margin-top:6px;">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" data-field="comp-effect-rounded" ${c.effects.rounded?'checked':''}>
+        <span>圆角</span>
+      </label>
+      <div style="margin-left:24px;display:${c.effects.rounded?'block':'none'};" data-role="comp-effect-rounded-param">
+        <div class="range-row" style="gap:6px;">
+          <label style="color:var(--text-secondary);font-size:11px;min-width:48px;">半径</label>
+          <input type="range" min="0" max="50" step="1" value="${c.effects.roundedRadius}" data-field="comp-effect-rounded-radius" style="flex:1;">
+          <span class="value-pill" style="min-width:48px;"><span>${c.effects.roundedRadius}</span>px</span>
+        </div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" data-field="comp-effect-glow" ${c.effects.glow?'checked':''}>
+        <span>发光</span>
+      </label>
+      <div style="margin-left:24px;display:${c.effects.glow?'block':'none'};" data-role="comp-effect-glow-param">
+        <div class="range-row" style="gap:6px;">
+          <label style="color:var(--text-secondary);font-size:11px;min-width:48px;">强度</label>
+          <input type="range" min="0" max="50" step="1" value="${c.effects.glowStrength}" data-field="comp-effect-glow-strength" style="flex:1;">
+          <span class="value-pill" style="min-width:48px;"><span>${c.effects.glowStrength}</span></span>
+        </div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" data-field="comp-effect-shadow" ${c.effects.shadow?'checked':''}>
+        <span>阴影</span>
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" data-field="comp-effect-feather" ${c.effects.feather?'checked':''}>
+        <span>柔化边缘</span>
+      </label>
+      <div style="margin-left:24px;display:${c.effects.feather?'block':'none'};" data-role="comp-effect-feather-param">
+        <div class="range-row" style="gap:6px;">
+          <label style="color:var(--text-secondary);font-size:11px;min-width:48px;">强度</label>
+          <input type="range" min="0" max="50" step="1" value="${c.effects.featherStrength}" data-field="comp-effect-feather-strength" style="flex:1;">
+          <span class="value-pill" style="min-width:48px;"><span>${c.effects.featherStrength}</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+        const wrap = document.createElement('div');
+        wrap.innerHTML = html;
+        card.appendChild(wrap);
+      });
+    }catch(_e){}
+  }
+
+  // 包装原有编辑器渲染函数
+  if (typeof renderBgComponentsEditor === 'function'){
+    const __ny_old_renderBgComponentsEditor = renderBgComponentsEditor;
+    renderBgComponentsEditor = function(){
+      __ny_old_renderBgComponentsEditor();
+      __ny_enhanceComponentsEditorUI();
+    };
+    // 立即增强一次（当前界面）
+    try { __ny_enhanceComponentsEditorUI(); } catch(_e){}
+  }
+
+  // 事件委托：裁剪/特效（支持多特效）
+  if (bgComponentsList){
+    bgComponentsList.addEventListener('input', (e) => {
+      const root = e.target.closest('.item-controls'); if (!root) return;
+      const id = root.getAttribute('data-comp-id');
+      const c = (customization.bgComponents || []).find(x => x.id === id); if (!c) return;
+      const field = e.target.dataset.field;
+      if (!field) return;
+      c.crop = c.crop || {top:0,right:0,bottom:0,left:0};
+      c.effects = c.effects || {};
+      function setPill(el, txt){ try{ el.closest('.range-row').querySelector('.value-pill span').textContent = txt; }catch(_e){} }
+      
+      // 裁剪
+      if (field === 'comp-crop-top'){ c.crop.top = clamp(parseInt(e.target.value||'0',10) || 0, 0, 50); renderPreview(); }
+      else if (field === 'comp-crop-right'){ c.crop.right = clamp(parseInt(e.target.value||'0',10) || 0, 0, 50); renderPreview(); }
+      else if (field === 'comp-crop-bottom'){ c.crop.bottom = clamp(parseInt(e.target.value||'0',10) || 0, 0, 50); renderPreview(); }
+      else if (field === 'comp-crop-left'){ c.crop.left = clamp(parseInt(e.target.value||'0',10) || 0, 0, 50); renderPreview(); }
+      // 圆角参数
+      else if (field === 'comp-effect-rounded-radius'){ c.effects.roundedRadius = clamp(parseInt(e.target.value||'0',10) || 0, 0, 200); setPill(e.target, c.effects.roundedRadius); renderPreview(); }
+      // 发光参数
+      else if (field === 'comp-effect-glow-strength'){ c.effects.glowStrength = clamp(parseInt(e.target.value||'0',10) || 0, 0, 50); setPill(e.target, c.effects.glowStrength); renderPreview(); }
+      // 柔化边缘参数
+      else if (field === 'comp-effect-feather-strength'){ c.effects.featherStrength = clamp(parseInt(e.target.value||'0',10) || 0, 0, 50); setPill(e.target, c.effects.featherStrength); renderPreview(); }
+    });
+    
+    bgComponentsList.addEventListener('change', (e) => {
+      const root = e.target.closest('.item-controls'); if (!root) return;
+      const id = root.getAttribute('data-comp-id');
+      const c = (customization.bgComponents || []).find(x => x.id === id); if (!c) return;
+      const field = e.target.dataset.field;
+      if (!field) return;
+      c.effects = c.effects || {};
+      
+      // 多特效复选框
+      if (field === 'comp-effect-rounded'){
+        c.effects.rounded = !!e.target.checked;
+        const paramDiv = root.querySelector('[data-role="comp-effect-rounded-param"]');
+        if (paramDiv) paramDiv.style.display = c.effects.rounded ? 'block' : 'none';
+        renderPreview();
+      }
+      else if (field === 'comp-effect-glow'){
+        c.effects.glow = !!e.target.checked;
+        const paramDiv = root.querySelector('[data-role="comp-effect-glow-param"]');
+        if (paramDiv) paramDiv.style.display = c.effects.glow ? 'block' : 'none';
+        renderPreview();
+      }
+      else if (field === 'comp-effect-shadow'){
+        c.effects.shadow = !!e.target.checked;
+        renderPreview();
+      }
+      else if (field === 'comp-effect-feather'){
+        c.effects.feather = !!e.target.checked;
+        const paramDiv = root.querySelector('[data-role="comp-effect-feather-param"]');
+        if (paramDiv) paramDiv.style.display = c.effects.feather ? 'block' : 'none';
+        renderPreview();
+      }
+    });
+  }
+}catch(_e){}
+
+})();</script>
+<style id="ui-polish-bg-layers">
+/* === UI 美化：1.5 模板个性化 → 多图层自定义背景（仅作用于该区域） === */
+#bg-layers-box.bg-layers-box{
+  border-radius: 12px;
+  padding: 12px 12px 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.06));
+  border-color: color-mix(in srgb, var(--border-color) 85%, transparent);
+  box-shadow: 0 1px 0 rgba(0,0,0,.06) inset, 0 1px 10px rgba(0,0,0,.06);
+}
+#bg-layers-box .box-title{
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 13.5px;
+  letter-spacing: .2px;
+  color: inherit;
+}
+#bg-layers-box .box-title .dot{
+  width: 10px; height: 10px; border-radius: 50%;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 22%, transparent);
+  background: radial-gradient( circle at 30% 30%, color-mix(in srgb, var(--accent-primary) 85%, white) 0 45%, color-mix(in srgb, var(--accent-primary) 40%, black) 46% 100% );
+}
+
+/* 按钮组：统一高度/间距/动效，适配窄屏换行 */
+#bg-layers-box .btn-group{
+  display:flex; gap:10px; flex-wrap:wrap;
+}
+#bg-layers-box .btn-group .btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  height:36px; padding:0 12px; border-radius:10px; font-weight:600;
+  border:1px solid color-mix(in srgb, var(--accent-primary) 20%, var(--border-color));
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.08));
+  color:inherit; cursor:pointer;
+  transition: transform .08s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease, opacity .2s ease;
+}
+#bg-layers-box .btn-group .btn:hover{
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent-primary) 45%, var(--border-color));
+  box-shadow: 0 4px 14px rgba(0,0,0,.12), 0 1px 0 rgba(255,255,255,.05) inset;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.10));
+}
+#bg-layers-box .btn-group .btn:active{
+  transform: translateY(0);
+  box-shadow: none;
+}
+#bg-layers-box .btn-group .btn i{ font-size:14px; }
+
+/* 列表卡片：更清晰的层次与标题区分 */
+#bg-layers-list{
+  margin-top:12px; display:grid; gap:10px;
+}
+#bg-layers-list .item-controls{
+  border-radius:12px;
+  border:1px solid color-mix(in srgb, var(--border-color) 88%, transparent);
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.08));
+  padding:10px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.06) inset;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .08s ease;
+}
+#bg-layers-list .item-controls:hover{
+  border-color: color-mix(in srgb, var(--accent-primary) 28%, var(--border-color));
+  box-shadow: 0 2px 16px rgba(0,0,0,.12);
+}
+#bg-layers-list .item-header{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:6px 4px 8px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);
+}
+#bg-layers-list .item-header span{ font-weight:700; letter-spacing:.2px; }
+#bg-layers-list .item-actions{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+#bg-layers-list .item-actions .btn{
+  height:28px; padding:0 10px; border-radius:8px;
+  border:1px solid color-mix(in srgb, var(--accent-primary) 18%, var(--border-color));
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.06));
+  font-weight:600;
+}
+#bg-layers-list .item-actions .btn:hover{
+  border-color: color-mix(in srgb, var(--accent-primary) 42%, var(--border-color));
+}
+
+/* 输入控件：统一圆角/边框/焦点态 */
+#bg-layers-box input[type="text"],
+#bg-layers-box input[type="number"],
+#bg-layers-box input[type="url"],
+#bg-layers-box select,
+#bg-layers-box textarea{
+  width:100%;
+  border-radius:8px; border:1px solid var(--border-color);
+  padding:6px 8px; background: color-mix(in srgb, black 8%, transparent);
+  color:inherit; outline:none;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+#bg-layers-box input[type="range"]{ width:100%; }
+#bg-layers-box input:focus,
+#bg-layers-box select:focus,
+#bg-layers-box textarea:focus{
+  border-color: color-mix(in srgb, var(--accent-primary) 55%, var(--border-color));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 22%, transparent);
+  background: color-mix(in srgb, black 4%, transparent);
+}
+
+/* 提示与开关行：更柔和的底色与边框 */
+#bg-layers-box .hint{
+  margin-top:8px; font-size:12px; color: var(--muted-text);
+  padding:8px 10px; border-radius:8px;
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.06));
+  border:1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);
+}
+#bg-layers-box label[style*="display:flex"]{
+  padding:8px 10px; margin:6px 0; border-radius:10px; cursor:pointer;
+  border:1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.06));
+  transition: border-color .2s ease, background .2s ease;
+}
+#bg-layers-box label[style*="display:flex"]:hover{
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, var(--border-color));
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.08));
+}
+#bg-layers-box input[type="checkbox"]{ cursor:pointer; }
+
+/* 移动端细节 */
+@media (max-width: 640px){
+  #bg-layers-box .btn-group .btn{ flex:1 1 calc(50% - 6px); min-width:140px; }
+  #bg-layers-list .item-actions{ gap:8px; }
+}
+
+/* 轻微过渡统一 */
+#bg-layers-box, #bg-layers-box *{
+  transition-property: color, background-color, border-color, box-shadow, transform;
+  transition-duration: .2s; transition-timing-function: ease;
+}
+</style>
+<style id="layers-rounding-guard">
+/* 1.5 模板个性化：多图层自定义背景遵循全局圆角与透明度
+   - 仅用于裁剪/继承圆角，不改变现有透明度联动（父容器 opacity 生效）
+   - 确保 layers 模式只是"背景用途"，不破坏 1.5 圆角等级与整体透明度要求
+*/
+
+/* 让预览容器的圆角真正生效于内部所有背景层（包含图片/视频/Canvas 等） */
+.status-preview-wrapper{
+  /* 若已有圆角等级由 1.5 控件驱动，这里只负责裁剪，不改变原有半径值 */
+  overflow: hidden; /* 兼容性佳，保证背景不外溢，圆角被严格裁剪 */
+  /* overflow: clip;  // 现代浏览器可用，保留注释避免旧内核异常 */
+}
+
+/* 背景多图层与其子元素统一继承父级圆角，防止溢出；不干预整体透明度（由父容器控制） */
+.status-preview-wrapper .bg-layers,
+.status-preview-wrapper .bg-layers .bg-layer,
+.status-preview-wrapper .bg-layers canvas,
+.status-preview-wrapper .bg-layers img,
+.status-preview-wrapper .bg-layers video{
+  border-radius: inherit !important;
+  overflow: hidden;
+}
+
+/* layers 作为"背景用途"的默认行为：不截获事件，交互由拖动/编辑模式单独开启 */
+.status-preview-wrapper .bg-layers{
+  pointer-events: none;
+}
+
+/* 拖动/组件模式下的组件元素允许交互，但仍受圆角裁剪与继承约束 */
+.status-preview-wrapper .bg-layers .bg-comp,
+.status-preview-wrapper .bg-layers [data-comp],
+.status-preview-wrapper .bg-layers .draggable{
+  pointer-events: auto;
+  border-radius: inherit;
+  overflow: hidden;
+}
+</style>
+
+<script id="layers-adhere-1-5">
+(function(){
+  var previewContainer = document.getElementById('live-preview-container');
+  if (!previewContainer) return;
+
+  var borderRadiusRange = document.getElementById('border-radius-range');
+  var radiusValue = document.getElementById('radius-value');
+  var opacityRange = document.getElementById('opacity-range');
+  var opacityValue = document.getElementById('opacity-value');
+
+  function clamp(n, min, max){ return Math.min(max, Math.max(min, n)); }
+  function fmtOpacity(v){ return (Math.round((parseFloat(v)||1)*100)/100).toFixed(2); }
+
+  function applyRoundingAndOpacity(){
+    var wrapper = previewContainer.querySelector('.status-preview-wrapper');
+    if (!wrapper) return;
+
+    if (borderRadiusRange){
+      var r = clamp(parseInt(borderRadiusRange.value||'0', 10) || 0, 0, 24);
+      wrapper.style.borderRadius = r + 'px';
+      if (radiusValue) radiusValue.textContent = String(r);
+    }
+
+    if (opacityRange){
+      var o = clamp(parseFloat(opacityRange.value||'1') || 1, 0.3, 1);
+      wrapper.style.opacity = String(o);
+      if (opacityValue) opacityValue.textContent = fmtOpacity(o);
+    }
+  }
+
+  var mo = new MutationObserver(function(){ applyRoundingAndOpacity(); });
+  mo.observe(previewContainer, { childList: true });
+
+  if (borderRadiusRange) borderRadiusRange.addEventListener('input', applyRoundingAndOpacity);
+  if (opacityRange) opacityRange.addEventListener('input', applyRoundingAndOpacity);
+
+  applyRoundingAndOpacity();
+})();
 </script>
 </body>
 </html>
