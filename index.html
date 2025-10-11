@@ -4012,6 +4012,15 @@ function setupBgComponentDrag(wrapper){
     if (!layer) return;
     let dragging = null;
     const getRect = () => wrapper.getBoundingClientRect();
+    
+    // 统一的坐标提取（支持鼠标和触摸）
+    function getCoords(e){
+      if (e.touches && e.touches[0]) {
+        return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+      return { x: e.clientX, y: e.clientY };
+    }
+    
     function onDown(e){
       if (!customization.bgCompDrag) return;
       const el = e.target.closest('.bg-comp');
@@ -4022,29 +4031,45 @@ function setupBgComponentDrag(wrapper){
       e.preventDefault();
       el.classList.add('dragging');
       const rect = getRect();
-      const startX = e.clientX, startY = e.clientY;
+      const coords = getCoords(e);
+      const startX = coords.x, startY = coords.y;
       const startLeft = (isFinite(obj.x) ? obj.x : 50);
       const startTop = (isFinite(obj.y) ? obj.y : 50);
       dragging = { el, id, obj, rect, startX, startY, startLeft, startTop };
+      
+      // 同时监听鼠标和触摸事件
       document.addEventListener('mousemove', onMove);
+      document.addEventListener('touchmove', onMove, { passive: false });
       document.addEventListener('mouseup', onUp, { once: true });
+      document.addEventListener('touchend', onUp, { once: true });
+      document.addEventListener('touchcancel', onUp, { once: true });
     }
+    
     function onMove(e){
       if (!dragging) return;
+      e.preventDefault(); // 防止移动端滚动
       const { rect, startX, startY, startLeft, startTop, obj, el } = dragging;
-      const dx = ((e.clientX - startX) / rect.width) * 100;
-      const dy = ((e.clientY - startY) / rect.height) * 100;
+      const coords = getCoords(e);
+      const dx = ((coords.x - startX) / rect.width) * 100;
+      const dy = ((coords.y - startY) / rect.height) * 100;
       obj.x = Math.max(0, Math.min(100, startLeft + dx));
       obj.y = Math.max(0, Math.min(100, startTop + dy));
       el.style.left = obj.x + '%';
       el.style.top = obj.y + '%';
     }
+    
     function onUp(){
       if (dragging?.el) dragging.el.classList.remove('dragging');
       dragging = null;
       document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+      document.removeEventListener('touchcancel', onUp);
     }
+    
+    // 同时监听鼠标和触摸开始事件
     layer.addEventListener('mousedown', onDown);
+    layer.addEventListener('touchstart', onDown, { passive: false });
   }catch(_e){}
 }
 function ensureBgDock(){
@@ -6966,7 +6991,7 @@ try {
 }
 </style>
 <style id="layers-rounding-guard">
-
+    
 .status-preview-wrapper .bg-layers{
   border-radius: inherit !important;
   overflow: hidden; /* 裁剪背景图层，使其遵循圆角 */
