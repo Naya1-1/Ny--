@@ -4660,11 +4660,18 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
       } else if (cfg.bgMode === 'image') {
         const url = esc(cfg.bgImageUrl || '');
         styleParts.push(`background-image:url('${url}')`, `background-size:cover`, `background-position:center`);
+      } else if (cfg.bgMode === 'layers') {
+        // 多图层自定义背景：由图层接管，外层设为透明
+        styleParts.push(`background:transparent !important`);
       } else if (cfg.bgMode === 'none') {
         styleParts.push(`background:transparent !important`);
       }
       const wrapperStyle = styleParts.join('; ');
       const bodyStyle = (cfg.layout === 'two-column') ? 'display:grid;grid-template-columns: repeat(2, minmax(0,1fr));gap:12px;' : '';
+
+      // 生成多图层背景与组件 HTML（仅在 layers 模式下）
+      const bgLayersHTML = (cfg.bgMode === 'layers') ? buildBgLayersHTML(cfg.bgLayers || []) : '';
+      const bgCompsHTML = (cfg.bgMode === 'layers') ? buildBgComponentsHTML(cfg.bgComponents || []) : '';
 
       // 进度条风格/动画类
       const barStyleClass = (() => {
@@ -4832,6 +4839,12 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
          '.status-preview-wrapper .st-header{display:flex;align-items:center;gap:.6em;}',
          '.status-preview-wrapper .st-body > hr:last-child{margin-bottom:0 !important;}',
          '.status-preview-wrapper .st-body > *:last-child{margin-bottom:0 !important;}',
+         // 多图层自定义背景样式
+         '.status-preview-wrapper .bg-layers{position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;overflow:hidden;}',
+         '.status-preview-wrapper .bg-layer{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;}',
+         '.status-preview-wrapper .bg-components-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:visible;}',
+         '.status-preview-wrapper .bg-comp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:auto;user-select:none;-webkit-user-drag:none;}',
+         '.status-preview-wrapper .st-header,.status-preview-wrapper .st-body{position:relative;z-index:1;}',
          // 动画类（与预览保持一致）
          '.anim-none{}',
          '@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}',
@@ -5126,6 +5139,8 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '<body>',
         '<textarea id="ny-raw-data" style="display:none; white-space: pre;">$1</textarea>',
         '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
+        bgLayersHTML,
+        bgCompsHTML,
         '<div class="st-header" style="gap:.6em;">' + headerInner + '</div>',
         '<div class="st-body" style="' + bodyStyle + '">',
         bodyHTML,
@@ -5308,11 +5323,18 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
   } else if (cfg.bgMode === 'image') {
     const url = esc(cfg.bgImageUrl || '');
     styleParts.push('background-image:url(\'' + url + '\')', 'background-size:cover', 'background-position:center');
+  } else if (cfg.bgMode === 'layers') {
+    // 多图层自定义背景：由图层接管，外层设为透明
+    styleParts.push('background:transparent !important');
   } else if (cfg.bgMode === 'none') {
     styleParts.push('background:transparent !important');
   }
   const wrapperStyle = styleParts.join('; ');
   const bodyStyle = (cfg.layout === 'two-column') ? 'display:grid;grid-template-columns: repeat(2, minmax(0,1fr));gap:12px;' : '';
+
+  // 生成多图层背景与组件 HTML（仅在 layers 模式下）
+  const bgLayersHTML = (cfg.bgMode === 'layers') ? buildBgLayersHTML(cfg.bgLayers || []) : '';
+  const bgCompsHTML = (cfg.bgMode === 'layers') ? buildBgComponentsHTML(cfg.bgComponents || []) : '';
 
   // 进度条风格/动画类
   const barStyleClass = (function(){
@@ -5479,6 +5501,12 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '.status-preview-wrapper .st-header{display:flex;align-items:center;gap:.6em;}',
     '.status-preview-wrapper .st-body > hr:last-child{margin-bottom:0 !important;}',
     '.status-preview-wrapper .st-body > *:last-child{margin-bottom:0 !important;}',
+    // 多图层自定义背景样式
+    '.status-preview-wrapper .bg-layers{position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;overflow:hidden;}',
+    '.status-preview-wrapper .bg-layer{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;}',
+    '.status-preview-wrapper .bg-components-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:visible;}',
+    '.status-preview-wrapper .bg-comp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:auto;user-select:none;-webkit-user-drag:none;}',
+    '.status-preview-wrapper .st-header,.status-preview-wrapper .st-body{position:relative;z-index:1;}',
     '.anim-none{}',
     '@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}',
     '.anim-fade-in{animation:fadeIn var(--anim-speed,1s) ease both;}',
@@ -5739,6 +5767,8 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '</head>',
     '<body>',
     '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
+    bgLayersHTML,
+    bgCompsHTML,
     '<div class="st-header" style="gap:.6em;">' + headerInner + '</div>',
     '<div class="st-body" style="' + bodyStyle + '">',
     bodyHTML,
@@ -6012,6 +6042,9 @@ function buildRegexReference(list, wrapperName){
         bgGradientStart: customization.bgGradientStart,
         bgGradientEnd: customization.bgGradientEnd,
         bgImageUrl: customization.bgImageUrl,
+        // 新增：多图层背景与组件配置
+        bgLayers: customization.bgLayers || [],
+        bgComponents: customization.bgComponents || [],
         iconMode: customization.iconMode,
         iconBuiltin: customization.iconBuiltin,
         iconUrl: customization.iconUrl,
@@ -6355,6 +6388,9 @@ function buildRegexReference(list, wrapperName){
           bgGradientStart: customization.bgGradientStart,
           bgGradientEnd: customization.bgGradientEnd,
           bgImageUrl: customization.bgImageUrl,
+          // 新增：多图层背景与组件配置
+          bgLayers: customization.bgLayers || [],
+          bgComponents: customization.bgComponents || [],
           iconMode: customization.iconMode,
           iconBuiltin: customization.iconBuiltin,
           iconUrl: customization.iconUrl,
@@ -6991,7 +7027,7 @@ try {
 }
 </style>
 <style id="layers-rounding-guard">
-    
+
 .status-preview-wrapper .bg-layers{
   border-radius: inherit !important;
   overflow: hidden; /* 裁剪背景图层，使其遵循圆角 */
@@ -7016,6 +7052,7 @@ try {
 
 <script id="layers-adhere-1-5">
 (function(){
+    
   var previewContainer = document.getElementById('live-preview-container');
   if (!previewContainer) return;
 
@@ -7050,6 +7087,7 @@ try {
   if (borderRadiusRange) borderRadiusRange.addEventListener('input', applyRoundingAndOpacity);
   if (opacityRange) opacityRange.addEventListener('input', applyRoundingAndOpacity);
 
+  // 初次应用
   applyRoundingAndOpacity();
 })();
 </script>
