@@ -6966,40 +6966,26 @@ try {
 }
 </style>
 <style id="layers-rounding-guard">
-/* 1.5 模板个性化：多图层自定义背景遵循全局圆角与透明度
-   - 仅用于裁剪/继承圆角，不改变现有透明度联动（父容器 opacity 生效）
-   - 确保 layers 模式只是"背景用途"，不破坏 1.5 圆角等级与整体透明度要求
-*/
 
-/* 让预览容器的圆角真正生效于内部所有背景层（包含图片/视频/Canvas 等） */
-.status-preview-wrapper{
-  /* 若已有圆角等级由 1.5 控件驱动，这里只负责裁剪，不改变原有半径值 */
-  overflow: hidden; /* 兼容性佳，保证背景不外溢，圆角被严格裁剪 */
-  /* overflow: clip;  // 现代浏览器可用，保留注释避免旧内核异常 */
+.status-preview-wrapper .bg-layers{
+  border-radius: inherit !important;
+  overflow: hidden; /* 裁剪背景图层，使其遵循圆角 */
+  pointer-events: none; /* 背景不拦截事件 */
 }
 
-/* 背景多图层与其子元素统一继承父级圆角，防止溢出；不干预整体透明度（由父容器控制） */
-.status-preview-wrapper .bg-layers,
 .status-preview-wrapper .bg-layers .bg-layer,
 .status-preview-wrapper .bg-layers canvas,
 .status-preview-wrapper .bg-layers img,
 .status-preview-wrapper .bg-layers video{
   border-radius: inherit !important;
-  overflow: hidden;
 }
 
-/* layers 作为"背景用途"的默认行为：不截获事件，交互由拖动/编辑模式单独开启 */
-.status-preview-wrapper .bg-layers{
-  pointer-events: none;
+.status-preview-wrapper .bg-components-layer{
+  overflow: visible !important; /* 允许组件超出 */
 }
 
-/* 拖动/组件模式下的组件元素允许交互，但仍受圆角裁剪与继承约束 */
-.status-preview-wrapper .bg-layers .bg-comp,
-.status-preview-wrapper .bg-layers [data-comp],
-.status-preview-wrapper .bg-layers .draggable{
-  pointer-events: auto;
-  border-radius: inherit;
-  overflow: hidden;
+.status-preview-wrapper .bg-comp{
+  pointer-events: auto; /* 允许拖拽交互 */
 }
 </style>
 
