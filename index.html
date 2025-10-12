@@ -51,6 +51,10 @@
             /* 动画变量（可调） */
             --anim-speed: 1s;           /* 速度（秒） */
             --anim-intensity: 0.6;      /* 强度（0~1） */
+            /* 光晕参数（全局） */
+            --glow-color-a: var(--accent-primary);
+            --glow-color-b: var(--accent-secondary);
+            --glow-speed: 1s;           /* 光晕闪烁频率（秒） */
         }
  
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -1261,8 +1265,16 @@
             100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
         }
         @keyframes neonGlow {
-            0%, 100% { box-shadow: 0 0 calc(6px + 12px * var(--anim-intensity)) rgba(0, 247, 255, .35), inset 0 0 calc(6px + 12px * var(--anim-intensity)) rgba(255, 0, 166, .25); }
-            50% { box-shadow: 0 0 calc(12px + 24px * var(--anim-intensity)) rgba(0, 247, 255, .55), inset 0 0 calc(12px + 24px * var(--anim-intensity)) rgba(255, 0, 166, .45); }
+            0%, 100% {
+              box-shadow:
+                0 0 calc(6px + 12px * var(--anim-intensity)) color-mix(in srgb, var(--glow-color-a) 35%, transparent),
+                inset 0 0 calc(6px + 12px * var(--anim-intensity)) color-mix(in srgb, var(--glow-color-b) 25%, transparent);
+            }
+            50% {
+              box-shadow:
+                0 0 calc(12px + 24px * var(--anim-intensity)) color-mix(in srgb, var(--glow-color-a) 55%, transparent),
+                inset 0 0 calc(12px + 24px * var(--anim-intensity)) color-mix(in srgb, var(--glow-color-b) 45%, transparent);
+            }
         }
         @keyframes shimmerMove {
             0% { transform: translateX(-100%); opacity: .0; }
@@ -1283,8 +1295,31 @@
         .anim-fade-in { animation: fadeIn var(--anim-speed) ease both; }
         .anim-slide-up { animation: slideUp var(--anim-speed) cubic-bezier(.22,.61,.36,1) both; }
         .anim-pulse { animation: pulseScale calc(var(--anim-speed) * 1.4) ease-in-out infinite; }
-        .anim-neon-glow { animation: neonGlow var(--anim-speed) ease-in-out infinite; }
+        /* 光晕（改名）：使用专用频率变量 --glow-speed */
+        .anim-neon-glow { animation: neonGlow var(--glow-speed, var(--anim-speed)) ease-in-out infinite; }
         .anim-tilt-3d { animation: tilt3d calc(var(--anim-speed) * 2) ease-in-out infinite; transform-origin: center; }
+        /* 新增：呼吸 */
+        @keyframes breathe {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(calc(1 + 0.01 * var(--anim-intensity))); opacity: calc(0.96 + 0.04 * var(--anim-intensity)); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        .anim-breathe { animation: breathe calc(var(--anim-speed) * 2) ease-in-out infinite; }
+        /* 新增：光泽（扫光） */
+        @keyframes glossShine {
+          0% { transform: translateX(-100%); opacity: .0; }
+          10% { opacity: .10; }
+          50% { opacity: .18; }
+          90% { opacity: .10; }
+          100% { transform: translateX(100%); opacity: .0; }
+        }
+        .anim-gloss { position: relative; overflow: hidden; }
+        .anim-gloss::after {
+          content: ''; position: absolute; inset: 0; pointer-events: none;
+          background: linear-gradient(90deg, transparent, color-mix(in srgb, #ffffff 12%, transparent), transparent);
+          animation: glossShine calc(var(--anim-speed) * 2) ease-in-out infinite;
+          opacity: calc(.12 * var(--anim-intensity));
+        }
         .anim-shimmer { position: relative; overflow: hidden; }
         .anim-shimmer::after {
             content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -2044,15 +2079,23 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     <input type="text" id="title-input" value="角色状态">
                 </div>
                 <div class="control-group">
-                    <label for="animation-select">动画演出</label>
-                    <select id="animation-select">
+                    <label for="enter-animation-select">进入动画</label>
+                    <select id="enter-animation-select">
                         <option value="none">无</option>
                         <option value="fade">淡入</option>
                         <option value="slide">上滑</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="loop-animation-select">长驻动画</label>
+                    <select id="loop-animation-select">
+                        <option value="none">无</option>
                         <option value="pulse">脉冲</option>
-                        <option value="neon">霓虹光晕</option>
+                        <option value="neon">光晕</option>
                         <option value="shimmer">玻璃闪烁</option>
                         <option value="tilt3d">3D倾斜</option>
+                        <option value="breathe">呼吸</option>
+                        <option value="gloss">光泽</option>
                     </select>
                 </div>
                 <div class="control-group">
@@ -2068,6 +2111,28 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         <input type="range" id="animation-intensity" min="0" max="1" step="0.05" value="0.7">
                         <span class="value-pill"><span id="intensity-value">0.60</span></span>
                     </div>
+                </div>
+                <!-- 光晕设置（颜色与频率） -->
+                <div class="control-group">
+                    <label>光晕设置</label>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <div>
+                            <label for="glow-color-a-input">颜色A</label>
+                            <input type="color" id="glow-color-a-input" value="#85a6f8">
+                            <input type="text" id="glow-color-a-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#85a6f8" style="margin-top:6px;">
+                        </div>
+                        <div>
+                            <label for="glow-color-b-input">颜色B</label>
+                            <input type="color" id="glow-color-b-input" value="#95b3e8">
+                            <input type="text" id="glow-color-b-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#95b3e8" style="margin-top:6px;">
+                        </div>
+                    </div>
+                    <div class="range-row" style="margin-top:10px;">
+                        <label>光晕闪烁频率(秒)</label>
+                        <input type="range" id="glow-speed-range" min="0.5" max="5" step="0.1" value="1">
+                        <span class="value-pill"><span id="glow-speed-value">1.0</span>s</span>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">颜色默认跟随主/辅色；频率默认 1.0s。</p>
                 </div>
             </div>
             </div>
@@ -2514,28 +2579,37 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
             <div class="control-section collapsible" id="section-2">
                 <h3>2. 状态项目 <span class="toggle-icon">▾</span></h3>
                 <div class="section-body">
+                <div class="form-group-box" data-title="配色与进度条样式"><div class="form-box-title">配色与进度条样式</div>
                 <div class="control-group">
                     <label>第二部分项目颜色</label>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <div>
+                    <div class="compact-colors-grid">
+                        <div class="color-cell">
                             <label for="section2-label-color-input">标签颜色</label>
-                            <input type="color" id="section2-label-color-input" value="#6a717c">
-                            <input type="text" id="section2-label-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c" style="margin-top:6px;">
+                            <div class="color-row">
+                                <input type="color" id="section2-label-color-input" value="#6a717c">
+                                <input type="text" id="section2-label-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c">
+                            </div>
                         </div>
-                        <div>
+                        <div class="color-cell">
                             <label for="section2-value-color-input">值颜色</label>
-                            <input type="color" id="section2-value-color-input" value="#97aec8">
-                            <input type="text" id="section2-value-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#97aec8" style="margin-top:6px;">
+                            <div class="color-row">
+                                <input type="color" id="section2-value-color-input" value="#97aec8">
+                                <input type="text" id="section2-value-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#97aec8">
+                            </div>
                         </div>
-                        <div>
+                        <div class="color-cell">
                             <label for="section2-bar-color-input">滑条颜色</label>
-                            <input type="color" id="section2-bar-color-input" value="#6a717c">
-                            <input type="text" id="section2-bar-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c" style="margin-top:6px;">
+                            <div class="color-row">
+                                <input type="color" id="section2-bar-color-input" value="#6a717c">
+                                <input type="text" id="section2-bar-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c">
+                            </div>
                         </div>
-                        <div>
+                        <div class="color-cell">
                             <label for="section2-divider-color-input">分割线颜色</label>
-                            <input type="color" id="section2-divider-color-input" value="#6a717c">
-                            <input type="text" id="section2-divider-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c" style="margin-top:6px;">
+                            <div class="color-row">
+                                <input type="color" id="section2-divider-color-input" value="#6a717c">
+                                <input type="text" id="section2-divider-color-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c">
+                            </div>
                         </div>
                     </div>
                     <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">仅作用于第二部分的项目（分割线、标签、滑条），不影响标题与模板全局配色。</p>
@@ -2575,7 +2649,14 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     </select>
                     <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">点击进度条显示/隐藏百分比，可切换显示风格。</p>
                 </div>
+                </div>
 
+                <div class="form-group-box sm" data-title="长文字设置（全局）" style="display:none;">
+                <div class="form-box-title">长文字设置（全局）</div>
+                <div class="control-group" id="longtext-settings-group" style="display:none;"></div>
+                </div>
+
+                <div class="form-group-box" data-title="值框与整体偏移"><div class="form-box-title">值框与整体偏移</div>
                 <!-- 新增：值框宽度/位置 与 项目整体偏移/阴影（仅作用于“第二部分 状态项目”） -->
                 <div class="control-group">
                   <label>值框宽度与位置（第二部分）</label>
@@ -2608,7 +2689,9 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
 
                   <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">默认宽度为最大值；偏移范围受限，避免超出背景边界。</p>
                 </div>
+                </div>
 
+                <div class="form-group-box" data-title="状态项目字体样式"><div class="form-box-title">状态项目字体样式</div>
                 <div class="control-group">
                     <label>高级字体样式</label>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
@@ -2749,7 +2832,9 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         </div>
                     </div>
                 </div>
+                </div>
 
+                <div class="form-group-box" data-title="项目编辑"><div class="form-box-title">项目编辑</div>
                 <div id="items-container">
                     <div class="item-controls">
                         <div class="item-header"><span>地点 (文本)</span><button class="btn-delete">X</button></div>
@@ -2772,6 +2857,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         </select>
                         <button class="btn btn-primary" style="width: auto; flex-shrink: 0;">添加</button>
                     </div>
+                </div>
                 </div>
             </div>
             </div>
@@ -2877,7 +2963,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
     const titleInput = document.getElementById('title-input');
     const previewContainer = document.getElementById('live-preview-container');
 
-    const animSelect = document.getElementById('animation-select');
+    const enterAnimSelect = document.getElementById('enter-animation-select');
+    const loopAnimSelect = document.getElementById('loop-animation-select');
     const animSpeedRange = document.getElementById('animation-speed');
     const animIntensityRange = document.getElementById('animation-intensity');
     const speedValue = document.getElementById('speed-value');
@@ -2928,7 +3015,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
 
     let currentTheme = 'theme-mystic-noir';
     let currentTitle = '角色状态';
-    let currentAnimation = 'none';
+    let currentEnterAnimation = 'none';
+    let currentLoopAnimation = 'none';
     let animSpeed = 1.0;
     let animIntensity = 0.70;
     // 预览固定高度：当调整宽度时锁定当前高度，避免随宽度变化
@@ -3124,6 +3212,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
         `;
       }
       if (it.type === 'longtext') {
+        const lh = (typeof it.ltLineHeight === 'number' ? it.ltLineHeight : 1.6);
+        const eff = it.ltEffect || 'none';
         return `
           <div class="control-group">
             <label>标签</label>
@@ -3132,6 +3222,22 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
           <div class="control-group">
             <label>长文字</label>
             <textarea rows="4" data-field="value" data-id="${it.id}" style="width:100%;padding:8px 12px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-control);color:var(--text-primary);">${esc(it.value || '')}</textarea>
+          </div>
+          <div class="control-group">
+            <label>行间距</label>
+            <div class="range-row">
+              <input type="range" min="1" max="2" step="0.05" value="${lh}" data-field="ltLineHeight" data-id="${it.id}">
+              <span class="value-pill"><span>${(typeof lh === 'number' && lh.toFixed ? lh.toFixed(2) : lh)}</span></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label>动画特效</label>
+            <select data-field="ltEffect" data-id="${it.id}">
+              <option value="none"${eff==='none'?' selected':''}>无</option>
+              <option value="typewriter"${eff==='typewriter'?' selected':''}>打字机</option>
+              <option value="fade"${eff==='fade'?' selected':''}>淡入</option>
+              <option value="slide"${eff==='slide'?' selected':''}>上滑</option>
+            </select>
           </div>
         `;
       }
@@ -3162,20 +3268,27 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
     function applyAnimation() {
       const wrapper = previewContainer.querySelector('.status-preview-wrapper');
       if (!wrapper) return;
+      // 基本变量
       wrapper.style.setProperty('--anim-speed', `${animSpeed}s`);
       wrapper.style.setProperty('--anim-intensity', `${animIntensity}`);
-      wrapper.classList.remove('anim-none','anim-fade-in','anim-slide-up','anim-pulse','anim-neon-glow','anim-shimmer','anim-tilt-3d');
-      const map = {
-        none: 'anim-none',
-        fade: 'anim-fade-in',
-        slide: 'anim-slide-up',
-        pulse: 'anim-pulse',
-        neon: 'anim-neon-glow',
-        shimmer: 'anim-shimmer',
-        tilt3d: 'anim-tilt-3d'
-      };
-      const cls = map[currentAnimation] || 'anim-none';
-      wrapper.classList.add(cls);
+      // 光晕变量（跟随自定义或主/辅色）
+      try {
+        const a = (customization.glowColorA && customization.glowColorA.trim()) ? customization.glowColorA : (customization.primaryColor || '#85a6f8');
+        const b = (customization.glowColorB && customization.glowColorB.trim()) ? customization.glowColorB : (customization.secondaryColor || '#95b3e8');
+        const gs = (typeof customization.glowSpeed === 'number' ? customization.glowSpeed : 1.0);
+        wrapper.style.setProperty('--glow-color-a', a);
+        wrapper.style.setProperty('--glow-color-b', b);
+        wrapper.style.setProperty('--glow-speed', `${gs}s`);
+      } catch(_e){}
+      // 清理所有动画类
+      wrapper.classList.remove('anim-none','anim-fade-in','anim-slide-up','anim-pulse','anim-neon-glow','anim-shimmer','anim-tilt-3d','anim-breathe','anim-gloss');
+      // 映射：进入动画与长驻动画
+      const enterMap = { none:'', fade:'anim-fade-in', slide:'anim-slide-up' };
+      const loopMap  = { none:'', pulse:'anim-pulse', neon:'anim-neon-glow', shimmer:'anim-shimmer', tilt3d:'anim-tilt-3d', breathe:'anim-breathe', gloss:'anim-gloss' };
+      const enterCls = enterMap[currentEnterAnimation] || '';
+      const loopCls  = loopMap[currentLoopAnimation]  || '';
+      if (enterCls) wrapper.classList.add(enterCls);
+      if (loopCls)  wrapper.classList.add(loopCls);
     }
 
     // -----------------------
@@ -3211,10 +3324,18 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
     });
 
     // 动画
-    animSelect.addEventListener('change', (e) => {
-      currentAnimation = e.target.value;
-      renderPreview();
-    });
+    if (enterAnimSelect) {
+      enterAnimSelect.addEventListener('change', (e) => {
+        currentEnterAnimation = e.target.value;
+        renderPreview();
+      });
+    }
+    if (loopAnimSelect) {
+      loopAnimSelect.addEventListener('change', (e) => {
+        currentLoopAnimation = e.target.value;
+        renderPreview();
+      });
+    }
     animSpeedRange.addEventListener('input', (e) => {
       animSpeed = parseFloat(e.target.value);
       speedValue.textContent = animSpeed.toFixed(1);
@@ -3234,7 +3355,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
         if (t === 'text') {
           newItem = { id: genId(), type: 'text', label: '标签', value: '值' };
         } else if (t === 'longtext') {
-          newItem = { id: genId(), type: 'longtext', label: '说明', value: '在此填写长段文字…' };
+          newItem = { id: genId(), type: 'longtext', label: '说明', value: '在此填写长段文字…', ltLineHeight: 1.6, ltEffect: 'none' };
         } else if (t === 'bar') {
           newItem = { id: genId(), type: 'bar', label: '进度', percent: 50 };
         } else if (t === 'divider') {
@@ -3306,6 +3427,12 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
         item.valueColor = e.target.value;
       } else if (field === 'barColor') {
         item.barColor = e.target.value;
+      } else if (field === 'ltLineHeight') {
+        item.ltLineHeight = clamp(parseFloat(e.target.value) || 1.6, 1, 2);
+        const pill = e.target.closest('.range-row')?.querySelector('.value-pill > span');
+        if (pill) pill.textContent = item.ltLineHeight.toFixed(2);
+      } else if (field === 'ltEffect') {
+        item.ltEffect = e.target.value;
       }
       renderPreview();
       console.log('[UPDATE]', { id, field, value: e.target.value }, snapshot());
@@ -3351,6 +3478,16 @@ const dividerStyleSelect = document.getElementById('divider-style-select');
 const barStyleSelect = document.getElementById('bar-style-select');
 const barAnimationSelect = document.getElementById('bar-animation-select');
 const percentDisplaySelect = document.getElementById('percent-display-select');
+const longtextLineHeightRange = document.getElementById('longtext-line-height-range');
+const longtextLineHeightValue = document.getElementById('longtext-line-height-value');
+const longtextEffectSelect = document.getElementById('longtext-effect-select');
+/* 光晕设置控件 */
+const glowColorAInput = document.getElementById('glow-color-a-input');
+const glowColorACodeInput = document.getElementById('glow-color-a-code-input');
+const glowColorBInput = document.getElementById('glow-color-b-input');
+const glowColorBCodeInput = document.getElementById('glow-color-b-code-input');
+const glowSpeedRange = document.getElementById('glow-speed-range');
+const glowSpeedValue = document.getElementById('glow-speed-value');
 
 // 新增：值框宽度/位置 与 项目整体偏移/阴影（第二部分）
 const valueBoxWidthPctRange = document.getElementById('value-box-width-pct-range');
@@ -3561,6 +3698,15 @@ let customization = {
   barAnimation: barAnimationSelect?.value || 'none',
   // 新增：百分比显示风格
   percentDisplay: percentDisplaySelect?.value || 'center',
+
+  // 光晕设置（默认跟随主/辅色，频率=1.0s）
+  glowColorA: (primaryColorInput?.value || '#85a6f8'),
+  glowColorB: (secondaryColorInput?.value || '#95b3e8'),
+  glowSpeed: 1.0,
+
+  // 长文字：行距与特效
+  longTextLineHeight: parseFloat(longtextLineHeightRange?.value || '1.6'),
+  longTextEffect: longtextEffectSelect?.value || 'none',
 
   // 新增：值框尺寸与位置 + 整体偏移/阴影（第二部分）
   valueBoxWidthPct: 100,          // 40~100（相对最大）
@@ -4174,6 +4320,7 @@ function buildItemsHTML(list, theme) {
   const labelReflect = customization.globalLabelReflect ? '-webkit-box-reflect: below 0 linear-gradient(transparent, rgba(255,255,255,.15))' : '';
   const valueReflect = customization.globalValueReflect ? '-webkit-box-reflect: below 0 linear-gradient(transparent, rgba(255,255,255,.15))' : '';
   const reflectInlineBlock = 'display:inline-block';
+  // 长文字特效与行距（已改为每项独立设置，按每个项目的 ltEffect/ltLineHeight 计算）
 
   // 新增：进度条风格与动画
   const barStyle = customization.barStyle || 'normal';
@@ -4427,11 +4574,15 @@ function buildItemsHTML(list, theme) {
           customization.globalValueReflect ? reflectInlineBlock : '',
           valueReflect
         ]);
+        const eff = it.ltEffect || 'none';
+        const lh = (typeof it.ltLineHeight === 'number' ? it.ltLineHeight : 1.6);
+        const effClass = (eff === 'fade' ? ' anim-fade-in' : (eff === 'slide' ? ' anim-slide-up' : ''));
+        const effAttr = (eff === 'typewriter' ? ' data-effect="typewriter"' : '');
         return `
           <div class="st-row" style="display:flex;justify-content:space-between;align-items:flex-start;--rs-sep-color:${customization.primaryColor};">
             <div class="st-item" style="flex:1;text-align:left;padding:0 25px;position:relative;">
               <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-              <div class="st-value st-longtext" style="${valStyle}; margin-top:8px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">${esc(it.value || '')}</div>
+              <div class="st-value st-longtext${effClass}"${effAttr} style="${valStyle}; margin-top:8px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.06); padding:8px 0; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18); line-height:${lh};">${esc(it.value || '')}</div>
             </div>
           </div>
         `;
@@ -4500,10 +4651,14 @@ function buildItemsHTML(list, theme) {
         valueReflect
       ]);
       const spanAll = (customization.layout === 'two-column') ? 'grid-column: 1 / -1;' : '';
+      const eff = it.ltEffect || 'none';
+      const lh = (typeof it.ltLineHeight === 'number' ? it.ltLineHeight : 1.6);
+      const effClass = (eff === 'fade' ? ' anim-fade-in' : (eff === 'slide' ? ' anim-slide-up' : ''));
+      const effAttr = (eff === 'typewriter' ? ' data-effect="typewriter"' : '');
       return `
         <div class="st-item" style="display:block; ${spanAll}">
           <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-          <div class="st-value st-longtext" style="${valStyle}; margin-top:6px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">
+          <div class="st-value st-longtext${effClass}"${effAttr} style="${valStyle}; margin-top:6px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:8px 0; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18); line-height:${lh};">
             ${esc(it.value || '')}
           </div>
         </div>
@@ -5164,6 +5319,21 @@ function renderPreview() {
   }
   renderFxLayers(wrapper);
   applyAnimation();
+
+  // 长文字打字机特效（按每项设置，仅对 data-effect="typewriter" 的长文字执行）
+  try {
+    const nodes = wrapper?.querySelectorAll('.st-longtext[data-effect="typewriter"]');
+    nodes?.forEach(el => {
+      const full = el.textContent || '';
+      el.textContent = '';
+      let i = 0;
+      const timer = setInterval(() => {
+        if (i >= full.length) { clearInterval(timer); return; }
+        el.textContent = full.slice(0, ++i);
+      }, 18);
+    });
+  } catch (_e) {}
+
   // 诊断日志：预览渲染后的协调度/动画参数与当前 items 快照
   try {
     const coh = computeCoherence({
@@ -5342,6 +5512,34 @@ bind(dividerStyleSelect, 'change', e => { customization.dividerStyle = e.target.
 bind(barStyleSelect, 'change', e => { customization.barStyle = e.target.value; renderItemsEditor(); renderPreview(); });
 bind(barAnimationSelect, 'change', e => { customization.barAnimation = e.target.value; renderPreview(); });
 bind(percentDisplaySelect, 'change', e => { customization.percentDisplay = e.target.value; renderPreview(); });
+
+// 光晕设置联动
+bind(glowColorAInput, 'input', e => { customization.glowColorA = e.target.value; if (glowColorACodeInput) glowColorACodeInput.value = e.target.value; applyAnimation(); });
+bind(glowColorACodeInput, 'input', e => {
+  customization.glowColorA = e.target.value;
+  const v = e.target.value;
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v) && glowColorAInput) glowColorAInput.value = v;
+  applyAnimation();
+});
+bind(glowColorBInput, 'input', e => { customization.glowColorB = e.target.value; if (glowColorBCodeInput) glowColorBCodeInput.value = e.target.value; applyAnimation(); });
+bind(glowColorBCodeInput, 'input', e => {
+  customization.glowColorB = e.target.value;
+  const v = e.target.value;
+  if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v) && glowColorBInput) glowColorBInput.value = v;
+  applyAnimation();
+});
+bind(glowSpeedRange, 'input', e => { customization.glowSpeed = parseFloat(e.target.value || '1'); if (glowSpeedValue) glowSpeedValue.textContent = customization.glowSpeed.toFixed(1); applyAnimation(); });
+
+// 长文字：行距与特效
+bind(longtextLineHeightRange, 'input', e => {
+  customization.longTextLineHeight = parseFloat(e.target.value || '1.6');
+  if (longtextLineHeightValue) longtextLineHeightValue.textContent = customization.longTextLineHeight.toFixed(2);
+  renderPreview();
+});
+bind(longtextEffectSelect, 'change', e => {
+  customization.longTextEffect = e.target.value || 'none';
+  renderPreview();
+});
 
 // 新增：第二部分 值框尺寸/位置 + 整体偏移/阴影 事件联动
 bind(valueBoxWidthPctRange, 'input', e => {
@@ -5539,6 +5737,9 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         `--bar-color:${(cfg.section2BarColor && cfg.section2BarColor.trim()) ? cfg.section2BarColor : cfg.primaryColor}`,
         `--st-accent:${cfg.primaryColor}`,
         `--st-primary:${cfg.secondaryColor}`,
+        `--glow-color-a:${cfg.glowColorA || cfg.primaryColor}`,
+        `--glow-color-b:${cfg.glowColorB || cfg.secondaryColor}`,
+        `--glow-speed:${(cfg.glowSpeed != null ? cfg.glowSpeed : 1)}s`,
         `opacity:${cfg.opacity || 1}`
       ];
       if (cfg.bgMode === 'color') {
@@ -5680,12 +5881,16 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
             const id = idFromLabel(it.label, 'val_');
             const lColor = (cfg.section2LabelColor && cfg.section2LabelColor.trim()) ? cfg.section2LabelColor : (it.labelColor || cfg.secondaryColor);
             const vColor = (cfg.section2ValueColor && cfg.section2ValueColor.trim()) ? cfg.section2ValueColor : (it.valueColor || cfg.primaryColor);
+            const eff = it.ltEffect || 'none';
+            const lh = (typeof it.ltLineHeight === 'number' ? it.ltLineHeight : 1.6);
+            const effClass = (eff === 'fade' ? ' anim-fade-in' : (eff === 'slide' ? ' anim-slide-up' : ''));
+            const effAttr = (eff === 'typewriter' ? ' data-effect="typewriter"' : '');
             bindings.push({ type:'longtext', label: it.label || '', id });
             return `
               <div class="st-row" style="--rs-sep-color:${cfg.primaryColor};">
                 <div class="st-item" data-type="longtext" data-label="${esc(it.label || '')}">
                   <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
-                  <div class="st-value st-longtext" id="${id}" style="${valueStyle(vColor)}; margin-top:8px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.06); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">${esc(it.value || '')}</div>
+                  <div class="st-value st-longtext${effClass}" id="${id}"${effAttr} style="${valueStyle(vColor)}; margin-top:8px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.06); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18); line-height:${lh};">${esc(it.value || '')}</div>
                 </div>
               </div>
             `;
@@ -5714,12 +5919,16 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
             const id = idFromLabel(it.label, 'val_');
             const lColor = (cfg.section2LabelColor && cfg.section2LabelColor.trim()) ? cfg.section2LabelColor : (it.labelColor || cfg.secondaryColor);
             const vColor = (cfg.section2ValueColor && cfg.section2ValueColor.trim()) ? cfg.section2ValueColor : (it.valueColor || cfg.primaryColor);
+            const eff = it.ltEffect || 'none';
+            const lh = (typeof it.ltLineHeight === 'number' ? it.ltLineHeight : 1.6);
+            const effClass = (eff === 'fade' ? ' anim-fade-in' : (eff === 'slide' ? ' anim-slide-up' : ''));
+            const effAttr = (eff === 'typewriter' ? ' data-effect="typewriter"' : '');
             bindings.push({ type:'longtext', label: it.label || '', id });
             const spanAll = (cfg.layout === 'two-column') ? 'grid-column: 1 / -1;' : '';
             return `
               <div class="st-item" data-type="longtext" data-label="${esc(it.label || '')}" style="display:block; ${spanAll}">
                 <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
-                <div class="st-value st-longtext" id="${id}" style="${valueStyle(vColor)}; margin-top:6px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">
+                <div class="st-value st-longtext${effClass}" id="${id}"${effAttr} style="${valueStyle(vColor)}; margin-top:6px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18); line-height:${lh};">
                   ${esc(it.value || '')}
                 </div>
               </div>
@@ -5785,8 +5994,13 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
          '.anim-slide-up{animation:slideUp var(--anim-speed,1s) cubic-bezier(.22,.61,.36,1) both;}',
          '@keyframes pulseScale{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}',
          '.anim-pulse{animation:pulseScale calc(var(--anim-speed,1s) * 1.4) ease-in-out infinite;}',
-         '@keyframes neonGlow{0%,100%{box-shadow:0 0 calc(6px + 12px * var(--anim-intensity,.6)) rgba(0,247,255,.35), inset 0 0 calc(6px + 12px * var(--anim-intensity,.6)) rgba(255,0,166,.25)}50%{box-shadow:0 0 calc(12px + 24px * var(--anim-intensity,.6)) rgba(0,247,255,.55), inset 0 0 calc(12px + 24px * var(--anim-intensity,.6)) rgba(255,0,166,.45)}}',
-         '.anim-neon-glow{animation:neonGlow var(--anim-speed,1s) ease-in-out infinite;}',
+         '@keyframes neonGlow{0%,100%{box-shadow:0 0 calc(6px + 12px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-a) 35%, transparent), inset 0 0 calc(6px + 12px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-b) 25%, transparent)}50%{box-shadow:0 0 calc(12px + 24px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-a) 55%, transparent), inset 0 0 calc(12px + 24px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-b) 45%, transparent)}}',
+         '.anim-neon-glow{animation:neonGlow var(--glow-speed, var(--anim-speed,1s)) ease-in-out infinite;}',
+         '@keyframes breathe{0%{transform:scale(1);opacity:1}50%{transform:scale(calc(1 + 0.01 * var(--anim-intensity,.6)));opacity:calc(0.96 + 0.04 * var(--anim-intensity,.6))}100%{transform:scale(1);opacity:1}}',
+         '.anim-breathe{animation:breathe calc(var(--anim-speed,1s) * 2) ease-in-out infinite;}',
+         '@keyframes glossShine{0%{transform:translateX(-100%);opacity:.0}10%{opacity:.10}50%{opacity:.18}90%{opacity:.10}100%{transform:translateX(100%);opacity:.0}}',
+         '.anim-gloss{position:relative;overflow:hidden;}',
+         '.anim-gloss::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,color-mix(in srgb,#ffffff 12%,transparent),transparent);animation:glossShine calc(var(--anim-speed,1s) * 2) ease-in-out infinite;opacity:calc(.12 * var(--anim-intensity,.6));}',
          '.anim-shimmer{position:relative;overflow:hidden;}',
          '@keyframes shimmerMove{0%{transform:translateX(-100%);opacity:.0}10%{opacity:.12}50%{opacity:.18}90%{opacity:.12}100%{transform:translateX(100%);opacity:.0}}',
          '.anim-shimmer::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255, calc(.12 * var(--anim-intensity, .6))),transparent);animation:shimmerMove calc(var(--anim-speed,1s) * 2) ease-in-out infinite;}',
@@ -6055,8 +6269,11 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         }
       })();
 
-      const animMap = { none:'anim-none', fade:'anim-fade-in', slide:'anim-slide-up', pulse:'anim-pulse', neon:'anim-neon-glow', shimmer:'anim-shimmer', tilt3d:'anim-tilt-3d' };
-      const animClass = animMap[(cfg.animationType || 'none')] || 'anim-none';
+      const enterMap = { none:'', fade:'anim-fade-in', slide:'anim-slide-up' };
+      const loopMap = { none:'', pulse:'anim-pulse', neon:'anim-neon-glow', shimmer:'anim-shimmer', tilt3d:'anim-tilt-3d', breathe:'anim-breathe', gloss:'anim-gloss' };
+      const animEnterCls = enterMap[(cfg.enterAnimation || 'none')] || '';
+      const animLoopCls = loopMap[(cfg.loopAnimation || 'none')] || '';
+      const animClasses = [animEnterCls, animLoopCls].filter(Boolean).join(' ');
 
       // 生成所需字体的 @import 链接（去重）
       const fontImports = (() => {
@@ -6127,7 +6344,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '</head>',
         '<body>',
         '<textarea id="ny-raw-data" style="display:none; white-space: pre;">$1</textarea>',
-        '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
+        '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClasses + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
         bgLayersHTML,
         bgCompsHTML,
         '<div class="st-header" style="gap:.6em;">' + headerInner + '</div>',
@@ -6260,6 +6477,20 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '    while(isWS(next)){ var rm2=next; next = next.nextSibling; try{ p.removeChild(rm2);}catch(e){} }',
         '  }',
         '})();',
+        // 长文字打字机（导出片段，仅对带 data-effect="typewriter" 的元素）
+        'try {',
+        '  var nodes = document.querySelectorAll("#ny-status .st-longtext[data-effect=\\"typewriter\\"]");',
+        '  try{console.log("[export-typewriter] nodes:", nodes.length);}catch(_e){}',
+        '  nodes.forEach(function(el){',
+        '    var full = el.textContent || "";',
+        '    el.textContent = "";',
+        '    var i = 0;',
+        '    var timer = setInterval(function(){',
+        '      if (i >= full.length) { clearInterval(timer); return; }',
+        '      el.textContent = full.slice(0, ++i);',
+        '    }, 18);',
+        '  });',
+        '} catch (e) {}',
         '})();',
         '<' + '/script>',
         '</body>',
@@ -6300,6 +6531,9 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '--bar-color:' + ((cfg.section2BarColor && cfg.section2BarColor.trim()) ? cfg.section2BarColor : cfg.primaryColor),
     '--st-accent:' + cfg.primaryColor,
     '--st-primary:' + cfg.secondaryColor,
+    '--glow-color-a:' + (cfg.glowColorA || cfg.primaryColor),
+    '--glow-color-b:' + (cfg.glowColorB || cfg.secondaryColor),
+    '--glow-speed:' + (((cfg.glowSpeed != null) ? cfg.glowSpeed : 1)) + 's',
     'opacity:' + (cfg.opacity || 1)
   ];
   if (cfg.bgMode === 'color') {
@@ -6541,8 +6775,13 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '.anim-slide-up{animation:slideUp var(--anim-speed,1s) cubic-bezier(.22,.61,.36,1) both;}',
     '@keyframes pulseScale{0%{transform:scale(1)}50%{transform:scale(1.02)}100%{transform:scale(1)}}',
     '.anim-pulse{animation:pulseScale calc(var(--anim-speed,1s) * 1.4) ease-in-out infinite;}',
-    '@keyframes neonGlow{0%,100%{box-shadow:0 0 calc(6px + 12px * var(--anim-intensity,.6)) rgba(0,247,255,.35), inset 0 0 calc(6px + 12px * var(--anim-intensity,.6)) rgba(255,0,166,.25)}50%{box-shadow:0 0 calc(12px + 24px * var(--anim-intensity,.6)) rgba(0,247,255,.55), inset 0 0 calc(12px + 24px * var(--anim-intensity,.6)) rgba(255,0,166,.45)}}',
-    '.anim-neon-glow{animation:neonGlow var(--anim-speed,1s) ease-in-out infinite;}',
+    '@keyframes neonGlow{0%,100%{box-shadow:0 0 calc(6px + 12px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-a) 35%, transparent), inset 0 0 calc(6px + 12px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-b) 25%, transparent)}50%{box-shadow:0 0 calc(12px + 24px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-a) 55%, transparent), inset 0 0 calc(12px + 24px * var(--anim-intensity,.6)) color-mix(in srgb, var(--glow-color-b) 45%, transparent)}}',
+    '.anim-neon-glow{animation:neonGlow var(--glow-speed, var(--anim-speed,1s)) ease-in-out infinite;}',
+    '@keyframes breathe{0%{transform:scale(1);opacity:1}50%{transform:scale(calc(1 + 0.01 * var(--anim-intensity,.6)));opacity:calc(0.96 + 0.04 * var(--anim-intensity,.6))}100%{transform:scale(1);opacity:1}}',
+    '.anim-breathe{animation:breathe calc(var(--anim-speed,1s) * 2) ease-in-out infinite;}',
+    '@keyframes glossShine{0%{transform:translateX(-100%);opacity:.0}10%{opacity:.10}50%{opacity:.18}90%{opacity:.10}100%{transform:translateX(100%);opacity:.0}}',
+    '.anim-gloss{position:relative;overflow:hidden;}',
+    '.anim-gloss::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,color-mix(in srgb,#ffffff 12%,transparent),transparent);animation:glossShine calc(var(--anim-speed,1s) * 2) ease-in-out infinite;opacity:calc(.12 * var(--anim-intensity,.6));}',
     '.anim-shimmer{position:relative;overflow:hidden;}',
     '@keyframes shimmerMove{0%{transform:translateX(-100%);opacity:.0}10%{opacity:.12}50%{opacity:.18}90%{opacity:.12}100%{transform:translateX(100%);opacity:.0}}',
     '.anim-shimmer::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255, calc(.12 * var(--anim-intensity, .6))),transparent);animation:shimmerMove calc(var(--anim-speed,1s) * 2) ease-in-out infinite;}',
@@ -6779,8 +7018,11 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     }
   })();
 
-  const animMap = { none:'anim-none', fade:'anim-fade-in', slide:'anim-slide-up', pulse:'anim-pulse', neon:'anim-neon-glow', shimmer:'anim-shimmer', tilt3d:'anim-tilt-3d' };
-  const animClass = animMap[(cfg.animationType || 'none')] || 'anim-none';
+  const enterMap = { none:'', fade:'anim-fade-in', slide:'anim-slide-up' };
+  const loopMap = { none:'', pulse:'anim-pulse', neon:'anim-neon-glow', shimmer:'anim-shimmer', tilt3d:'anim-tilt-3d', breathe:'anim-breathe', gloss:'anim-gloss' };
+  const animEnterCls = enterMap[(cfg.enterAnimation || 'none')] || '';
+  const animLoopCls = loopMap[(cfg.loopAnimation || 'none')] || '';
+  const animClasses = [animEnterCls, animLoopCls].filter(Boolean).join(' ');
 
   // 生成所需字体的 @import 链接（去重）
   const fontImports = (() => {
@@ -6850,7 +7092,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '<style>', fontImports ? fontImports + '\n' : '', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '</style>',
     '</head>',
     '<body>',
-    '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
+    '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClasses + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
     bgLayersHTML,
     bgCompsHTML,
     '<div class="st-header" style="gap:.6em;">' + headerInner + '</div>',
@@ -6859,7 +7101,10 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '</div>',
     '</section>',
     '<script>',
-    '(function(){document.addEventListener("click",function(e){var bar=e.target.closest(".st-progress-bar");if(bar&&bar.closest("#ny-status")){var pct=bar.querySelector(".st-progress-percent");if(pct){pct.style.opacity=(pct.style.opacity==="1"?"0":"1");}}});})();',
+    '(function(){document.addEventListener("click",function(e){var bar=e.target.closest(".st-progress-bar");if(bar&&bar.closest("#ny-status")){var pct=bar.querySelector(".st-progress-percent");if(pct){pct.style.opacity=(pct.style.opacity==="1"?"0":"1");}}});',
+    '// 长文字打字机（静态分组片段，仅对 data-effect="typewriter" 的元素）',
+    'try{var nodes=document.querySelectorAll("#ny-status .st-longtext[data-effect=\\"typewriter\\"]");try{console.log("[group-typewriter] nodes:",nodes.length);}catch(_e){};nodes.forEach(function(el){var full=el.textContent||"";el.textContent="";var i=0;var timer=setInterval(function(){if(i>=full.length){clearInterval(timer);return;}el.textContent=full.slice(0,++i);},18);});}catch(e){}',
+    '})();',
     '<' + '/script>',
     '</body>',
     '</html>'
@@ -7155,11 +7400,15 @@ function buildRegexReference(list, wrapperName){
         globalValueUppercase: customization.globalValueUppercase,
         globalLabelReflect: customization.globalLabelReflect,
         globalValueReflect: customization.globalValueReflect,
-        animationType: currentAnimation || 'none',
+
+        enterAnimation: currentEnterAnimation,
+        loopAnimation: currentLoopAnimation,
+        glowColorA: customization.glowColorA,
+        glowColorB: customization.glowColorB,
+        glowSpeed: customization.glowSpeed,
         animSpeed: animSpeed,
         animIntensity: animIntensity,
         statusbarMaxWidth: customization.statusbarMaxWidth,
-        
         // 导出片段需要的叠加动画配置
         starEnabled: customization.starEnabled,
         starFrequency: customization.starFrequency,
@@ -7718,6 +7967,9 @@ function buildRegexReference(list, wrapperName){
       setupBgEditorsEvents();
 
       renderPreview();
+      console.groupCollapsed('[ui] section-2 grouping');
+      try { document.querySelectorAll('#section-2 .form-group-box').forEach((box,i)=>console.log(i+1, box.getAttribute('data-title')||'(untitled)', box.querySelectorAll('.control-group').length)); } catch(_e) {}
+      console.groupEnd();
       // 启动时先将“3. 输出代码”移入弹窗，左侧原始模块已隐藏
       moveSection3ToOutput();
       // 移除右下角“导出最大宽度(px)”设置，导出宽度随 1.5 预览最大宽度
@@ -8197,11 +8449,41 @@ try {
   --_vb-base-max: 240px;
   max-width: clamp(120px, 60vw, calc(var(--_vb-base-max) * var(--vb-width-pct, 100) / 100));
 }
+.status-preview-wrapper .st-item .st-value.st-longtext {
+  --_vb-base-max: 240px;
+  width: 100%;
+  max-width: 100%;
+  transform: none;
+  text-align: left;
+  direction: ltr;
+  padding-left: 0;
+  padding-right: 0;
+  text-indent: 0;
+}
 
 @media (max-width: 800px){
   /* 移动端防溢出：整体偏移与值框偏移在小屏清零，值框占满宽度 */
   .status-preview-wrapper .st-item { margin-left: 0; margin-right: 0; }
   .status-preview-wrapper .st-item .st-value { transform: none; width: 100% !important; max-width: 100% !important; }
+}
+</style>
+<style id="section2-ui-boxes">
+.form-group-box{border:1px solid var(--border-color);border-radius:10px;padding:12px;margin:12px 0;background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.08));box-shadow:0 2px 6px rgba(0,0,0,.10), inset 0 0 0 1px rgba(255,255,255,.04);}
+.form-group-box .form-box-title{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--accent-secondary);border-bottom:1px solid var(--border-color);padding-bottom:6px;margin-bottom:10px;}
+.form-group-box.sm{padding:10px;border-radius:8px;}
+.inline-subbox{border:1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);border-radius:8px;padding:10px;margin-top:8px;background:rgba(255,255,255,.03);}
+.inline-subbox .form-box-title{font-size:13px;margin-bottom:8px;border-bottom:none;padding-bottom:0;color:var(--text-secondary);}
+.form-group-box .hint{font-size:12px;color:var(--text-secondary);margin-top:6px;}
+
+/* 紧凑配色布局（第二部分项目颜色） */
+.compact-colors-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.color-cell label{margin-bottom:4px;font-size:12px;color:var(--text-secondary);}
+.color-row{display:flex;align-items:center;gap:8px;}
+.color-row input[type="color"]{width:36px;height:26px;padding:0;margin:0;}
+.color-row input[type="text"]{flex:1;margin-top:0 !important;}
+
+@media (max-width: 600px){
+  .compact-colors-grid{grid-template-columns:1fr;}
 }
 </style>
 </body>
