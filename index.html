@@ -8,6 +8,33 @@
     <style>
         /* --- 全局样式与生成器UI --- */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        /* 像素体字体 - 使用专用像素字体CSS */
+        @import url('https://fontsapi.zeoseven.com/65/main/result.css');
+        /* 英文花体字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Allura&display=swap');
+        /* 手写体 */
+        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+        /* 科技感字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+        /* 艺术/创意字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+        /* 中文字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Long+Cang&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap');
+        /* 衬线/无衬线扩展 */
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
  
         :root {
             --bg-main: #1a1b1e;
@@ -1316,6 +1343,15 @@
             text-overflow: ellipsis;
         }
 
+        /* 文本项（type=text）的值启用自动换行，和“长文字”一致的换行能力 */
+        .status-preview-wrapper .st-value.st-text {
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            text-overflow: clip;
+            overflow: visible;
+        }
+
         /* 百分比显示美化样式（点击后显示/隐藏） */
         /* 确保百分比徽标层级高于填充条 */
         .st-progress-bar .st-progress-percent { will-change: opacity, transform; z-index: 2; }
@@ -1436,6 +1472,8 @@
             background: var(--sparkle-color, #ffd966);
             box-shadow: 0 0 8px rgba(255,255,200,.8);
             opacity: .9;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
         }
         .fx-sparkles .fx-sparkle.glow {
             box-shadow: 0 0 10px var(--sparkle-color, #ffd966), 0 0 20px var(--sparkle-color, #ffd966);
@@ -2046,7 +2084,54 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         <option value="Georgia, Songti SC, serif">Georgia / 宋体</option>
                         <option value="'Courier New', Courier, monospace">Courier New</option>
                         <option value="'Times New Roman', Georgia, serif">Times New Roman</option>
+                        <optgroup label="📱 像素体">
+                            <option value="'BoutiqueBitmap9x9', monospace">精品点阵体9×9</option>
+                        </optgroup>
+                        <optgroup label="✨ 英文花体">
+                            <option value="'Dancing Script', cursive">Dancing Script（舞动花体）</option>
+                            <option value="'Pacifico', cursive">Pacifico（温和花体）</option>
+                            <option value="'Great Vibes', cursive">Great Vibes（优雅花体）</option>
+                            <option value="'Allura', cursive">Allura（华丽花体）</option>
+                        </optgroup>
+                        <optgroup label="✍️ 手写体">
+                            <option value="'Caveat', cursive">Caveat（休闲手写）</option>
+                            <option value="'Indie Flower', cursive">Indie Flower（独立手写）</option>
+                            <option value="'Shadows Into Light', cursive">Shadows Into Light（阴影手写）</option>
+                            <option value="'Permanent Marker', cursive">Permanent Marker（马克笔）</option>
+                        </optgroup>
+                        <optgroup label="🚀 科技感">
+                            <option value="'Rajdhani', sans-serif">Rajdhani（现代科技）</option>
+                            <option value="'Audiowide', cursive">Audiowide（数字科技）</option>
+                            <option value="'Electrolize', sans-serif">Electrolize（电子科技）</option>
+                        </optgroup>
+                        <optgroup label="🎨 中文艺术">
+                            <option value="'Ma Shan Zheng', cursive">马善政楷体</option>
+                            <option value="'ZCOOL XiaoWei', serif">站酷小薇LOGO体</option>
+                            <option value="'Long Cang', cursive">龙藏体</option>
+                            <option value="'Zhi Mang Xing', cursive">志莽行体</option>
+                        </optgroup>
+                        <optgroup label="📖 衬线体">
+                            <option value="'Merriweather', serif">Merriweather（优雅衬线）</option>
+                            <option value="'Playfair Display', serif">Playfair Display（展示衬线）</option>
+                        </optgroup>
+                        <optgroup label="🔤 无衬线扩展">
+                            <option value="'Roboto', sans-serif">Roboto（现代无衬线）</option>
+                            <option value="'Montserrat', sans-serif">Montserrat（时尚无衬线）</option>
+                        </optgroup>
                     </select>
+                </div>
+
+                <div class="control-group">
+                    <label>自定义字体导入</label>
+                    <div style="display:grid; gap:8px;">
+                        <input type="url" id="custom-font-url" placeholder="https://fonts.googleapis.com/css2?family=YourFont:wght@400;700&display=swap">
+                        <button class="btn btn-primary" id="btn-import-custom-font" style="width: 100%;">
+                            <i class="fa fa-download"></i> 导入字体
+                        </button>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">
+                        <i class="fa fa-info-circle"></i> 仅需输入字体 CSS 链接（如 Google Fonts），系统将自动识别 font-family 并加入下拉菜单；如需覆盖可在“高级字体样式”中选择不同字体。
+                    </p>
                 </div>
 
                 <div class="control-group">
@@ -2116,19 +2201,67 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                 </div>
                 <div class="control-group" id="bg-gradient-group">
                     <label>渐变背景</label>
-                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-                        <div>
-                            <label for="bg-gradient-start-color-input">起色</label>
-                            <input type="color" id="bg-gradient-start-color-input" value="#6a717c">
-                            <input type="text" id="bg-gradient-start-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c" style="margin-top:6px;">
+                    <div class="gradient-options-box" style="margin-top:8px;border:1px solid var(--border-color);border-radius:10px;padding:12px;background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.08));box-shadow: 0 2px 6px rgba(0,0,0,.10), inset 0 0 0 1px rgba(255,255,255,.04);">
+                        <!-- 第一排：样式 + 角度，双列排列，避免拥挤 -->
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div>
+                                <label for="bg-gradient-style-select">样式</label>
+                                <select id="bg-gradient-style-select">
+                                    <option value="linear">线性</option>
+                                    <option value="radial">径向</option>
+                                    <option value="conic">锥形</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label>角度</label>
+                                <div class="range-row">
+                                    <input type="range" id="bg-gradient-angle-range" min="0" max="360" step="1" value="135">
+                                    <span class="value-pill"><span id="bg-gradient-angle-value">135</span>°</span>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <label for="bg-gradient-end-color-input">终色</label>
-                            <input type="color" id="bg-gradient-end-color-input" value="#97aec8">
-                            <input type="text" id="bg-gradient-end-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#97aec8" style="margin-top:6px;">
+                        <!-- 第二排：方向 / 位置，独占一行全宽 -->
+                        <div style="margin-top:10px;">
+                            <label for="bg-gradient-direction-select">方向 / 位置</label>
+                            <select id="bg-gradient-direction-select" style="width:100%;">
+                                <option value="center">中心</option>
+                                <option value="top">上</option>
+                                <option value="bottom">下</option>
+                                <option value="left">左</option>
+                                <option value="right">右</option>
+                                <option value="top left">左上</option>
+                                <option value="top right">右上</option>
+                                <option value="bottom left">左下</option>
+                                <option value="bottom right">右下</option>
+                                <option value="to top">线性：向上</option>
+                                <option value="to bottom">线性：向下</option>
+                                <option value="to left">线性：向左</option>
+                                <option value="to right">线性：向右</option>
+                                <option value="to top left">线性：左上</option>
+                                <option value="to top right">线性：右上</option>
+                                <option value="to bottom left">线性：左下</option>
+                                <option value="to bottom right" selected>线性：右下</option>
+                            </select>
                         </div>
+                        <!-- 第三排：起色 / 终色 -->
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px;">
+                            <div>
+                                <label for="bg-gradient-start-color-input">起色</label>
+                                <input type="color" id="bg-gradient-start-color-input" value="#6a717c">
+                                <input type="text" id="bg-gradient-start-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#6a717c" style="margin-top:6px;">
+                            </div>
+                            <div>
+                                <label for="bg-gradient-end-color-input">终色</label>
+                                <input type="color" id="bg-gradient-end-color-input" value="#97aec8">
+                                <input type="text" id="bg-gradient-end-code-input" placeholder="#RRGGBB 或 CSS颜色" value="#97aec8" style="margin-top:6px;">
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">
+                            - 线性：支持角度与“to …”方向，角度优先；例：linear-gradient(135deg, 起色, 终色)<br>
+                            - 径向：使用位置（at …）；例：radial-gradient(at center, 起色, 终色)<br>
+                            - 锥形：支持“from 角度 + at 位置”；例：conic-gradient(from 90deg at center, 起色, 终色)
+                        </p>
                     </div>
-                    <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">角度默认 135°，导出为 linear-gradient(135deg, 起色, 终色)。</p>
                 </div>
                 <div class="control-group" id="bg-image-group">
                     <label for="bg-image-url">背景图片 URL</label>
@@ -2143,6 +2276,9 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     <div class="btn-group">
                         <button class="btn" id="btn-add-color-layer" title="添加一个纯色图层">
                             <i class="fa fa-palette"></i> 添加颜色图层
+                        </button>
+                        <button class="btn" id="btn-add-gradient-layer" title="添加一个渐变图层">
+                            <i class="fa fa-palette"></i> 添加渐变图层
                         </button>
                         <button class="btn" id="btn-add-image-layer-url" title="通过图片 URL 添加一个图层">
                             <i class="fa fa-image"></i> 添加图片图层
@@ -2256,7 +2392,9 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         <option value="stacked">上下堆叠</option>
                         <option value="center">居中</option>
                         <option value="two-column">双列</option>
+                        <option value="role-rows">蓝辉分割（按行分组）</option>
                     </select>
+                    <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">“蓝辉分割”会将项目按最多三列进行分组；长文字独占一行，分割线单独占行，适用于所有模板。</p>
                 </div>
                 <div class="control-group">
                     <label>字距 / 行距</label>
@@ -2438,6 +2576,39 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">点击进度条显示/隐藏百分比，可切换显示风格。</p>
                 </div>
 
+                <!-- 新增：值框宽度/位置 与 项目整体偏移/阴影（仅作用于“第二部分 状态项目”） -->
+                <div class="control-group">
+                  <label>值框宽度与位置（第二部分）</label>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div class="range-row">
+                      <label>宽度(相对最大 %)</label>
+                      <input type="range" id="value-box-width-pct-range" min="40" max="100" step="1" value="100">
+                      <span class="value-pill"><span id="value-box-width-pct-value">100</span>%</span>
+                    </div>
+                    <div class="range-row">
+                      <label>值框水平偏移(%)</label>
+                      <input type="range" id="value-box-offset-pct-range" min="-40" max="40" step="1" value="0">
+                      <span class="value-pill"><span id="value-box-offset-pct-value">0</span>%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <label>项目整体偏移（第二部分）</label>
+                  <div class="range-row">
+                    <label>整体水平偏移(%)</label>
+                    <input type="range" id="item-offset-pct-range" min="-40" max="40" step="1" value="0">
+                    <span class="value-pill"><span id="item-offset-pct-value">0</span>%</span>
+                  </div>
+                  <div class="range-row">
+                    <label>整体右侧偏移(%)</label>
+                    <input type="range" id="item-offset-right-pct-range" min="-40" max="40" step="1" value="0">
+                    <span class="value-pill"><span id="item-offset-right-pct-value">0</span>%</span>
+                  </div>
+
+                  <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">默认宽度为最大值；偏移范围受限，避免超出背景边界。</p>
+                </div>
+
                 <div class="control-group">
                     <label>高级字体样式</label>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
@@ -2449,6 +2620,40 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                                 <option value="Georgia, Songti SC, serif">Georgia / 宋体</option>
                                 <option value="'Courier New', Courier, monospace">Courier New</option>
                                 <option value="'Times New Roman', Georgia, serif">Times New Roman</option>
+                                <optgroup label="📱 像素体">
+                                    <option value="'BoutiqueBitmap9x9', monospace">精品点阵体9×9</option>
+                                </optgroup>
+                                <optgroup label="✨ 英文花体">
+                                    <option value="'Dancing Script', cursive">Dancing Script（舞动花体）</option>
+                                    <option value="'Pacifico', cursive">Pacifico（温和花体）</option>
+                                    <option value="'Great Vibes', cursive">Great Vibes（优雅花体）</option>
+                                    <option value="'Allura', cursive">Allura（华丽花体）</option>
+                                </optgroup>
+                                <optgroup label="✍️ 手写体">
+                                    <option value="'Caveat', cursive">Caveat（休闲手写）</option>
+                                    <option value="'Indie Flower', cursive">Indie Flower（独立手写）</option>
+                                    <option value="'Shadows Into Light', cursive">Shadows Into Light（阴影手写）</option>
+                                    <option value="'Permanent Marker', cursive">Permanent Marker（马克笔）</option>
+                                </optgroup>
+                                <optgroup label="🚀 科技感">
+                                    <option value="'Rajdhani', sans-serif">Rajdhani（现代科技）</option>
+                                    <option value="'Audiowide', cursive">Audiowide（数字科技）</option>
+                                    <option value="'Electrolize', sans-serif">Electrolize（电子科技）</option>
+                                </optgroup>
+                                <optgroup label="🎨 中文艺术">
+                                    <option value="'Ma Shan Zheng', cursive">马善政楷体</option>
+                                    <option value="'ZCOOL XiaoWei', serif">站酷小薇LOGO体</option>
+                                    <option value="'Long Cang', cursive">龙藏体</option>
+                                    <option value="'Zhi Mang Xing', cursive">志莽行体</option>
+                                </optgroup>
+                                <optgroup label="📖 衬线体">
+                                    <option value="'Merriweather', serif">Merriweather（优雅衬线）</option>
+                                    <option value="'Playfair Display', serif">Playfair Display（展示衬线）</option>
+                                </optgroup>
+                                <optgroup label="🔤 无衬线扩展">
+                                    <option value="'Roboto', sans-serif">Roboto（现代无衬线）</option>
+                                    <option value="'Montserrat', sans-serif">Montserrat（时尚无衬线）</option>
+                                </optgroup>
                             </select>
                         </div>
                         <div>
@@ -2459,6 +2664,40 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                                 <option value="Georgia, Songti SC, serif">Georgia / 宋体</option>
                                 <option value="'Courier New', Courier, monospace">Courier New</option>
                                 <option value="'Times New Roman', Georgia, serif">Times New Roman</option>
+                                <optgroup label="📱 像素体">
+                                    <option value="'BoutiqueBitmap9x9', monospace">精品点阵体9×9</option>
+                                </optgroup>
+                                <optgroup label="✨ 英文花体">
+                                    <option value="'Dancing Script', cursive">Dancing Script（舞动花体）</option>
+                                    <option value="'Pacifico', cursive">Pacifico（温和花体）</option>
+                                    <option value="'Great Vibes', cursive">Great Vibes（优雅花体）</option>
+                                    <option value="'Allura', cursive">Allura（华丽花体）</option>
+                                </optgroup>
+                                <optgroup label="✍️ 手写体">
+                                    <option value="'Caveat', cursive">Caveat（休闲手写）</option>
+                                    <option value="'Indie Flower', cursive">Indie Flower（独立手写）</option>
+                                    <option value="'Shadows Into Light', cursive">Shadows Into Light（阴影手写）</option>
+                                    <option value="'Permanent Marker', cursive">Permanent Marker（马克笔）</option>
+                                </optgroup>
+                                <optgroup label="🚀 科技感">
+                                    <option value="'Rajdhani', sans-serif">Rajdhani（现代科技）</option>
+                                    <option value="'Audiowide', cursive">Audiowide（数字科技）</option>
+                                    <option value="'Electrolize', sans-serif">Electrolize（电子科技）</option>
+                                </optgroup>
+                                <optgroup label="🎨 中文艺术">
+                                    <option value="'Ma Shan Zheng', cursive">马善政楷体</option>
+                                    <option value="'ZCOOL XiaoWei', serif">站酷小薇LOGO体</option>
+                                    <option value="'Long Cang', cursive">龙藏体</option>
+                                    <option value="'Zhi Mang Xing', cursive">志莽行体</option>
+                                </optgroup>
+                                <optgroup label="📖 衬线体">
+                                    <option value="'Merriweather', serif">Merriweather（优雅衬线）</option>
+                                    <option value="'Playfair Display', serif">Playfair Display（展示衬线）</option>
+                                </optgroup>
+                                <optgroup label="🔤 无衬线扩展">
+                                    <option value="'Roboto', sans-serif">Roboto（现代无衬线）</option>
+                                    <option value="'Montserrat', sans-serif">Montserrat（时尚无衬线）</option>
+                                </optgroup>
                             </select>
                         </div>
                     </div>
@@ -2527,9 +2766,9 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     <div style="display: flex; gap: 10px;">
                         <select id="add-item-select">
                             <option value="text">文本</option>
+                            <option value="longtext">长文字</option>
                             <option value="bar">进度条/数值条</option>
                             <option value="divider">分割线</option>
-                            <option value="row">换行</option>
                         </select>
                         <button class="btn btn-primary" style="width: auto; flex-shrink: 0;">添加</button>
                     </div>
@@ -2654,6 +2893,20 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
       addItemBtn = null;
     }
 
+    // 仅在“蓝辉状态栏”主题显示“换行”选项；其它主题隐藏并禁用
+    function updateAddItemOptionVisibility() {
+      try {
+        const optRow = addItemSelect ? addItemSelect.querySelector('option[value="row"]') : null;
+        if (!optRow) return;
+        const show = (currentTheme === 'theme-role-status-bar');
+        optRow.hidden = !show;
+        optRow.disabled = !show;
+        if (!show && addItemSelect.value === 'row') {
+          addItemSelect.value = 'text';
+        }
+      } catch (_e) {}
+    }
+
     // ===== 界面模式（白天/黑夜）初始化与切换，仅影响页面 UI，不改变生成逻辑 =====
     const uiModeSelect = document.getElementById('ui-mode-select');
     (function initUiMode(){
@@ -2714,7 +2967,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
             return '状态';
           }
         }
-    const typeName = t => ({text:'文本', bar:'进度条', divider:'分割线', row:'换行'}[t] || t);
+    const typeName = t => ({text:'文本', longtext:'长文字', bar:'进度条', divider:'分割线', row:'换行'}[t] || t);
     const snapshot = () => JSON.parse(JSON.stringify(items));
 
     // 新增：诊断辅助函数（避免未定义报错；仅用于日志）
@@ -2798,7 +3051,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
           return `
             <div class="st-item">
               <div class="st-label">${esc(it.label || '')}</div>
-              <div class="st-value">${esc(it.value || '')}</div>
+              <div class="st-value st-text">${esc(it.value || '')}</div>
             </div>
           `;
         }
@@ -2807,7 +3060,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
           return `
             <div class="st-item">
               <div class="st-label">${esc(it.label || '')}</div>
-              <div class="st-value" style="width: clamp(120px, 40vw, 160px);">
+              <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0)));">
                 <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
                   <div class="st-progress-bar-fill" style="width: ${p}%;"></div><span class="st-progress-percent" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;text-shadow:0 0 2px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity .3s;">${p}%</span>
                 </div>
@@ -2867,6 +3120,18 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
           <div class="control-group">
             <label>值</label>
             <input type="text" value="${esc(it.value || '')}" data-field="value" data-id="${it.id}">
+          </div>
+        `;
+      }
+      if (it.type === 'longtext') {
+        return `
+          <div class="control-group">
+            <label>标签</label>
+            <input type="text" value="${esc(it.label || '')}" data-field="label" data-id="${it.id}">
+          </div>
+          <div class="control-group">
+            <label>长文字</label>
+            <textarea rows="4" data-field="value" data-id="${it.id}" style="width:100%;padding:8px 12px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-control);color:var(--text-primary);">${esc(it.value || '')}</textarea>
           </div>
         `;
       }
@@ -2932,6 +3197,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
         currentTheme = nextTheme;
         // 应用新模板默认值（颜色/字体/圆角/分割线/背景模式）
         applyThemeDefaults(currentTheme);
+        updateAddItemOptionVisibility();
         renderPreview();
       });
     });
@@ -2967,6 +3233,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
         let newItem;
         if (t === 'text') {
           newItem = { id: genId(), type: 'text', label: '标签', value: '值' };
+        } else if (t === 'longtext') {
+          newItem = { id: genId(), type: 'longtext', label: '说明', value: '在此填写长段文字…' };
         } else if (t === 'bar') {
           newItem = { id: genId(), type: 'bar', label: '进度', percent: 50 };
         } else if (t === 'divider') {
@@ -3059,6 +3327,10 @@ const bgGradientStartColorInput = document.getElementById('bg-gradient-start-col
 const bgGradientStartCodeInput = document.getElementById('bg-gradient-start-code-input');
 const bgGradientEndColorInput = document.getElementById('bg-gradient-end-color-input');
 const bgGradientEndCodeInput = document.getElementById('bg-gradient-end-code-input');
+const bgGradientStyleSelect = document.getElementById('bg-gradient-style-select');
+const bgGradientAngleRange = document.getElementById('bg-gradient-angle-range');
+const bgGradientAngleValue = document.getElementById('bg-gradient-angle-value');
+const bgGradientDirectionSelect = document.getElementById('bg-gradient-direction-select');
 const bgImageUrlInput = document.getElementById('bg-image-url');
 
 const iconModeSelect = document.getElementById('icon-mode-select');
@@ -3079,6 +3351,18 @@ const dividerStyleSelect = document.getElementById('divider-style-select');
 const barStyleSelect = document.getElementById('bar-style-select');
 const barAnimationSelect = document.getElementById('bar-animation-select');
 const percentDisplaySelect = document.getElementById('percent-display-select');
+
+// 新增：值框宽度/位置 与 项目整体偏移/阴影（第二部分）
+const valueBoxWidthPctRange = document.getElementById('value-box-width-pct-range');
+const valueBoxWidthPctValue = document.getElementById('value-box-width-pct-value');
+const valueBoxOffsetPctRange = document.getElementById('value-box-offset-pct-range');
+const valueBoxOffsetPctValue = document.getElementById('value-box-offset-pct-value');
+
+const itemOffsetPctRange = document.getElementById('item-offset-pct-range');
+const itemOffsetPctValue = document.getElementById('item-offset-pct-value');
+const itemOffsetRightPctRange = document.getElementById('item-offset-right-pct-range');
+const itemOffsetRightPctValue = document.getElementById('item-offset-right-pct-value');
+
 
 // 新增：第二部分项目颜色控制（仅影响“状态项目”渲染）
 const section2LabelColorInput = document.getElementById('section2-label-color-input');
@@ -3132,6 +3416,7 @@ const iconPositionGroup = document.getElementById('icon-position-group');
 
 /* 多图层/组件控制引用 */
 const btnAddColorLayer = document.getElementById('btn-add-color-layer');
+const btnAddGradientLayer = document.getElementById('btn-add-gradient-layer');
 const btnAddImageLayerUrl = document.getElementById('btn-add-image-layer-url');
 const bgLayersList = document.getElementById('bg-layers-list');
 
@@ -3250,6 +3535,9 @@ let customization = {
   bgColor: bgColorInput?.value || '#111215',
   bgGradientStart: bgGradientStartColorInput?.value || (primaryColorInput?.value || '#6a717c'),
   bgGradientEnd: bgGradientEndColorInput?.value || (secondaryColorInput?.value || '#97aec8'),
+  bgGradientStyle: bgGradientStyleSelect?.value || 'linear',
+  bgGradientAngle: parseInt(bgGradientAngleRange?.value || '135', 10),
+  bgGradientDirection: bgGradientDirectionSelect?.value || 'to bottom right',
   bgImageUrl: bgImageUrlInput?.value || '',
   // 新增：多图层背景与拖动组件
   bgLayers: [],
@@ -3273,6 +3561,12 @@ let customization = {
   barAnimation: barAnimationSelect?.value || 'none',
   // 新增：百分比显示风格
   percentDisplay: percentDisplaySelect?.value || 'center',
+
+  // 新增：值框尺寸与位置 + 整体偏移/阴影（第二部分）
+  valueBoxWidthPct: 100,          // 40~100（相对最大）
+  valueBoxOffsetPct: 0,           // -40~40（%）
+  itemOffsetPct: 0,               // -40~40（%）
+  itemOffsetRightPct: 0,          // -40~40（%）右侧偏移（margin-right）
 
   // 预览/导出最大宽度（统一，默认600）
   statusbarMaxWidth: parseInt(statusbarWidthRange?.value || '600', 10),
@@ -3315,8 +3609,256 @@ let customization = {
   petalDensity: parseInt(petalDensityRange?.value || '20', 10),
   petalIconMode: petalIconModeSelect?.value || 'built-in',
   petalIconBuiltin: petalIconBuiltinSelect?.value || 'leaf',
-  petalIconUrl: petalIconUrlInput?.value || ''
+  petalIconUrl: petalIconUrlInput?.value || '',
+  
+  // 新增：自定义字体导入
+  customFonts: [] // 存储用户导入的字体 [{url, name, optgroupAdded}]
 };
+
+// === 自定义字体导入功能 ===
+const customFontUrlInput = document.getElementById('custom-font-url');
+const customFontNameInput = document.getElementById('custom-font-name');
+const btnImportCustomFont = document.getElementById('btn-import-custom-font');
+
+// 导入字体到页面并添加到下拉框（增强版：支持延迟加载 + 实时预览测试）
+/**
+ * 自定义字体导入（CSS链接版）
+ * - 适配 Google Fonts / result.css 等提供 CSS 的链接
+ * - 使用 <link rel="stylesheet"> 避免 @import 受 CSP 限制
+ * - 标准化 family 名；加入到选择器；预览立即应用；导出包含 @import
+ * - 分阶段 document.fonts.check 验证加载成功
+ */
+async function importCustomFont() {
+  try {
+    const url = customFontUrlInput?.value?.trim();
+    const nameHintRaw = customFontNameInput?.value?.trim() || '';
+    if (!url) {
+      alert('请输入字体 CSS 链接\n示例：https://fonts.googleapis.com/css2?family=YourFont:wght@400;700&display=swap');
+      return;
+    }
+
+    // 初始按钮状态
+    if (btnImportCustomFont) {
+      btnImportCustomFont.disabled = true;
+      btnImportCustomFont.innerHTML = '<i class="fa fa-spinner fa-spin"></i> 加载中...';
+    }
+
+    // 注入 <link rel="stylesheet">（避免 @import 受 CSP 影响）
+    const linkId = 'custom-font-link-' + Date.now();
+    const linkEl = document.createElement('link');
+    linkEl.id = linkId;
+    linkEl.rel = 'stylesheet';
+    linkEl.href = url;
+    // 对于样式表通常无需 crossorigin；移除以防特定源报错
+    document.head.appendChild(linkEl);
+
+    // 尝试拉取 CSS 并从 @font-face 中自动提取 font-family
+    let cssText = '';
+    try {
+      const res = await fetch(url, { mode: 'cors' });
+      if (res && res.ok) {
+        cssText = await res.text();
+      }
+    } catch (_e) {
+      // 忽略网络错误，后续用用户输入兜底
+    }
+
+    // 解析 CSS 获取 font-family 名称列表
+    const families = [];
+    if (cssText && typeof cssText === 'string') {
+      const rx = /font-family\s*:\s*['"]([^'"]+)['"]/gi;
+      let m;
+      const set = new Set();
+      while ((m = rx.exec(cssText)) != null) {
+        const fam = String(m[1] || '').trim();
+        if (fam && !set.has(fam)) {
+          set.add(fam);
+          families.push(fam);
+        }
+      }
+    }
+
+    // 兜底：若无法解析，则使用用户输入提示名
+    const sanitize = (s) => String(s || '').replace(/['"]/g, '').split(',')[0].trim();
+    const hintFamilyBare = sanitize(nameHintRaw);
+    const chosenBare = families[0] || hintFamilyBare;
+
+    if (!chosenBare) {
+      if (btnImportCustomFont) {
+        btnImportCustomFont.disabled = false;
+        btnImportCustomFont.innerHTML = '<i class="fa fa-download"></i> 导入字体';
+      }
+      alert('未能自动识别字体名称，请在“字体名称”中填写 CSS 中 @font-face 的 font-family 名称，例如："YourFont"');
+      return;
+    }
+
+    // 标准化：带引号（有空格时）+ 默认 fallback
+    const normalizedValue = (chosenBare.includes(' ') ? `'${chosenBare}'` : chosenBare) + ', sans-serif';
+
+    // 重复检测（URL 或 family）
+    const exists = customization.customFonts.some(f => {
+      const fBare = sanitize(String(f.name || ''));
+      return f.url === url || fBare === chosenBare;
+    });
+    if (exists) {
+      // 已有则仅同步选择与预览
+      if (fontFamilySelect) fontFamilySelect.value = normalizedValue;
+      customization.fontFamily = normalizedValue;
+      customization.globalLabelFontFamily = normalizedValue;
+      customization.globalValueFontFamily = normalizedValue;
+      if (globalLabelFontSelect) globalLabelFontSelect.value = normalizedValue;
+      if (globalValueFontSelect) globalValueFontSelect.value = normalizedValue;
+      renderPreview();
+      alert('该字体已导入，已应用到预览');
+      if (btnImportCustomFont) {
+        btnImportCustomFont.disabled = false;
+        btnImportCustomFont.innerHTML = '<i class="fa fa-download"></i> 导入字体';
+      }
+      console.debug('[custom-font] 已存在，直接应用', { url, family: chosenBare });
+      return;
+    }
+
+    // 记录到状态（用于导出生成 @import）
+    customization.customFonts.push({
+      url,
+      name: normalizedValue,
+      linkId,
+      type: 'css',
+      optgroupAdded: false
+    });
+
+    // 添加下拉选项并选中
+    addCustomFontToSelects(normalizedValue);
+    if (fontFamilySelect) fontFamilySelect.value = normalizedValue;
+
+    // 应用到主体/标签/值字体
+    customization.fontFamily = normalizedValue;
+    customization.globalLabelFontFamily = normalizedValue;
+    customization.globalValueFontFamily = normalizedValue;
+    if (globalLabelFontSelect) globalLabelFontSelect.value = normalizedValue;
+    if (globalValueFontSelect) globalValueFontSelect.value = normalizedValue;
+
+    // 预加载字体（尽量不阻塞 UI）
+    try {
+      if (document.fonts && document.fonts.load) {
+        // 主 family
+        await document.fonts.load(`16px "${chosenBare}"`).catch(() => {});
+        // 若 CSS 中有多 family（如可变字体命名），一并预加载
+        for (let i = 1; i < families.length; i++) {
+          const fam = families[i];
+          await document.fonts.load(`16px "${fam}"`).catch(() => {});
+        }
+      }
+    } catch (_e) {}
+
+    // 刷新预览
+    renderPreview();
+
+    // 分阶段检查加载状态（诊断）
+    const checkTimes = [600, 2000, 5000];
+    let loadSuccess = false;
+    checkTimes.forEach((delay, index) => {
+      setTimeout(() => {
+        if (loadSuccess) return;
+        try {
+          if (document.fonts && document.fonts.check) {
+            const ok = document.fonts.check(`16px "${chosenBare}"`);
+            if (ok) {
+              loadSuccess = true;
+              console.debug('[custom-font] 加载成功', { family: chosenBare, url, t: delay });
+              renderPreview();
+              if (btnImportCustomFont) {
+                btnImportCustomFont.disabled = false;
+                btnImportCustomFont.innerHTML = '<i class="fa fa-check"></i> 导入成功';
+                setTimeout(() => {
+                  if (btnImportCustomFont) btnImportCustomFont.innerHTML = '<i class="fa fa-download"></i> 导入字体';
+                }, 1800);
+              }
+            }
+          }
+        } catch (_e) {}
+
+        if (index === checkTimes.length - 1) {
+          if (btnImportCustomFont) {
+            btnImportCustomFont.disabled = false;
+            btnImportCustomFont.innerHTML = '<i class="fa fa-download"></i> 导入字体';
+          }
+          if (!loadSuccess) {
+            alert(`⚠️ 字体样式已添加，但浏览器尚未确认加载成功\n\nfamily：${chosenBare}\n来源：${url}\n\n建议：\n- 稍等片刻后再次查看\n- 确认名称与 CSS 中 @font-face 的 font-family 一致（当前已自动识别：${chosenBare}）\n- 检查控制台网络/CORS 状态`);
+            console.warn('[custom-font] 未确认加载成功', { family: chosenBare, url });
+          } else {
+            alert(`✅ 字体导入成功：${chosenBare}\n预览已应用，请检查右侧效果。`);
+          }
+        }
+      }, delay);
+    });
+
+    // 清空输入
+    if (customFontUrlInput) customFontUrlInput.value = '';
+    if (customFontNameInput) customFontNameInput.value = '';
+
+    console.debug('[custom-font] 注入 CSS 链接 & 自动识别 family', { linkId, url, familyDetected: chosenBare, families });
+  } catch (e) {
+    console.error('[custom-font] 导入失败', e);
+    if (btnImportCustomFont) {
+      btnImportCustomFont.disabled = false;
+      btnImportCustomFont.innerHTML = '<i class="fa fa-download"></i> 导入字体';
+    }
+    alert('❌ 字体导入失败\n\n错误：' + (e?.message || '未知错误'));
+  }
+}
+
+// 添加自定义字体到所有字体选择器
+function addCustomFontToSelects(fontName) {
+  try {
+    const selects = [
+      fontFamilySelect,
+      globalLabelFontSelect,
+      globalValueFontSelect
+    ].filter(Boolean);
+
+    // 规范化：选项值使用 CSS 安全值（含引号与 fallback）
+    const bare = String(fontName || '').replace(/['"]/g, '').split(',')[0].trim();
+    const normalizedValue = (bare.includes(' ') ? `'${bare}'` : bare) + ', sans-serif';
+    const displayText = bare;
+
+    selects.forEach(sel => {
+      // 检查是否已有"自定义字体"分组
+      let optgroup = sel.querySelector('optgroup[label="🎨 自定义字体"]');
+      if (!optgroup) {
+        optgroup = document.createElement('optgroup');
+        optgroup.label = '🎨 自定义字体';
+        sel.appendChild(optgroup);
+      }
+
+      // 添加选项（避免重复：按值判断）
+      const existing = Array.from(optgroup.querySelectorAll('option')).some(opt => opt.value === normalizedValue);
+      if (!existing) {
+        const option = document.createElement('option');
+        option.value = normalizedValue;    // 始终是 CSS 安全值
+        option.textContent = displayText;  // 显示纯 family 名
+        optgroup.appendChild(option);
+      }
+    });
+  } catch (e) {
+    console.warn('[custom-font] addCustomFontToSelects error', e);
+  }
+}
+
+// 绑定导入按钮事件
+if (btnImportCustomFont) {
+  btnImportCustomFont.addEventListener('click', importCustomFont);
+}
+
+// 支持回车键快速导入
+if (customFontNameInput) {
+  customFontNameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      importCustomFont();
+    }
+  });
+}
 
  // 比较当前主题的个性化设置是否已被修改（相对该主题默认派生基线）
 function isCustomizationModified(theme) {
@@ -3382,6 +3924,10 @@ function applyThemeDefaults(theme) {
   if (radiusValue) radiusValue.textContent = String(customization.radius);
   if (dividerStyleSelect) dividerStyleSelect.value = customization.dividerStyle;
   if (bgModeSelect) bgModeSelect.value = customization.bgMode;
+  if (bgGradientStyleSelect) bgGradientStyleSelect.value = customization.bgGradientStyle || 'linear';
+  if (bgGradientAngleRange) bgGradientAngleRange.value = String(customization.bgGradientAngle || 135);
+  if (bgGradientAngleValue) bgGradientAngleValue.textContent = String(customization.bgGradientAngle || 135);
+  if (bgGradientDirectionSelect) bgGradientDirectionSelect.value = customization.bgGradientDirection || 'to bottom right';
   // 图标控件同步
   if (iconModeSelect) iconModeSelect.value = customization.iconMode;
   if (iconBuiltinSelect) iconBuiltinSelect.value = customization.iconBuiltin || 'cog';
@@ -3688,7 +4234,7 @@ function buildItemsHTML(list, theme) {
           return `
             <div class="st-item">
               <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-              <div class="st-value" style="${valStyle}">${esc(it.value || '')}</div>
+              <div class="st-value st-text" style="${valStyle}">${esc(it.value || '')}</div>
             </div>
           `;
         }
@@ -3735,7 +4281,7 @@ function buildItemsHTML(list, theme) {
           return `
             <div class="st-item">
               <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-              <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valStyle}">
+              <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ${valStyle}">
                 <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
                   <div class="${classList.join(' ')}" ${fillStyle}></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                 </div>
@@ -3750,11 +4296,157 @@ function buildItemsHTML(list, theme) {
     }).join('');
   }
 
+  // 新布局：蓝辉分栏（role-rows），适配所有主题；长文字独占整行，分割线单独占行
+  if (customization.layout === 'role-rows') {
+    const rows = [];
+    let row = [];
+    list.forEach(it => {
+      if (it.type === 'divider') {
+        if (row.length) { rows.push(row); row = []; }
+        rows.push(['__HR__']);
+      } else if (it.type === 'longtext') {
+        if (row.length) { rows.push(row); row = []; }
+        rows.push({ __LT__: it });
+      } else {
+        row.push(it);
+        if (row.length === 3) { rows.push(row); row = []; }
+      }
+    });
+    if (row.length) rows.push(row);
+
+    return rows.map(r => {
+      if (Array.isArray(r)) {
+        const itemsHTML = r.map((it, idx) => {
+          if (it.type === 'text') {
+            const labelColor = s2Label || it.labelColor || sc;
+            const valueColor = s2Value || it.valueColor || pc;
+            const lblStyle = styleJoin([
+              `color:${labelColor}`,
+              `font-family:${labelFontFamily}`,
+              `font-weight:${labelWeight}`,
+              labelFontSize ? `font-size:${labelFontSize}px` : '',
+              labelItalic,
+              labelUpper,
+              customization.globalLabelReflect ? reflectInlineBlock : '',
+              labelReflect
+            ]);
+            const valStyle = styleJoin([
+              `color:${valueColor}`,
+              `font-family:${valueFontFamily}`,
+              `font-weight:${valueWeight}`,
+              valueFontSize ? `font-size:${valueFontSize}px` : '',
+              valueItalic,
+              valueUpper,
+              customization.globalValueReflect ? reflectInlineBlock : '',
+              valueReflect
+            ]);
+            const sep = idx > 0 ? `border-left:1px solid ${customization.primaryColor};` : '';
+            return `
+              <div class="st-item" style="flex:1;text-align:left;padding:0 25px;position:relative;${sep}">
+                <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
+                <div class="st-value st-text" style="${valStyle}">${esc(it.value || '')}</div>
+              </div>
+            `;
+          }
+          if (it.type === 'bar') {
+            const p = clamp(parseInt(it.percent ?? 0, 10) || 0, 0, 100);
+            const labelColor = s2Label || it.labelColor || sc;
+            const fillColor  = s2Bar   || it.barColor || '';
+            const classList = ['st-progress-bar-fill'];
+            const styleParts = [];
+            if (barAnimClass) classList.push(barAnimClass);
+            const styleWidth = barAnimClass ? `width: var(--target); --target: ${p}%` : `width: ${p}%`;
+            styleParts.push(styleWidth);
+            if (fillColor) {
+              styleParts.push(`background: ${esc(fillColor)}`);
+              styleParts.push(`--bar-color: ${esc(fillColor)}`);
+            } else {
+              styleParts.push(`background: linear-gradient(90deg, ${pc}, ${sc})`);
+              styleParts.push(`--bar-color: ${pc}`);
+            }
+            const fillStyle = `style="${styleParts.join('; ')}"`;
+            const extraStyleClass = barClassFromStyle();
+            if (extraStyleClass) classList.push(extraStyleClass);
+
+            const lblStyle = styleJoin([
+              `color:${labelColor}`,
+              `font-family:${labelFontFamily}`,
+              `font-weight:${labelWeight}`,
+              labelFontSize ? `font-size:${labelFontSize}px` : '',
+              labelItalic,
+              labelUpper,
+              customization.globalLabelReflect ? reflectInlineBlock : '',
+              labelReflect
+            ]);
+            const valStyle = styleJoin([
+              `font-family:${valueFontFamily}`,
+              `font-weight:${valueWeight}`,
+              valueFontSize ? `font-size:${valueFontSize}px` : '',
+              valueItalic,
+              valueUpper,
+              customization.globalValueReflect ? reflectInlineBlock : '',
+              valueReflect
+            ]);
+            const sep = idx > 0 ? `border-left:1px solid ${customization.primaryColor};` : '';
+            return `
+              <div class="st-item" style="flex:1;text-align:left;padding:0 25px;position:relative;${sep}">
+                <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
+                <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ${valStyle}">
+                  <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&&bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
+                    <div class="${classList.join(' ')}" ${fillStyle}></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          }
+          return '';
+        }).join('');
+        return `<div class="st-row" style="display:flex;justify-content:space-between;align-items:center;--rs-sep-color:${customization.primaryColor};">${itemsHTML}</div>`;
+      }
+      if (!Array.isArray(r) && r && r.__LT__) {
+        const it = r.__LT__;
+        const labelColor = s2Label || it.labelColor || sc;
+        const valueColor = s2Value || it.valueColor || pc;
+        const lblStyle = styleJoin([
+          `color:${labelColor}`,
+          `font-family:${labelFontFamily}`,
+          `font-weight:${labelWeight}`,
+          labelFontSize ? `font-size:${labelFontSize}px` : '',
+          labelItalic,
+          labelUpper,
+          customization.globalLabelReflect ? reflectInlineBlock : '',
+          labelReflect
+        ]);
+        const valStyle = styleJoin([
+          `color:${valueColor}`,
+          `font-family:${valueFontFamily}`,
+          `font-weight:${valueWeight}`,
+          valueFontSize ? `font-size:${valueFontSize}px` : '',
+          valueItalic,
+          valueUpper,
+          customization.globalValueReflect ? reflectInlineBlock : '',
+          valueReflect
+        ]);
+        return `
+          <div class="st-row" style="display:flex;justify-content:space-between;align-items:flex-start;--rs-sep-color:${customization.primaryColor};">
+            <div class="st-item" style="flex:1;text-align:left;padding:0 25px;position:relative;">
+              <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
+              <div class="st-value st-longtext" style="${valStyle}; margin-top:8px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">${esc(it.value || '')}</div>
+            </div>
+          </div>
+        `;
+      }
+      if (Array.isArray(r) && r.length === 1 && r[0] === '__HR__') return dividerHTML();
+      return '';
+    }).join('');
+  }
+
   // 原逻辑（保留）—支持全局颜色与字体样式覆盖（未设置时仍用主/辅色或每项自定义）+ 进度条风格/动画
   return list.map(it => {
     if (it.type === 'divider') return dividerHTML();
 
     if (it.type === 'text') {
+      // 文本类不受“文字排列方式”影响，始终采用左右排列
       const labelColor = s2Label || it.labelColor || sc;
       const valueColor = s2Value || it.valueColor || pc;
       const lblStyle = styleJoin([
@@ -3777,21 +4469,43 @@ function buildItemsHTML(list, theme) {
         customization.globalValueReflect ? reflectInlineBlock : '',
         valueReflect
       ]);
-
-      if (layout === 'stacked' || layout === 'center') {
-        const align = layout === 'center' ? 'center' : 'flex-start';
-        return `
-          <div class="st-item" style="display:flex;flex-direction:column;align-items:${align};gap:4px;">
-            <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-            <div class="st-value" style="${valStyle}">${esc(it.value || '')}</div>
-          </div>
-        `;
-      }
-      // 默认左右排列
       return `
         <div class="st-item" style="display:flex;align-items:center;justify-content:space-between;">
           <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-          <div class="st-value" style="${valStyle}">${esc(it.value || '')}</div>
+          <div class="st-value st-text" style="${valStyle}">${esc(it.value || '')}</div>
+        </div>
+      `;
+    }
+    if (it.type === 'longtext') {
+      const labelColor = s2Label || it.labelColor || sc;
+      const valueColor = s2Value || it.valueColor || pc;
+      const lblStyle = styleJoin([
+        `color:${labelColor}`,
+        `font-family:${labelFontFamily}`,
+        `font-weight:${labelWeight}`,
+        labelFontSize ? `font-size:${labelFontSize}px` : '',
+        labelItalic,
+        labelUpper,
+        customization.globalLabelReflect ? reflectInlineBlock : '',
+        labelReflect
+      ]);
+      const valStyle = styleJoin([
+        `color:${valueColor}`,
+        `font-family:${valueFontFamily}`,
+        `font-weight:${valueWeight}`,
+        valueFontSize ? `font-size:${valueFontSize}px` : '',
+        valueItalic,
+        valueUpper,
+        customization.globalValueReflect ? reflectInlineBlock : '',
+        valueReflect
+      ]);
+      const spanAll = (customization.layout === 'two-column') ? 'grid-column: 1 / -1;' : '';
+      return `
+        <div class="st-item" style="display:block; ${spanAll}">
+          <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
+          <div class="st-value st-longtext" style="${valStyle}; margin-top:6px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">
+            ${esc(it.value || '')}
+          </div>
         </div>
       `;
     }
@@ -3842,7 +4556,7 @@ function buildItemsHTML(list, theme) {
         return `
           <div class="st-item" style="display:flex;flex-direction:column;align-items:${align};gap:4px;">
             <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-            <div class="st-value" style="width:${valueWidth}; ${valStyle}">
+            <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ${valStyle}">
               <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
                 <div class="${classList.join(' ')}" ${fillStyle}></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
               </div>
@@ -3854,7 +4568,7 @@ function buildItemsHTML(list, theme) {
       return `
         <div class="st-item" style="display:flex;align-items:center;justify-content:space-between;">
           <div class="st-label" style="${lblStyle}">${esc(it.label || '')}</div>
-          <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valStyle}">
+          <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ${valStyle}">
             <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
               <div class="${classList.join(' ')}" ${fillStyle}></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
             </div>
@@ -3926,6 +4640,8 @@ function renderFxLayers(wrapperEl){
         e.style.animationDuration = speed + 's';
         e.style.animationName = dir === 'down' ? 'sparkleDown' : 'sparkleUp';
         e.style.animationDelay = delay + 's';
+        e.style.animationIterationCount = 'infinite';
+        e.style.animationTimingFunction = 'linear';
         layer.appendChild(e);
       }
       wrapperEl.appendChild(layer);
@@ -3980,6 +4696,29 @@ function buildBgLayersHTML(layers){
       if (l?.type === 'color') {
         const color = esc(l.color || '#000000');
         return `<div class="bg-layer" style="background:${color};opacity:${op};"></div>`;
+      }
+      if (l?.type === 'gradient') {
+        const style = String(l.style || 'linear');
+        const angle = Number(l.angle ?? 135) || 135;
+        const dir = String(l.direction || 'to bottom right');
+        const start = esc(l.start || customization.primaryColor || '#6a717c');
+        const end = esc(l.end || customization.secondaryColor || '#97aec8');
+        let grad;
+        if (style === 'linear') {
+          // 线性：角度优先
+          grad = `linear-gradient(${angle}deg, ${start}, ${end})`;
+        } else if (style === 'radial') {
+          // 径向：at 位置
+          const pos = dir.replace(/^to\s+/, '');
+          grad = `radial-gradient(at ${pos}, ${start}, ${end})`;
+        } else if (style === 'conic') {
+          // 锥形：from 角度 + at 位置
+          const pos = dir.replace(/^to\s+/, '');
+          grad = `conic-gradient(from ${angle}deg at ${pos}, ${start}, ${end})`;
+        } else {
+          grad = `linear-gradient(${angle}deg, ${start}, ${end})`;
+        }
+        return `<div class="bg-layer" style="background:${grad};opacity:${op};"></div>`;
       }
       const src = esc(l?.src || '');
       const size = esc(l?.size || 'cover');
@@ -4099,7 +4838,7 @@ function renderBgLayersEditor(){
       const base = `
         <div class="item-controls" data-layer-id="${esc(l.id||'')}">
           <div class="item-header">
-            <span>${idx}. 图层 - ${l.type === 'color' ? '颜色' : '图片'}</span>
+            <span>${idx}. 图层 - ${l.type === 'color' ? '颜色' : (l.type === 'gradient' ? '渐变' : '图片')}</span>
             <div class="item-actions" style="display:flex; gap:6px;">
               <button class="btn" data-action="layer-up" title="上移">⬆</button>
               <button class="btn" data-action="layer-down" title="下移">⬇</button>
@@ -4111,12 +4850,60 @@ function renderBgLayersEditor(){
               <label>颜色</label>
               <input type="color" value="${esc(l.color||'#000000')}" data-field="layer-color">
             </div>
+          ` : (l.type === 'gradient' ? `
+            <div class="control-group">
+              <label>样式</label>
+              <select data-field="layer-style">
+                <option value="linear"${(l.style||'linear')==='linear'?' selected':''}>线性</option>
+                <option value="radial"${(l.style||'linear')==='radial'?' selected':''}>径向</option>
+                <option value="conic"${(l.style||'linear')==='conic'?' selected':''}>锥形</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label>角度</label>
+              <div class="range-row">
+                <input type="range" min="0" max="360" step="1" value="${isFinite(l.angle)?Number(l.angle):135}" data-field="layer-angle">
+                <span class="value-pill"><span>${isFinite(l.angle)?Number(l.angle):135}</span>°</span>
+              </div>
+            </div>
+            <div class="control-group">
+              <label>方向 / 位置</label>
+              <select data-field="layer-direction" style="width:100%;">
+                <option value="center"${(l.direction||'to bottom right')==='center'?' selected':''}>中心</option>
+                <option value="top"${(l.direction||'to bottom right')==='top'?' selected':''}>上</option>
+                <option value="bottom"${(l.direction||'to bottom right')==='bottom'?' selected':''}>下</option>
+                <option value="left"${(l.direction||'to bottom right')==='left'?' selected':''}>左</option>
+                <option value="right"${(l.direction||'to bottom right')==='right'?' selected':''}>右</option>
+                <option value="top left"${(l.direction||'to bottom right')==='top left'?' selected':''}>左上</option>
+                <option value="top right"${(l.direction||'to bottom right')==='top right'?' selected':''}>右上</option>
+                <option value="bottom left"${(l.direction||'to bottom right')==='bottom left'?' selected':''}>左下</option>
+                <option value="bottom right"${(l.direction||'to bottom right')==='bottom right'?' selected':''}>右下</option>
+                <option value="to top"${(l.direction||'to bottom right')==='to top'?' selected':''}>线性：向上</option>
+                <option value="to bottom"${(l.direction||'to bottom right')==='to bottom'?' selected':''}>线性：向下</option>
+                <option value="to left"${(l.direction||'to bottom right')==='to left'?' selected':''}>线性：向左</option>
+                <option value="to right"${(l.direction||'to bottom right')==='to right'?' selected':''}>线性：向右</option>
+                <option value="to top left"${(l.direction||'to bottom right')==='to top left'?' selected':''}>线性：左上</option>
+                <option value="to top right"${(l.direction||'to bottom right')==='to top right'?' selected':''}>线性：右上</option>
+                <option value="to bottom left"${(l.direction||'to bottom right')==='to bottom left'?' selected':''}>线性：左下</option>
+                <option value="to bottom right"${(l.direction||'to bottom right')==='to bottom right'?' selected':''}>线性：右下</option>
+              </select>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+              <div class="control-group">
+                <label>起色</label>
+                <input type="color" value="${esc(l.start||customization.primaryColor||'#6a717c')}" data-field="layer-start">
+              </div>
+              <div class="control-group">
+                <label>终色</label>
+                <input type="color" value="${esc(l.end||customization.secondaryColor||'#97aec8')}" data-field="layer-end">
+              </div>
+            </div>
           ` : `
             <div class="control-group">
               <label>图片 URL</label>
               <input type="text" value="${esc(l.src||'')}" placeholder="https://..." data-field="layer-src">
             </div>
-          `}
+          `)}
           <div class="control-group">
             <label>透明度</label>
             <div class="range-row">
@@ -4180,6 +4967,20 @@ function setupBgEditorsEvents(){
       customization.bgLayers.push({ id: genId(), type:'color', color:'#000000', opacity:0.5 });
       renderBgLayersEditor(); renderPreview();
     });
+    if (btnAddGradientLayer) btnAddGradientLayer.addEventListener('click', () => {
+      customization.bgLayers = customization.bgLayers || [];
+      customization.bgLayers.push({
+        id: genId(),
+        type:'gradient',
+        style:'linear',
+        angle:135,
+        direction:'to bottom right',
+        start: customization.bgGradientStart || customization.primaryColor || '#6a717c',
+        end: customization.bgGradientEnd || customization.secondaryColor || '#97aec8',
+        opacity:1
+      });
+      renderBgLayersEditor(); renderPreview();
+    });
     if (btnAddImageLayerUrl) btnAddImageLayerUrl.addEventListener('click', () => {
       const u = window.prompt('输入图片 URL:');
       if (!u) return;
@@ -4209,6 +5010,15 @@ function setupBgEditorsEvents(){
         const field = e.target.dataset.field;
         if (field === 'layer-color') l.color = e.target.value;
         if (field === 'layer-src') l.src = e.target.value;
+        if (field === 'layer-style') l.style = e.target.value;
+        if (field === 'layer-angle') {
+          const v = parseInt(e.target.value||'135', 10);
+          l.angle = Math.max(0, Math.min(360, isNaN(v)?135:v));
+          const pillA = e.target.closest('.range-row')?.querySelector('.value-pill span'); if (pillA) pillA.textContent = String(l.angle);
+        }
+        if (field === 'layer-direction') l.direction = e.target.value;
+        if (field === 'layer-start') l.start = e.target.value;
+        if (field === 'layer-end') l.end = e.target.value;
         if (field === 'layer-opacity') {
           const v = parseFloat(e.target.value||'1') || 0;
           l.opacity = Math.max(0, Math.min(1, v));
@@ -4288,7 +5098,22 @@ function renderPreview() {
   } else if (bgMode === 'gradient') {
     const start = (customization.bgGradientStart && customization.bgGradientStart.trim().length > 0) ? customization.bgGradientStart : customization.primaryColor;
     const end   = (customization.bgGradientEnd && customization.bgGradientEnd.trim().length > 0) ? customization.bgGradientEnd   : customization.secondaryColor;
-    const grad  = `linear-gradient(135deg, ${start}, ${end})`;
+    const style = (customization.bgGradientStyle || 'linear');
+    const angle = Number(customization.bgGradientAngle ?? 135) || 135;
+    const dir   = (customization.bgGradientDirection || 'to bottom right');
+    let grad;
+    if (style === 'linear') {
+      // 线性：角度优先
+      grad = `linear-gradient(${angle}deg, ${start}, ${end})`;
+    } else if (style === 'radial') {
+      const pos = String(dir || 'center').replace(/^to\s+/, '');
+      grad = `radial-gradient(at ${pos}, ${start}, ${end})`;
+    } else if (style === 'conic') {
+      const pos = String(dir || 'center').replace(/^to\s+/, '');
+      grad = `conic-gradient(from ${angle}deg at ${pos}, ${start}, ${end})`;
+    } else {
+      grad = `linear-gradient(${angle}deg, ${start}, ${end})`;
+    }
     wrapperStyle += `background:${grad} !important;`;
   } else if (bgMode === 'image') {
     const url = esc(customization.bgImageUrl || '');
@@ -4305,6 +5130,14 @@ function renderPreview() {
     ? customization.section2BarColor
     : customization.primaryColor;
   wrapperStyle += `--bar-color:${wrapperBarColor};`;
+
+  // 第二部分：值框/整体偏移与阴影（以 CSS 变量传递到样式层，默认不越界）
+  (function(){
+    const pct = Math.max(40, Math.min(100, Number(customization.valueBoxWidthPct ?? 100)));
+    const vOff = Math.max(-40, Math.min(40, Number(customization.valueBoxOffsetPct ?? 0)));
+    const iOff = Math.max(-40, Math.min(40, Number(customization.itemOffsetPct ?? 0)));
+    wrapperStyle += `--vb-width-pct:${pct};--vb-offset-pct:${vOff};--item-offset-pct:${iOff};--item-offset-right-pct:${customization.itemOffsetRightPct ?? 0};`;
+  })();
 
  
   // 组合 HTML
@@ -4360,7 +5193,35 @@ function renderPreview() {
 function bind(el, type, handler) { if (el) el.addEventListener(type, handler); }
 
 // 事件联动
-bind(fontFamilySelect, 'change', e => { customization.fontFamily = e.target.value; renderPreview(); });
+/**
+ * 主体字体选择变更：
+ * - 同步标签/值字体到主体字体（默认一致，避免出现“选择了新字体但文本仍用旧字体”的情况）
+ * - 预加载新 family，刷新预览
+ */
+bind(fontFamilySelect, 'change', e => {
+  const newVal = e.target.value;
+  const oldWrapper = customization.fontFamily;
+
+  // 更新主体字体
+  customization.fontFamily = newVal;
+
+  // 强制同步：标签/值字体与主体一致（用户如需不同，可在“高级字体样式”中再单独修改）
+  customization.globalLabelFontFamily = newVal;
+  customization.globalValueFontFamily = newVal;
+  if (globalLabelFontSelect) globalLabelFontSelect.value = newVal;
+  if (globalValueFontSelect) globalValueFontSelect.value = newVal;
+
+  // 预加载该 family（不阻塞 UI）
+  try {
+    const fam = String(newVal).replace(/['"]/g, '').split(',')[0].trim();
+    if (fam && document.fonts && document.fonts.load) {
+      document.fonts.load(`16px "${fam}"`).catch(() => {});
+    }
+  } catch (_e) {}
+
+  console.debug('[font-change] wrapper/global synced', { oldWrapper, newVal });
+  renderPreview();
+});
 bind(primaryColorInput, 'input', e => { customization.primaryColor = e.target.value; if (primaryColorCodeInput) primaryColorCodeInput.value = e.target.value; renderPreview(); });
 bind(secondaryColorInput, 'input', e => { customization.secondaryColor = e.target.value; if (secondaryColorCodeInput) secondaryColorCodeInput.value = e.target.value; renderPreview(); });
 // 颜色代码输入联动（主/辅色）
@@ -4406,6 +5267,13 @@ bind(bgGradientEndCodeInput, 'input', e => {
   if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v) && bgGradientEndColorInput) bgGradientEndColorInput.value = v;
   renderPreview();
 });
+bind(bgGradientStyleSelect, 'change', e => { customization.bgGradientStyle = e.target.value; renderPreview(); });
+bind(bgGradientAngleRange, 'input', e => {
+  customization.bgGradientAngle = parseInt(e.target.value || '135', 10);
+  if (bgGradientAngleValue) bgGradientAngleValue.textContent = String(customization.bgGradientAngle);
+  renderPreview();
+});
+bind(bgGradientDirectionSelect, 'change', e => { customization.bgGradientDirection = e.target.value; renderPreview(); });
 bind(bgImageUrlInput, 'input', e => { customization.bgImageUrl = e.target.value; renderPreview(); });
 
 bind(iconModeSelect, 'change', e => {
@@ -4474,6 +5342,29 @@ bind(dividerStyleSelect, 'change', e => { customization.dividerStyle = e.target.
 bind(barStyleSelect, 'change', e => { customization.barStyle = e.target.value; renderItemsEditor(); renderPreview(); });
 bind(barAnimationSelect, 'change', e => { customization.barAnimation = e.target.value; renderPreview(); });
 bind(percentDisplaySelect, 'change', e => { customization.percentDisplay = e.target.value; renderPreview(); });
+
+// 新增：第二部分 值框尺寸/位置 + 整体偏移/阴影 事件联动
+bind(valueBoxWidthPctRange, 'input', e => {
+  customization.valueBoxWidthPct = clamp(parseInt(e.target.value || '100', 10) || 100, 40, 100);
+  if (valueBoxWidthPctValue) valueBoxWidthPctValue.textContent = String(customization.valueBoxWidthPct);
+  renderPreview();
+});
+bind(valueBoxOffsetPctRange, 'input', e => {
+  customization.valueBoxOffsetPct = clamp(parseInt(e.target.value || '0', 10) || 0, -40, 40);
+  if (valueBoxOffsetPctValue) valueBoxOffsetPctValue.textContent = String(customization.valueBoxOffsetPct);
+  renderPreview();
+});
+bind(itemOffsetPctRange, 'input', e => {
+  customization.itemOffsetPct = clamp(parseInt(e.target.value || '0', 10) || 0, -40, 40);
+  if (itemOffsetPctValue) itemOffsetPctValue.textContent = String(customization.itemOffsetPct);
+  renderPreview();
+});
+
+bind(itemOffsetRightPctRange, 'input', e => {
+  customization.itemOffsetRightPct = clamp(parseInt(e.target.value || '0', 10) || 0, -40, 40);
+  if (itemOffsetRightPctValue) itemOffsetRightPctValue.textContent = String(customization.itemOffsetRightPct);
+  renderPreview();
+});
 
 // 委托点击：统一切换预览中的百分比显示，避免与内联 onclick 双重触发造成“来回切换为原状态”
 document.addEventListener('click', (e) => {
@@ -4655,7 +5546,21 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
       } else if (cfg.bgMode === 'gradient') {
         const start = (cfg.bgGradientStart && cfg.bgGradientStart.trim().length > 0) ? cfg.bgGradientStart : cfg.primaryColor;
         const end   = (cfg.bgGradientEnd   && cfg.bgGradientEnd.trim().length   > 0) ? cfg.bgGradientEnd   : cfg.secondaryColor;
-        const grad  = `linear-gradient(135deg, ${start}, ${end})`;
+        const style = (cfg.bgGradientStyle || 'linear');
+        const angle = Number(cfg.bgGradientAngle ?? 135) || 135;
+        const dir   = (cfg.bgGradientDirection || 'to bottom right');
+        let grad;
+        if (style === 'linear') {
+          grad = `linear-gradient(${angle}deg, ${start}, ${end})`;
+        } else if (style === 'radial') {
+          const pos = String(dir || 'center').replace(/^to\s+/, '');
+          grad = `radial-gradient(at ${pos}, ${start}, ${end})`;
+        } else if (style === 'conic') {
+          const pos = String(dir || 'center').replace(/^to\s+/, '');
+          grad = `conic-gradient(from ${angle}deg at ${pos}, ${start}, ${end})`;
+        } else {
+          grad = `linear-gradient(${angle}deg, ${start}, ${end})`;
+        }
         styleParts.push(`background:${grad} !important`);
       } else if (cfg.bgMode === 'image') {
         const url = esc(cfg.bgImageUrl || '');
@@ -4736,7 +5641,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
             return `
               <div class="st-item" data-type="bar" data-label="${esc(it.label || '')}">
                 <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
-                <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valueStyle('')}">
+                <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ${valueStyle('')}">
                   <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
                     <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                   </div>
@@ -4760,13 +5665,33 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
           } else if (it.type === 'divider') {
             if (row.length) { rows.push(row); row = []; }
             bodyHTML += dividerHTMLForOutput(cfg.dividerStyle, cfg.primaryColor, (cfg.section2DividerColor || ''));
+          } else if (it.type === 'longtext') {
+            if (row.length) { rows.push(row); row = []; }
+            rows.push({ __LT__: it });
           } else {
             row.push(it);
             if (row.length === 3) { rows.push(row); row = []; }
           }
         });
         if (row.length) rows.push(row);
-        bodyHTML += rows.map(buildRow).join('');
+        bodyHTML += rows.map(r => {
+          if (!Array.isArray(r) && r && r.__LT__) {
+            const it = r.__LT__;
+            const id = idFromLabel(it.label, 'val_');
+            const lColor = (cfg.section2LabelColor && cfg.section2LabelColor.trim()) ? cfg.section2LabelColor : (it.labelColor || cfg.secondaryColor);
+            const vColor = (cfg.section2ValueColor && cfg.section2ValueColor.trim()) ? cfg.section2ValueColor : (it.valueColor || cfg.primaryColor);
+            bindings.push({ type:'longtext', label: it.label || '', id });
+            return `
+              <div class="st-row" style="--rs-sep-color:${cfg.primaryColor};">
+                <div class="st-item" data-type="longtext" data-label="${esc(it.label || '')}">
+                  <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
+                  <div class="st-value st-longtext" id="${id}" style="${valueStyle(vColor)}; margin-top:8px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.06); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">${esc(it.value || '')}</div>
+                </div>
+              </div>
+            `;
+          }
+          return buildRow(Array.isArray(r) ? r : []);
+        }).join('');
       } else {
         bodyHTML = list.map(it => {
           if (it.type === 'divider') {
@@ -4777,19 +5702,26 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
             const lColor = (cfg.section2LabelColor && cfg.section2LabelColor.trim()) ? cfg.section2LabelColor : (it.labelColor || cfg.secondaryColor);
             const vColor = (cfg.section2ValueColor && cfg.section2ValueColor.trim()) ? cfg.section2ValueColor : (it.valueColor || cfg.primaryColor);
             bindings.push({ type:'text', label: it.label || '', id });
-            if (cfg.layout === 'stacked' || cfg.layout === 'center') {
-              const align = cfg.layout === 'center' ? 'center' : 'flex-start';
-              return `
-                <div class="st-item" data-type="text" data-label="${esc(it.label || '')}" style="display:flex;flex-direction:column;align-items:${align};gap:4px;">
-                  <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
-                  <div class="st-value" id="${id}" style="${valueStyle(vColor)}">${esc(it.value || '')}</div>
-                </div>
-              `;
-            }
+            // 文本类不受“文字排列方式”影响，始终左右排列
             return `
               <div class="st-item" data-type="text" data-label="${esc(it.label || '')}" style="display:flex;align-items:center;justify-content:space-between;">
                 <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
                 <div class="st-value" id="${id}" style="${valueStyle(vColor)}">${esc(it.value || '')}</div>
+              </div>
+            `;
+          }
+          if (it.type === 'longtext') {
+            const id = idFromLabel(it.label, 'val_');
+            const lColor = (cfg.section2LabelColor && cfg.section2LabelColor.trim()) ? cfg.section2LabelColor : (it.labelColor || cfg.secondaryColor);
+            const vColor = (cfg.section2ValueColor && cfg.section2ValueColor.trim()) ? cfg.section2ValueColor : (it.valueColor || cfg.primaryColor);
+            bindings.push({ type:'longtext', label: it.label || '', id });
+            const spanAll = (cfg.layout === 'two-column') ? 'grid-column: 1 / -1;' : '';
+            return `
+              <div class="st-item" data-type="longtext" data-label="${esc(it.label || '')}" style="display:block; ${spanAll}">
+                <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
+                <div class="st-value st-longtext" id="${id}" style="${valueStyle(vColor)}; margin-top:6px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">
+                  ${esc(it.value || '')}
+                </div>
               </div>
             `;
           }
@@ -4809,7 +5741,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
               return `
                 <div class="st-item" style="display:flex;flex-direction:column;align-items:${align};gap:4px;">
                   <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
-                  <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valueStyle('')}">
+                  <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ${valueStyle('')}">
                     <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
                       <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                     </div>
@@ -4820,7 +5752,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
             return `
               <div class="st-item" style="display:flex;align-items:center;justify-content:space-between;">
                 <div class="st-label" style="${labelStyle(lColor)}">${esc(it.label || '')}</div>
-                <div class="st-value" style="width: clamp(120px, 40vw, 160px); ${valueStyle('')}">
+                <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ${valueStyle('')}">
                   <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector('.st-progress-percent');var show=!(bar.classList&amp;&amp;bar.classList.contains('show-percent'));if(bar.classList)bar.classList.toggle('show-percent',show);if(s){s.style.opacity=show?'1':'0';}})(this)">
                     <div id="${id}" class="${classes.join(' ')}" style="${widthStyle}; ${colorStyle}"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:${p}%;">${p}%</span>
                   </div>
@@ -5126,7 +6058,64 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
       const animMap = { none:'anim-none', fade:'anim-fade-in', slide:'anim-slide-up', pulse:'anim-pulse', neon:'anim-neon-glow', shimmer:'anim-shimmer', tilt3d:'anim-tilt-3d' };
       const animClass = animMap[(cfg.animationType || 'none')] || 'anim-none';
 
-      // 生成最终片段（仅“状态栏框”，不包含整页背景/HTML外壳）
+      // 生成所需字体的 @import 链接（去重）
+      const fontImports = (() => {
+        const fonts = new Set();
+        if (cfg.fontFamily) fonts.add(cfg.fontFamily);
+        if (cfg.globalLabelFontFamily) fonts.add(cfg.globalLabelFontFamily);
+        if (cfg.globalValueFontFamily) fonts.add(cfg.globalValueFontFamily);
+
+        const imports = [];
+        const importSet = new Set();
+        const pushImport = (s) => { if (s && !importSet.has(s)) { importSet.add(s); imports.push(s); } };
+
+        // 内置字体映射（Google Fonts / 特殊源）
+        const fontMap = {
+          'BoutiqueBitmap9x9': '@import url(\'https://fontsapi.zeoseven.com/65/main/result.css\');',
+          'Dancing Script': '@import url(\'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap\');',
+          'Pacifico': '@import url(\'https://fonts.googleapis.com/css2?family=Pacifico&display=swap\');',
+          'Great Vibes': '@import url(\'https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap\');',
+          'Allura': '@import url(\'https://fonts.googleapis.com/css2?family=Allura&display=swap\');',
+          'Caveat': '@import url(\'https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap\');',
+          'Indie Flower': '@import url(\'https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap\');',
+          'Rajdhani': '@import url(\'https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap\');',
+          'Audiowide': '@import url(\'https://fonts.googleapis.com/css2?family=Audiowide&display=swap\');',
+          'Electrolize': '@import url(\'https://fonts.googleapis.com/css2?family=Electrolize&display=swap\');',
+          'Shadows Into Light': '@import url(\'https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap\');',
+          'Permanent Marker': '@import url(\'https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap\');',
+          'Ma Shan Zheng': '@import url(\'https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap\');',
+          'ZCOOL XiaoWei': '@import url(\'https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap\');',
+          'Long Cang': '@import url(\'https://fonts.googleapis.com/css2?family=Long+Cang&display=swap\');',
+          'Zhi Mang Xing': '@import url(\'https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap\');',
+          'Merriweather': '@import url(\'https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap\');',
+          'Playfair Display': '@import url(\'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap\');',
+          'Roboto': '@import url(\'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap\');',
+          'Montserrat': '@import url(\'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap\');',
+          'Noto Sans SC': '@import url(\'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap\');',
+          'Inter': '@import url(\'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\');',
+          'Noto Serif SC': '@import url(\'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap\');'
+        };
+
+        fonts.forEach(font => {
+          const fontName = String(font).replace(/['"]/g, '').split(',')[0].trim();
+
+          // 自定义字体优先（记录于 customization.customFonts）
+          const customFont = (customization.customFonts || []).find(f => {
+            const cfName = String(f.name || '').replace(/['"]/g, '').split(',')[0].trim();
+            return cfName === fontName;
+          });
+
+          if (customFont && customFont.url) {
+            pushImport(`@import url('${customFont.url}');`);
+          } else if (fontMap[fontName]) {
+            pushImport(fontMap[fontName]);
+          }
+        });
+
+        return imports.length > 0 ? imports.join('\n') : '';
+      })();
+
+      // 生成最终片段（仅"状态栏框"，不包含整页背景/HTML外壳）
       const doc = [
         '<!DOCTYPE html>',
         '<html lang="zh-CN">',
@@ -5134,7 +6123,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '<meta charset="UTF-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
         '<title>' + esc(title || '角色状态') + '</title>',
-        '<style>', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '</style>',
+        '<style>', fontImports ? fontImports + '\n' : '', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '</style>',
         '</head>',
         '<body>',
         '<textarea id="ny-raw-data" style="display:none; white-space: pre;">$1</textarea>',
@@ -5231,7 +6220,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '}',
         'var _fillStats = { text:0, bar:0, miss:0 };',
         'binds.forEach(function(b){',
-        '  if(b.type==="text"){',
+        '  if(b.type==="text"||b.type==="longtext"){',
         '    var rawVal = \'\';',
         '    var re = reMap[b.label];',
         '    if (re) { var m = raw.match(re); rawVal = m ? m[1].trim() : \'\'; }',
@@ -5318,7 +6307,21 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
   } else if (cfg.bgMode === 'gradient') {
     const start = (cfg.bgGradientStart && cfg.bgGradientStart.trim().length > 0) ? cfg.bgGradientStart : cfg.primaryColor;
     const end   = (cfg.bgGradientEnd   && cfg.bgGradientEnd.trim().length   > 0) ? cfg.bgGradientEnd   : cfg.secondaryColor;
-    const grad  = 'linear-gradient(135deg, ' + start + ', ' + end + ')';
+    const style = (cfg.bgGradientStyle || 'linear');
+    const angle = Number(cfg.bgGradientAngle ?? 135) || 135;
+    const dir   = (cfg.bgGradientDirection || 'to bottom right');
+    let grad;
+    if (style === 'linear') {
+      grad = 'linear-gradient(' + angle + 'deg, ' + start + ', ' + end + ')';
+    } else if (style === 'radial') {
+      const pos = String(dir || 'center').replace(/^to\\s+/, '');
+      grad = 'radial-gradient(at ' + pos + ', ' + start + ', ' + end + ')';
+    } else if (style === 'conic') {
+      const pos = String(dir || 'center').replace(/^to\\s+/, '');
+      grad = 'conic-gradient(from ' + angle + 'deg at ' + pos + ', ' + start + ', ' + end + ')';
+    } else {
+      grad = 'linear-gradient(' + angle + 'deg, ' + start + ', ' + end + ')';
+    }
     styleParts.push('background:' + grad + ' !important');
   } else if (cfg.bgMode === 'image') {
     const url = esc(cfg.bgImageUrl || '');
@@ -5403,7 +6406,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
         return ''
           + '<div class="st-item" data-type="bar" data-label="' + esc(it.label || '') + '">'
           + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
-          + '  <div class="st-value" style="width: clamp(120px, 40vw, 160px); ' + valueStyle('') + '">'
+          + '  <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ' + valueStyle('') + '">'
           + '    <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector(\'.st-progress-percent\');if(s){s.style.opacity=(s.style.opacity===\'1\'?\'0\':\'1\');}})(this)">'
           + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:' + ph + '%;">' + ph + '%</span>'
           + '    </div>'
@@ -5425,13 +6428,31 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
       } else if (it.type === 'divider') {
         if (row.length) { rows.push(row); row = []; }
         bodyHTML += dividerHTMLForOutput(cfg.dividerStyle, cfg.primaryColor, (cfg.section2DividerColor || ''));
+      } else if (it.type === 'longtext') {
+        if (row.length) { rows.push(row); row = []; }
+        rows.push({ __LT__: it });
       } else {
         row.push(it);
         if (row.length === 3) { rows.push(row); row = []; }
       }
     });
     if (row.length) rows.push(row);
-    bodyHTML += rows.map(buildRow).join('');
+    bodyHTML += rows.map(function(r){
+      if (!Array.isArray(r) && r && r.__LT__) {
+        var it = r.__LT__;
+        var lColor = (cfg.section2LabelColor && cfg.section2LabelColor.trim()) ? cfg.section2LabelColor : (it.labelColor || cfg.secondaryColor);
+        var vColor = (cfg.section2ValueColor && cfg.section2ValueColor.trim()) ? cfg.section2ValueColor : (it.valueColor || cfg.primaryColor);
+        var ph = '$' + (groupIdx++);
+        return ''
+          + '<div class="st-row" style="--rs-sep-color:' + cfg.primaryColor + ';">'
+          + '  <div class="st-item" data-type="longtext" data-label="' + esc(it.label || '') + '">'
+          + '    <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
+          + '    <div class="st-value st-longtext" style="' + valueStyle(vColor) + '; margin-top:8px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.06); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">' + ph + '</div>'
+          + '  </div>'
+          + '</div>';
+      }
+      return buildRow(Array.isArray(r) ? r : []);
+    }).join('');
   } else {
     bodyHTML = (list || []).map(function(it){
       if (it.type === 'divider') {
@@ -5443,18 +6464,24 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
         const vColor = s2Value ? s2Value : (it.valueColor || cfg.primaryColor);
         const ph = '$' + groupIdx;
         groupIdx++;
-        if (cfg.layout === 'stacked' || cfg.layout === 'center') {
-          const align = (cfg.layout === 'center') ? 'center' : 'flex-start';
-          return ''
-            + '<div class="st-item" data-type="text" data-label="' + esc(it.label || '') + '" style="display:flex;flex-direction:column;align-items:' + align + ';gap:4px;">'
-            + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
-            + '  <div class="st-value" id="' + id + '" style="' + valueStyle(vColor) + '">' + ph + '</div>'
-            + '</div>';
-        }
+        // 文本类不受“文字排列方式”影响，始终左右排列
         return ''
           + '<div class="st-item" data-type="text" data-label="' + esc(it.label || '') + '" style="display:flex;align-items:center;justify-content:space-between;">'
           + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
           + '  <div class="st-value" id="' + id + '" style="' + valueStyle(vColor) + '">' + ph + '</div>'
+          + '</div>';
+      }
+      if (it.type === 'longtext') {
+        const id = idFromLabel(it.label, 'val_');
+        const lColor = s2Label ? s2Label : (it.labelColor || cfg.secondaryColor);
+        const vColor = s2Value ? s2Value : (it.valueColor || cfg.primaryColor);
+        const ph = '$' + groupIdx;
+        groupIdx++;
+        const spanAll = (cfg.layout === 'two-column') ? 'grid-column: 1 / -1;' : '';
+        return ''
+          + '<div class="st-item" data-type="longtext" data-label="' + esc(it.label || '') + '" style="display:block; ' + spanAll + '">'
+          + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
+          + '  <div class="st-value st-longtext" id="' + id + '" style="' + valueStyle(vColor) + '; margin-top:6px; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere; background: rgba(255,255,255,.05); padding:10px; border-radius:8px; box-shadow: inset 0 0 10px rgba(0,0,0,.08), 0 1px 8px rgba(0,0,0,.18);">' + ph + '</div>'
           + '</div>';
       }
       if (it.type === 'bar') {
@@ -5473,7 +6500,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
           return ''
             + '<div class="st-item" style="display:flex;flex-direction:column;align-items:' + align + ';gap:4px;">'
             + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
-            + '  <div class="st-value" style="width: clamp(120px, 40vw, 160px); ' + valueStyle('') + '">'
+            + '  <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ' + valueStyle('') + '">'
             + '    <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector(\'.st-progress-percent\');if(s){s.style.opacity=(s.style.opacity===\'1\'?\'0\':\'1\');}})(this)">'
             + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:' + ph + '%;">' + ph + '%</span>'
             + '    </div>'
@@ -5483,7 +6510,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
         return ''
           + '<div class="st-item" style="display:flex;align-items:center;justify-content:space-between;">'
           + '  <div class="st-label" style="' + labelStyle(lColor) + '">' + esc(it.label || '') + '</div>'
-          + '  <div class="st-value" style="width: clamp(120px, 40vw, 160px); ' + valueStyle('') + '">'
+          + '  <div class="st-value" style="width: clamp(120px, 40vw, calc(var(--_vb-base-max,160px) * var(--vb-width-pct,100) / 100)); transform: translateX(calc(1% * var(--vb-offset-pct, 0))); ' + valueStyle('') + '">'
           + '    <div class="st-progress-bar" onclick="(function(bar){var s=bar.querySelector(\'.st-progress-percent\');if(s){s.style.opacity=(s.style.opacity===\'1\'?\'0\':\'1\');}})(this)">'
           + '      <div id="' + id + '" class="' + classes.join(' ') + '" style="' + widthStyle + '; ' + colorStyle + '"></div><span class="st-progress-percent" style="position:absolute;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#fff;pointer-events:none;opacity:0;transition:opacity .3s;--pct:' + ph + '%;">' + ph + '%</span>'
           + '    </div>'
@@ -5755,6 +6782,63 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
   const animMap = { none:'anim-none', fade:'anim-fade-in', slide:'anim-slide-up', pulse:'anim-pulse', neon:'anim-neon-glow', shimmer:'anim-shimmer', tilt3d:'anim-tilt-3d' };
   const animClass = animMap[(cfg.animationType || 'none')] || 'anim-none';
 
+  // 生成所需字体的 @import 链接（去重）
+  const fontImports = (() => {
+    const fonts = new Set();
+    if (cfg.fontFamily) fonts.add(cfg.fontFamily);
+    if (cfg.globalLabelFontFamily) fonts.add(cfg.globalLabelFontFamily);
+    if (cfg.globalValueFontFamily) fonts.add(cfg.globalValueFontFamily);
+
+    const imports = [];
+    const importSet = new Set();
+    const pushImport = (s) => { if (s && !importSet.has(s)) { importSet.add(s); imports.push(s); } };
+
+    // 内置字体映射（Google Fonts / 特殊源）
+    const fontMap = {
+      'BoutiqueBitmap9x9': '@import url(\'https://fontsapi.zeoseven.com/65/main/result.css\');',
+      'Dancing Script': '@import url(\'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap\');',
+      'Pacifico': '@import url(\'https://fonts.googleapis.com/css2?family=Pacifico&display=swap\');',
+      'Great Vibes': '@import url(\'https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap\');',
+      'Allura': '@import url(\'https://fonts.googleapis.com/css2?family=Allura&display=swap\');',
+      'Caveat': '@import url(\'https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap\');',
+      'Indie Flower': '@import url(\'https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap\');',
+      'Rajdhani': '@import url(\'https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap\');',
+      'Audiowide': '@import url(\'https://fonts.googleapis.com/css2?family=Audiowide&display=swap\');',
+      'Electrolize': '@import url(\'https://fonts.googleapis.com/css2?family=Electrolize&display=swap\');',
+      'Shadows Into Light': '@import url(\'https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap\');',
+      'Permanent Marker': '@import url(\'https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap\');',
+      'Ma Shan Zheng': '@import url(\'https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap\');',
+      'ZCOOL XiaoWei': '@import url(\'https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap\');',
+      'Long Cang': '@import url(\'https://fonts.googleapis.com/css2?family=Long+Cang&display=swap\');',
+      'Zhi Mang Xing': '@import url(\'https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap\');',
+      'Merriweather': '@import url(\'https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap\');',
+      'Playfair Display': '@import url(\'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap\');',
+      'Roboto': '@import url(\'https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap\');',
+      'Montserrat': '@import url(\'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap\');',
+      'Noto Sans SC': '@import url(\'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap\');',
+      'Inter': '@import url(\'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap\');',
+      'Noto Serif SC': '@import url(\'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap\');'
+    };
+
+    fonts.forEach(font => {
+      const fontName = String(font).replace(/['"]/g, '').split(',')[0].trim();
+
+      // 自定义字体优先（记录于 customization.customFonts）
+      const customFont = (customization.customFonts || []).find(f => {
+        const cfName = String(f.name || '').replace(/['"]/g, '').split(',')[0].trim();
+        return cfName === fontName;
+      });
+
+      if (customFont && customFont.url) {
+        pushImport(`@import url('${customFont.url}');`);
+      } else if (fontMap[fontName]) {
+        pushImport(fontMap[fontName]);
+      }
+    });
+
+    return imports.length > 0 ? imports.join('\n') : '';
+  })();
+
   // 生成最终静态片段（不包含 textarea 与 script）
   const doc = [
     '<!DOCTYPE html>',
@@ -5763,7 +6847,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '<meta charset="UTF-8">',
     '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
     '<title>' + esc(title || '角色状态') + '</title>',
-    '<style>', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '</style>',
+    '<style>', fontImports ? fontImports + '\n' : '', css, (extraCSS ? '\n' + extraCSS : ''), (advCSS ? '\n' + advCSS : ''), '</style>',
     '</head>',
     '<body>',
     '<section id="ny-status" class="status-preview-wrapper ' + theme + ' percent-style-' + (cfg.percentDisplay || 'center') + ' ' + animClass + '" style="' + wrapperStyle + '; box-sizing:border-box; display:block; margin:0 auto; width:100%; max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px); overflow:visible; padding-bottom:14px; border-bottom:1px solid transparent; white-space: normal; --anim-speed:' + (cfg.animSpeed || 1) + 's; --anim-intensity:' + (cfg.animIntensity || .6) + ';">',
@@ -5793,7 +6877,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
         lines.push(`<${name}状态栏>`);
         (list || []).forEach(it => {
           if (!it) return;
-          if (it.type === 'text') {
+          if (it.type === 'text' || it.type === 'longtext') {
             const label = String(it.label || '标签').trim() || '标签';
             lines.push(`${label}：（需要替换的值）`);
           } else if (it.type === 'bar') {
@@ -5819,7 +6903,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
         const name = String(wrapperName || 'Kerwin').replace(/[^A-Za-z0-9\u4E00-\u9FFF_-]+/g, '').trim() || 'Kerwin';
         const escRe = s => String(s || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const labels = (items || [])
-          .filter(it => it && (it.type === 'text' || it.type === 'bar'))
+          .filter(it => it && (it.type === 'text' || it.type === 'longtext' || it.type === 'bar'))
           .map(it => escRe(String(it.label || '').trim()))
           .filter(Boolean);
 
@@ -5879,7 +6963,7 @@ function buildRegexReference(list, wrapperName){
     // 方案A：对已提取的块内容按标签替换值
     lines.push('—— 逐项替换（方案A：对已提取的块内容执行）——');
     (list || []).forEach(it => {
-      if (!it || (it.type !== 'text' && it.type !== 'bar')) return;
+      if (!it || (it.type !== 'text' && it.type !== 'longtext' && it.type !== 'bar')) return;
       const label = String(it.label || '').trim();
       if (!label) return;
       const L = escRe(label);
@@ -5900,7 +6984,7 @@ function buildRegexReference(list, wrapperName){
     // 方案B：直接在 <xxx状态栏> 块内替换，保留外层标签
     lines.push('—— 逐项替换（方案B：直接在 <xxx状态栏> 块内替换，保留外层标签）——');
     (list || []).forEach(it => {
-      if (!it || (it.type !== 'text' && it.type !== 'bar')) return;
+      if (!it || (it.type !== 'text' && it.type !== 'longtext' && it.type !== 'bar')) return;
       const label = String(it.label || '').trim();
       if (!label) return;
       const L = escRe(label);
@@ -6128,7 +7212,7 @@ function buildRegexReference(list, wrapperName){
 .fx-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
 .fx-stars .fx-star{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--star-color,#fff);box-shadow:0 0 6px var(--star-color,#fff);opacity:.8;animation:starTwinkle var(--star-speed,2s) ease-in-out infinite;}
 @keyframes starTwinkle{0%,100%{opacity:.3}50%{opacity:1}}
-.fx-sparkles .fx-sparkle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--sparkle-color,#ffd966);box-shadow:0 0 8px rgba(255,255,200,.8);opacity:.9;}
+.fx-sparkles .fx-sparkle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--sparkle-color,#ffd966);box-shadow:0 0 8px rgba(255,255,200,.8);opacity:.9;animation-iteration-count:infinite;animation-timing-function:linear;}
 .fx-sparkles .fx-sparkle.glow{box-shadow:0 0 10px var(--sparkle-color,#ffd966),0 0 20px var(--sparkle-color,#ffd966);}
 @keyframes sparkleDown{0%{top:-10%;opacity:0}10%{opacity:.9}90%{opacity:.9}100%{top:110%;opacity:0}}
 @keyframes sparkleUp{0%{top:110%;opacity:0}10%{opacity:.9}90%{opacity:.9}100%{top:-10%;opacity:0}}
@@ -6197,6 +7281,8 @@ function buildRegexReference(list, wrapperName){
           s.style.animationDuration = speed + 's';
           s.style.animationName = (dir==='down' ? 'sparkleDown' : 'sparkleUp');
           s.style.animationDelay = delay2 + 's';
+          s.style.animationIterationCount = 'infinite';
+          s.style.animationTimingFunction = 'linear';
           layer2.appendChild(s);
         }
         wrapper.appendChild(layer2);
@@ -6312,10 +7398,10 @@ function buildRegexReference(list, wrapperName){
         recipes.push('HTML 内值替换规则（基于 id）——在下方原生 HTML 上逐项执行：');
         recipes.push('—— 文本值：按 id="val_标签名" 定位，替换 <div class="st-value" ...>与</div> 之间的纯文本 ——');
         (items || []).forEach(function(it){
-          if (!it || (it.type !== 'text' && it.type !== 'bar')) return;
+          if (!it || (it.type !== 'text' && it.type !== 'longtext' && it.type !== 'bar')) return;
           var label = String(it.label || '').trim();
           if (!label) return;
-          if (it.type === 'text') {
+          if (it.type === 'text' || it.type === 'longtext') {
             var idText = idFromLabel(label, 'val_');
             recipes.push('[文本] ' + label);
             recipes.push('FIND    (?s)(<div class="st-value"[^>]*id="' + idText + '"[^>]*>)([\\s\\S]*?)(</div>)');
@@ -6451,7 +7537,7 @@ function buildRegexReference(list, wrapperName){
 .fx-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
 .fx-stars .fx-star{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--star-color,#fff);box-shadow:0 0 6px var(--star-color,#fff);opacity:.8;animation:starTwinkle var(--star-speed,2s) ease-in-out infinite;}
 @keyframes starTwinkle{0%,100%{opacity:.3}50%{opacity:1}}
-.fx-sparkles .fx-sparkle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--sparkle-color,#ffd966);box-shadow:0 0 8px rgba(255,255,200,.8);opacity:.9;}
+.fx-sparkles .fx-sparkle{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--sparkle-color,#ffd966);box-shadow:0 0 8px rgba(255,255,200,.8);opacity:.9;animation-iteration-count:infinite;animation-timing-function:linear;}
 .fx-sparkles .fx-sparkle.glow{box-shadow:0 0 10px var(--sparkle-color,#ffd966),0 0 20px var(--sparkle-color,#ffd966);}
 @keyframes sparkleDown{0%{top:-10%;opacity:0}10%{opacity:.9}90%{opacity:.9}100%{top:110%;opacity:0}}
 @keyframes sparkleUp{0%{top:110%;opacity:0}10%{opacity:.9}90%{opacity:.9}100%{top:-10%;opacity:0}}
@@ -6535,6 +7621,8 @@ function buildRegexReference(list, wrapperName){
           s.style.animationDuration = speed + 's';
           s.style.animationName = (dir==='down' ? 'sparkleDown' : 'sparkleUp');
           s.style.animationDelay = delay2 + 's';
+          s.style.animationIterationCount = 'infinite';
+          s.style.animationTimingFunction = 'linear';
           layer2.appendChild(s);
         }
         wrapper.appendChild(layer2);
@@ -6618,6 +7706,7 @@ function buildRegexReference(list, wrapperName){
     // -----------------------
     try {
       applyThemeDefaults(currentTheme);
+      updateAddItemOptionVisibility();
       renderItemsEditor();
       setupCollapsibleSections();
       updateBgFieldsVisibility();
@@ -7091,5 +8180,29 @@ try {
   applyRoundingAndOpacity();
 })();
 </script>
+<style id="section2-sizing">
+/* 第二部分：值框宽度/位置 + 整体偏移（预览与导出统一变量接口） */
+.status-preview-wrapper .st-item {
+  margin-left: calc(1% * var(--item-offset-pct, 0));
+  margin-right: calc(1% * var(--item-offset-right-pct, 0));
+}
+
+/* 值框：进度条/数值框默认基准 160px；文本值基准更大些，便于阅读 */
+.status-preview-wrapper .st-item .st-value {
+  --_vb-base-max: 160px;
+  width: clamp(120px, 40vw, calc(var(--_vb-base-max) * var(--vb-width-pct, 100) / 100));
+  transform: translateX(calc(1% * var(--vb-offset-pct, 0)));
+}
+.status-preview-wrapper .st-item .st-value.st-text {
+  --_vb-base-max: 240px;
+  max-width: clamp(120px, 60vw, calc(var(--_vb-base-max) * var(--vb-width-pct, 100) / 100));
+}
+
+@media (max-width: 800px){
+  /* 移动端防溢出：整体偏移与值框偏移在小屏清零，值框占满宽度 */
+  .status-preview-wrapper .st-item { margin-left: 0; margin-right: 0; }
+  .status-preview-wrapper .st-item .st-value { transform: none; width: 100% !important; max-width: 100% !important; }
+}
+</style>
 </body>
 </html>
