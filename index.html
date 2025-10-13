@@ -5999,7 +5999,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
 
        // 最小 CSS（组件级，移除页面背景相关）
        const css = [
-         '.status-preview-wrapper{position:relative;box-sizing:border-box;display:block;margin:0 auto;width:100%;max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px);overflow:visible;padding-bottom:14px;border-bottom:1px solid transparent;}',
+         '.status-preview-wrapper{position:relative;box-sizing:border-box;display:block;margin:0 auto;width:100%;max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px);overflow:visible !important;padding-bottom:14px;border-bottom:1px solid transparent;}',
          '.status-preview-wrapper hr{margin:4px 0 !important;}',
          '.status-preview-wrapper .st-header{display:flex;align-items:center;gap:.6em;}',
          '.status-preview-wrapper .st-body > hr:last-child{margin-bottom:0 !important;}',
@@ -6007,9 +6007,10 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
          // 多图层自定义背景样式
          '.status-preview-wrapper .bg-layers{position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;overflow:hidden;}',
          '.status-preview-wrapper .bg-layer{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;}',
-         '.status-preview-wrapper .bg-components-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:visible;}',
+         '.status-preview-wrapper .bg-components-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:visible !important;}',
          '.status-preview-wrapper .bg-comp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:auto;user-select:none;-webkit-user-drag:none;}',
          '.status-preview-wrapper .st-header,.status-preview-wrapper .st-body{position:relative;z-index:1;}',
+         'html, body{background:transparent !important;}',
          // 动画类（与预览保持一致）
          '.anim-none{}',
          '@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}',
@@ -6515,6 +6516,7 @@ const headerInner = pos === 'right' ? `${titleSpan}${iconHTML}` : (pos === 'left
         '    }, 18);',
         '  });',
         '} catch (e) {}',
+        'try{(function(){var st=document.getElementById("ny-status");var g=st?st.querySelector(".bg-components-layer"):null;var bodyBg=window.getComputedStyle(document.body).backgroundColor;var stOv=st?window.getComputedStyle(st).overflow:null;var gOv=g?window.getComputedStyle(g).overflow:null;console.log("[export-diagnose]",{status_overflow:stOv,components_overflow:gOv,body_bg:bodyBg});})();}catch(_e){}',
         '})();',
         '<' + '/script>',
         '</body>',
@@ -6781,7 +6783,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
 
   // 组件级最小 CSS（与导出预览一致，去除页面背景）
   const css = [
-    '.status-preview-wrapper{position:relative;box-sizing:border-box;display:block;margin:0 auto;width:100%;max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px);overflow:visible;padding-bottom:14px;border-bottom:1px solid transparent;}',
+    '.status-preview-wrapper{position:relative;box-sizing:border-box;display:block;margin:0 auto;width:100%;max-width:clamp(280px, 92vw,' + (cfg.statusbarMaxWidth || 600) + 'px);overflow:visible !important;padding-bottom:14px;border-bottom:1px solid transparent;}',
     '.status-preview-wrapper hr{margin:4px 0 !important;}',
     '.status-preview-wrapper .st-header{display:flex;align-items:center;gap:.6em;}',
     '.status-preview-wrapper .st-body > hr:last-child{margin-bottom:0 !important;}',
@@ -6789,9 +6791,10 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     // 多图层自定义背景样式
     '.status-preview-wrapper .bg-layers{position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:inherit;overflow:hidden;}',
     '.status-preview-wrapper .bg-layer{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;}',
-    '.status-preview-wrapper .bg-components-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:visible;}',
+    '.status-preview-wrapper .bg-components-layer{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:visible !important;}',
     '.status-preview-wrapper .bg-comp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:auto;user-select:none;-webkit-user-drag:none;}',
     '.status-preview-wrapper .st-header,.status-preview-wrapper .st-body{position:relative;z-index:1;}',
+    'html, body{background:transparent !important;}',
     '.anim-none{}',
     '@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}',
     '.anim-fade-in{animation:fadeIn var(--anim-speed,1s) ease both;}',
@@ -7128,6 +7131,7 @@ const headerInner = pos === 'right' ? (titleSpan + iconHTML) : (pos === 'left' ?
     '(function(){document.addEventListener("click",function(e){var bar=e.target.closest(".st-progress-bar");if(bar&&bar.closest("#ny-status")){var pct=bar.querySelector(".st-progress-percent");if(pct){pct.style.opacity=(pct.style.opacity==="1"?"0":"1");}}});',
     '// 长文字打字机（静态分组片段，仅对 data-effect="typewriter" 的元素）',
     'try{var nodes=document.querySelectorAll("#ny-status .st-longtext[data-effect=\\"typewriter\\"]");try{console.log("[group-typewriter] nodes:",nodes.length);}catch(_e){};nodes.forEach(function(el){var full=el.textContent||"";el.textContent="";var i=0;var timer=setInterval(function(){if(i>=full.length){clearInterval(timer);return;}el.textContent=full.slice(0,++i);},18);});}catch(e){}',
+    'try{(function(){var st=document.getElementById("ny-status");var g=st?st.querySelector(".bg-components-layer"):null;var bodyBg=window.getComputedStyle(document.body).backgroundColor;var stOv=st?window.getComputedStyle(st).overflow:null;var gOv=g?window.getComputedStyle(g).overflow:null;console.log("[export-diagnose]",{status_overflow:stOv,components_overflow:gOv,body_bg:bodyBg});})();}catch(_e){}',
     '})();',
     '<' + '/script>',
     '</body>',
@@ -8510,9 +8514,6 @@ try {
   .compact-colors-grid{grid-template-columns:1fr;}
 }
 </style>
-</body>
-</html>
-
 <style id="groupbox-collapsible">
 /* 功能框折叠：适用于 1.5 与 2 部分的 .form-group-box */
 .form-group-box.collapsible .form-box-title{
@@ -8572,3 +8573,6 @@ try {
   }
 })();
 </script>
+</body>
+</html>
+
