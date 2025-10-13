@@ -2140,6 +2140,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
             <div class="control-section collapsible" id="customization-section">
                 <h3>1.5 模板个性化 <span class="toggle-icon">▾</span></h3>
                 <div class="section-body">
+                <div class="form-group-box" data-title="字体与标题"><div class="form-box-title">字体与标题</div>
  
                 <div class="control-group">
                     <label for="font-family-select">字体家族</label>
@@ -2205,9 +2206,10 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         <input type="range" id="title-font-size-range" min="12" max="36" step="1" value="20">
                         <span class="value-pill"><span id="title-font-size-value">20</span>px</span>
                     </div>
-                    <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">仅影响标题，不影响项目文字。</p>
                 </div>
 
+                </div>
+                <div class="form-group-box" data-title="配色与外观"><div class="form-box-title">配色与外观</div>
                 <div class="control-group">
                     <label>主/辅色</label>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
@@ -2239,6 +2241,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     </div>
                 </div>
 
+                </div>
+                <div class="form-group-box" data-title="尺寸与宽度"><div class="form-box-title">尺寸与宽度</div>
                 <div class="control-group">
                     <label>预览最大宽度</label>
                     <div class="range-row">
@@ -2248,6 +2252,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     <p style="color: var(--text-secondary); font-size: 12px; margin-top:6px;">同时作为导出最大宽度；规则：clamp(280px, 92vw, Npx)。</p>
                 </div>
 
+                </div>
+                <div class="form-group-box" data-title="背景设置"><div class="form-box-title">背景设置</div>
                 <div class="control-group">
                     <label for="bg-mode-select">背景类型</label>
                     <select id="bg-mode-select">
@@ -2374,6 +2380,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                 </div>
                 </div>
 
+                </div>
+                <div class="form-group-box" data-title="图标设置"><div class="form-box-title">图标设置</div>
                 <div class="control-group" id="icon-mode-group">
                     <label for="icon-mode-select">图标</label>
                     <select id="icon-mode-select">
@@ -2450,6 +2458,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                     </select>
                 </div>
 
+                </div>
+                <div class="form-group-box" data-title="排版与间距"><div class="form-box-title">排版与间距</div>
                 <div class="control-group">
                     <label for="layout-select">文字排列方式</label>
                     <select id="layout-select">
@@ -2474,6 +2484,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                         </div>
                     </div>
                 </div>
+                </div>
+                <div class="form-group-box" data-title="分割线样式"><div class="form-box-title">分割线样式</div>
                 <div class="control-group">
                     <label for="divider-style-select">分割线样式</label>
                     <select id="divider-style-select">
@@ -2484,6 +2496,8 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                 </div>
 
                 <!-- 状态栏动画叠加：星星/碎屑/花瓣 -->
+                </div>
+                <div class="form-group-box" data-title="状态栏动画叠加"><div class="form-box-title">状态栏动画叠加</div>
                 <div class="control-group">
                     <label>状态栏动画叠加</label>
                     <div style="display:grid; gap:12px;">
@@ -2573,6 +2587,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
                             <p style="color: var(--text-secondary); font-size: 12px;">方向固定：自上而下</p>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
             </div>
@@ -3017,6 +3032,7 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
     let currentTitle = '角色状态';
     let currentEnterAnimation = 'none';
     let currentLoopAnimation = 'none';
+    let currentAnimation = 'none';
     let animSpeed = 1.0;
     let animIntensity = 0.70;
     // 预览固定高度：当调整宽度时锁定当前高度，避免随宽度变化
@@ -3327,12 +3343,20 @@ body.ui-light .code-output::-webkit-scrollbar-thumb {
     if (enterAnimSelect) {
       enterAnimSelect.addEventListener('change', (e) => {
         currentEnterAnimation = e.target.value;
+        // 统一动画描述，避免未定义变量导致点击崩溃
+        currentAnimation = (currentEnterAnimation !== 'none' || currentLoopAnimation !== 'none')
+          ? `${currentEnterAnimation}+${currentLoopAnimation}`
+          : 'none';
         renderPreview();
       });
     }
     if (loopAnimSelect) {
       loopAnimSelect.addEventListener('change', (e) => {
         currentLoopAnimation = e.target.value;
+        // 统一动画描述，避免未定义变量导致点击崩溃
+        currentAnimation = (currentEnterAnimation !== 'none' || currentLoopAnimation !== 'none')
+          ? `${currentEnterAnimation}+${currentLoopAnimation}`
+          : 'none';
         renderPreview();
       });
     }
@@ -7913,7 +7937,7 @@ function buildRegexReference(list, wrapperName){
         let groupDocAug = String(groupDoc);
         if (usingFx) {
           groupDocAug = String(groupDoc)
-            .replace('/</style>', fxCssBlock + '/</style>')
+            .replace('</style>', fxCssBlock + '</style>')
             .replace('</body>', '<script>' + fxJsBlock + '<' + '/script>\n</body>');
         }
 
@@ -8488,3 +8512,63 @@ try {
 </style>
 </body>
 </html>
+
+<style id="groupbox-collapsible">
+/* 功能框折叠：适用于 1.5 与 2 部分的 .form-group-box */
+.form-group-box.collapsible .form-box-title{
+  cursor:pointer;
+  position:relative;
+}
+.form-group-box.collapsible .form-box-title::after{
+  content:"▾";
+  position:relative;
+  float:right;
+  font-size:12px;
+  color: var(--text-secondary);
+  transition: transform var(--transition-speed);
+}
+.form-group-box.collapsible.collapsed .form-box-title::after{
+  transform: rotate(-90deg);
+}
+/* 折叠后仅保留标题，隐藏其余内容（不移除DOM，不改功能） */
+.form-group-box.collapsible.collapsed > *:not(.form-box-title){
+  display:none !important;
+}
+/* 可访问性：标题获得焦点时给出可视化提示 */
+.form-group-box.collapsible .form-box-title:focus-visible{
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+</style>
+
+<script id="groupbox-collapsible-init">
+/* 初始化：为 1.5 与 2 部分所有功能框启用折叠（仅UI，不改功能） */
+(function(){
+  function setupCollapsibleGroupBoxes(){
+    try{
+      var boxes = document.querySelectorAll('#customization-section .form-group-box, #section-2 .form-group-box');
+      boxes.forEach(function(box){
+        box.classList.add('collapsible');
+        var title = box.querySelector('.form-box-title');
+        if (title){
+          // 允许标题点击切换折叠
+          title.setAttribute('tabindex', '0');
+          title.addEventListener('click', function(){ box.classList.toggle('collapsed'); });
+          title.addEventListener('keydown', function(e){
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); box.classList.toggle('collapsed'); }
+          });
+        }
+      });
+      try{ console.log('[ui] groupbox collapsible initialized', boxes.length); }catch(_e){}
+    }catch(err){
+      console.warn('[ui] setupCollapsibleGroupBoxes error', err);
+    }
+  }
+  // 页面加载完成后启用
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', setupCollapsibleGroupBoxes);
+  } else {
+    setupCollapsibleGroupBoxes();
+  }
+})();
+</script>
