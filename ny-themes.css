@@ -1,0 +1,15 @@
+/* ============================================== */
+/* === 主题样式聚合文件（拆分版） === */
+/* 本文件仅通过 @import 引入各主题独立样式，保留原入口路径兼容性 */
+/* ============================================== */
+
+@import "themes/theme-mystic-noir.css";
+@import "themes/theme-cyber-grid.css";
+@import "themes/theme-neon-night.css";
+@import "themes/theme-glassmorphism.css";
+@import "themes/theme-steampunk.css";
+@import "themes/theme-paper-journal.css";
+@import "themes/theme-pixel-retro.css";
+@import "themes/theme-modern-minimal.css";
+@import "themes/theme-nature-aura.css";
+@import "themes/theme-ink-wash.css";

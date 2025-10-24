@@ -1,0 +1,41 @@
+/* --- 新增主题 4: 霓虹夜色 (Neon Night) --- */
+.theme-neon-night {
+    --st-bg: #0d0f1a;
+    --st-neon: #00f7ff;
+    --st-pink: #ff00a6;
+    --st-border: rgba(255,255,255,0.08);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: radial-gradient(1000px 400px at 10% 10%, rgba(0,247,255,.08), transparent),
+                radial-gradient(800px 300px at 90% 20%, rgba(255,0,166,.08), transparent),
+                var(--st-bg);
+    color: #e8f9ff;
+    border: 1px solid var(--st-border);
+    border-radius: 14px;
+    box-shadow: 0 0 24px rgba(0, 247, 255, .15), inset 0 0 24px rgba(255, 0, 166, .08);
+    padding: 18px;
+    position: relative;
+}
+/* 高级动效：扫光叠加，强度与速度跟随变量 */
+.theme-neon-night::after {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255, .08), transparent);
+    opacity: calc(.16 * var(--anim-intensity));
+    animation: shimmerMove calc(var(--anim-speed) * 2) ease-in-out infinite;
+}
+/* 高级动效：箱体脉冲，与变量联动 */
+.theme-neon-night { animation: neonPulse calc(var(--anim-speed) * 3) ease-in-out infinite; }
+@keyframes neonPulse {
+  0%,100%{ box-shadow:0 0 24px rgba(0,247,255,.15), inset 0 0 24px rgba(255,0,166,.08) }
+  50%{ box-shadow:0 0 36px rgba(0,247,255,.25), inset 0 0 36px rgba(255,0,166,.14) }
+}
+.theme-neon-night .st-header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 10px; }
+.theme-neon-night .st-title { font-size: 22px; color: var(--st-neon); text-shadow: 0 0 8px rgba(0,247,255,.7); }
+.theme-neon-night .st-body { display:grid; gap: 10px; }
+.theme-neon-night .st-item { display:flex; justify-content:space-between; align-items:center; padding: 10px; background: rgba(255,255,255,.03); border-radius: 8px; }
+.theme-neon-night .st-label { color: #a7e9ff; }
+.theme-neon-night .st-value { color: #ffffff; font-weight: 600; text-shadow: 0 0 6px rgba(255,255,255,.2); }
+.theme-neon-night .st-progress-bar { height: 8px; background: rgba(0,0,0,.4); border: 1px solid rgba(0,247,255,.3); border-radius:4px; padding: 1px; }
+.theme-neon-night .st-progress-bar-fill { height: 100%; width: 65%; background: linear-gradient(90deg, var(--st-pink), var(--st-neon)); box-shadow: 0 0 12px rgba(255,0,166,.5); }
+.theme-neon-night hr { border:none; height:1px; background: linear-gradient(to right, transparent, rgba(0,247,255,.7), transparent); }

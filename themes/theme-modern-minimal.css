@@ -1,0 +1,51 @@
+/* --- 新增主题 X5: 简约现代 (Modern Minimal) --- */
+.theme-modern-minimal {
+    --mm-bg: #121212;
+    --mm-text: #eaeaea;
+    --mm-border: rgba(255,255,255,.10);
+    --mm-accent: #ffffff;
+    font-family: Inter, 'Noto Sans SC', sans-serif;
+    background: var(--mm-bg);
+    color: var(--mm-text);
+    border: 1px solid var(--mm-border);
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    padding: 16px;
+    position: relative;
+}
+.theme-modern-minimal .st-header {
+    display:flex; align-items:center; justify-content:space-between;
+    padding-bottom: 8px; margin-bottom: 8px;
+    border-bottom: 1px solid var(--mm-border);
+}
+.theme-modern-minimal .st-title {
+    font-size: 20px;
+    color: var(--mm-accent);
+    text-shadow: 0 0 calc(4px + 6px * var(--anim-intensity)) rgba(255,255,255,.10);
+    letter-spacing: .01em;
+}
+.theme-modern-minimal .st-body { display:grid; gap: 10px; }
+.theme-modern-minimal .st-item {
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 10px; border-radius: 10px;
+    background: rgba(255,255,255,.04);
+    box-shadow: inset 0 0 10px rgba(0,0,0,.12);
+}
+.theme-modern-minimal .st-label { color: #cfd6df; display:flex; align-items:center; gap:.6em; }
+.theme-modern-minimal .st-value { color: #ffffff; font-weight: 600; }
+.theme-modern-minimal .st-progress-bar {
+    height: 8px; background: rgba(0,0,0,.35);
+    border: 1px solid var(--mm-border);
+    border-radius: 999px; overflow:hidden;
+}
+.theme-modern-minimal .st-progress-bar-fill {
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(90deg, #ffffff, #cfd6df);
+    box-shadow: 0 0 calc(6px + 6px * var(--anim-intensity)) rgba(255,255,255,.18);
+}
+.theme-modern-minimal hr {
+    border:none; height:1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,.35), transparent);
+}
+@keyframes minimalPulse { 0%{transform:scale(1)}50%{transform:scale(1.01)}100%{transform:scale(1)} }

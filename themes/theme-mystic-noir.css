@@ -1,0 +1,45 @@
+/* --- 主题 1: 暗黑神秘 (Mystic Noir) --- */
+.theme-mystic-noir {
+    --st-ink: #0b0b0d;
+    --st-paper: #111215;
+    --st-bone: #d6d6d6;
+    --st-cold-bone: #c8cbd2;
+    --st-shadow: rgba(0,0,0,.65);
+    --st-glow: rgba(255,255,255,.05);
+
+    font-family: Georgia, "Songti SC", serif;
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01)), var(--st-paper);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px var(--st-shadow), inset 0 0 40px var(--st-glow);
+    padding: 10px;
+    position: relative;
+    color: var(--st-bone);
+}
+.theme-mystic-noir .st-header { display: flex; align-items: center; gap: .6em; padding: 12px; border-bottom: 1px solid rgba(255,255,255,.08); }
+.theme-mystic-noir .st-header-icon {
+    width: 28px; height: 28px; border: 1px solid rgba(255,255,255,.2); border-radius: 50%;
+    display: grid; place-items:center; background: radial-gradient(closest-side, rgba(255,255,255,.07), transparent);
+    box-shadow: inset 0 0 12px rgba(255,255,255,.06);
+}
+.theme-mystic-noir .st-title { font-size: 20px; color: var(--st-cold-bone); }
+.theme-mystic-noir .st-body { padding: 16px; display: grid; gap: 12px; }
+.theme-mystic-noir .st-item { display:flex; align-items:center; justify-content:space-between; padding: 10px; border-radius: 10px; background: rgba(255,255,255,.03); }
+.theme-mystic-noir .st-label { display:flex; align-items:center; gap:.6em; opacity: .9; }
+.theme-mystic-noir .st-value { font-weight: 500; opacity: .95; text-align: right; }
+.theme-mystic-noir .st-progress-bar { height: 8px; background: rgba(0,0,0,0.4); border-radius: 4px; overflow: hidden; }
+.theme-mystic-noir .st-progress-bar-fill { height: 100%; width: 75%; background: var(--st-cold-bone); }
+.theme-mystic-noir hr { border: none; height: 1px; background-color: rgba(255,255,255,.08); margin: 4px 0; }
+
+/* 暗黑神秘：格点叠加层（与不透明底色叠加） */
+.theme-mystic-noir::before {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    /* 细格点：参考面板格点，但更低透明度以保持神秘质感 */
+    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size: 18px 18px;
+    opacity: calc(.10 * var(--anim-intensity));
+    animation: mysticGridPan calc(var(--anim-speed) * 10) linear infinite;
+}
+@keyframes mysticGridPan { 0% { background-position: 0 0; } 100% { background-position: 18px 18px; } }

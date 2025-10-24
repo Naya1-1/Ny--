@@ -1,0 +1,20 @@
+/* --- 新增主题 8: 玻璃拟态 (Glassmorphism) --- */
+.theme-glassmorphism {
+    font-family: Inter, 'Noto Sans SC', sans-serif;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.25), inset 0 0 30px rgba(255,255,255,.06);
+    padding: 18px;
+    color: #eaf7ff;
+    backdrop-filter: blur(10px);
+}
+.theme-glassmorphism .st-header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 12px; }
+.theme-glassmorphism .st-title { font-size: 22px; color: #6EE7F9; text-shadow: 0 0 10px rgba(110,231,249,.6); }
+.theme-glassmorphism .st-body { display:grid; gap: 12px; }
+.theme-glassmorphism .st-item { display:flex; justify-content:space-between; align-items:center; padding: 10px; background: rgba(255,255,255,.06); border-radius: 12px; }
+.theme-glassmorphism .st-label { color: #A78BFA; }
+.theme-glassmorphism .st-value { color: #6EE7F9; font-weight: 600; }
+.theme-glassmorphism .st-progress-bar { height: 8px; background: rgba(0,0,0,.25); border-radius: 4px; }
+.theme-glassmorphism .st-progress-bar-fill { height: 100%; width: 70%; background: linear-gradient(90deg, #A78BFA, #6EE7F9); box-shadow: 0 0 12px rgba(110,231,249,.4); }
+.theme-glassmorphism hr { border:none; height:1px; background-image: linear-gradient(to right, transparent, rgba(110,231,249,.8), transparent); }
